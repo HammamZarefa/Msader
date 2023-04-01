@@ -143,7 +143,7 @@
                                     <th scope="col">@lang('Order ID')</th>
                                     <th scope="col" class="order-details-column text-left">@lang('Order Details')</th>
                                     <th scope="col">@lang('Price')</th>
-                                    <th scope="col">@lang('Start Counter')</th>
+                                    <th scope="col">@lang('Link')</th>
                                     <th scope="col">@lang('Remains')</th>
                                     <th scope="col">@lang('Order AT')</th>
                                     <th scope="col">@lang('Status')</th>
@@ -160,7 +160,11 @@
                                             @lang('Quantity'): @lang($order->quantity) <br>
                                         </td>
                                         <td>@lang($order->price) @lang(config('basic.currency'))</td>
-                                        <td>@lang($order->start_counter?? 'N/A')</td>
+                                        <td>@lang($order->link ?? 'N/A')
+                                        @if($order->service->category->type == 'NUMBER')
+                                                <span><i class="fas fa-sync-alt" onclick="checksms({{ $order->id }})"></i></span>
+                                        @endif
+                                        </td>
                                         <td>@lang($order->remains ?? 'N/A' )</td>
                                         <td>@lang(dateTime($order->created_at, 'd/m/Y - h:i A' ))</td>
 
@@ -289,5 +293,26 @@
             $('#title').text(title);
             $('#servicedescription').text(description);
         });
+    </script>
+    <script>
+        function checksms($id) {
+            var url = "{{ route('userApiKey') }}";
+           let data = {"_token": "{{ csrf_token() }}",action: 'smscode', id: $id, api_key: '{{auth()->user()->api_token}}' };
+           // url = url.replace(':id', $id);
+            {{--document.location.href=url;--}}
+            $.ajax({
+                type: 'post',
+                url:  url,
+                // url : url.replace(':id', $id),
+                data: data,
+                success: function (data) {
+                    if(data.status=='success')
+                    {
+                        $('#'+$id).text(data.smsCode)
+                    }
+                    else {alert('تأكد من طلب الرمز ثم اعد المحاولة')}
+                }
+            });
+        }
     </script>
 @endpush

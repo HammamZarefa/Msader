@@ -159,7 +159,7 @@ class OrderController extends Controller
             } catch (\Exception $e) {
                 DB::rollback();
                 if ($request->expectsJson())
-                    return response()->json(['errors' => ['message' => "Try again or contact admin ".$e]]);
+                    return response()->json(['errors' => ['message' => "Try again or contact admin " . $e]]);
                 else
                     return back()->with('error', "There are some arror . ")->withInput();
             }
@@ -187,7 +187,7 @@ class OrderController extends Controller
                 'transaction' => $transaction->trx_id,
             ]);
             if ($request->expectsJson())
-                return response()->json(['status' => 'success','order' => $order->id], 200);
+                return response()->json(['status' => 'success', 'order' => $order->id], 200);
             else
                 return back()->with('success', 'Your order has been submitted');
         } else {
@@ -452,20 +452,12 @@ class OrderController extends Controller
                 'country' => json_decode($service->link)->country
             ];
             $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
-            $apiservicedata = '{
-"activationId": 635468024,
-"phoneNumber": "79584 ******",
-"activationCost": "12.50",
-"countryCode": "0",
-"canGetAnotherSms": "1",
-"activationTime": "2022 - 06 - 01 17:30:57",
-"activationOperator": "mtt"
-}';
             $apidata = json_decode($apiservicedata);
             if (isset($apidata->activationId)) {
                 $order->status_description = "order: {
                     $apidata->phoneNumber}";
                 $order->api_order_id = $apidata->activationId;
+                $order->link = $apidata->phoneNumber;
             } else {
                 $order->status_description = "error: {
                     $apidata->error}";

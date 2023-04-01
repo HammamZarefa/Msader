@@ -28,12 +28,12 @@ class ApiController extends Controller
         $req = Purify::clean($request->all());
         $validator = Validator::make($req, [
             'key' => 'required',
-            'action' => 'required|in:balance,services,add,status,orders',
+            'action' => 'required|in:balance,services,add,status,orders,smscode',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        $actionList = ['balance', 'services', 'add', 'status', 'orders'];
+        $actionList = ['balance', 'services', 'add', 'status', 'orders', 'smscode'];
         if (!in_array($req['action'], $actionList)) {
             return response()->json(['errors' => ['action' => "Invalid request action"]], 422);
         }
@@ -82,7 +82,7 @@ class ApiController extends Controller
             if (!$service) {
                 return response()->json(['errors' => ['message' => "Invalid Service"]], 422);
             }
-            $response = app('App\Http\Controllers\User\OrderController')->store($request , $user);
+            $response = app('App\Http\Controllers\User\OrderController')->store($request, $user);
             return $response;
 //            $quantity = $req['quantity'];
 //            if ($service->drip_feed == 1) {
@@ -208,6 +208,31 @@ class ApiController extends Controller
                 ];
             });
             return response()->json($result, 200);
+
+        } elseif (strtolower($req['action']) == 'smscode') {
+            $validator = Validator::make($req, [
+                'order' => 'required'
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+            $order = Order::where('id', $req['order'])->where('user_id', $user->id)->first();
+            $apiproviderdata = ApiProvider::where('slug','smsactivate')->first();
+            $postData = [
+                'api_key' => $apiproviderdata['api_key'],
+                'action' => 'getStatus',
+                'id' => $order->api_order_id
+            ];
+            $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
+            $apidata = json_decode($apiservicedata);
+            if (isset($apidata->smsCode)) {
+                $order->status_description = "smscode: {
+                    $apidata->smsCode}";
+                return response()->json(['status' => 'success' , 'smsCode' => $apidata->smsCode], 200);
+            } else {
+
+                return response()->json(['status' => 'error' , 'message' => 'try agin later'], 200);
+            }
 
         }
     }
