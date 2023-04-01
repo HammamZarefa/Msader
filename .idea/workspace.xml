@@ -5,20 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0d1c1ac-6dae-428a-88cb-02729136e36c" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Facades/SmsActivate.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Models/Log.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/AbstractOperation.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/ProviderInterface.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/AbstractSmsActivateOperation.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/CreateOrder.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/GetBalance.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/GetOrderStatus.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/SmsActivate.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/smsactivateAPI.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php-test-framework.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/AbstractOperation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/AbstractOperation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/AbstractSmsActivateOperation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/AbstractSmsActivateOperation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/SmsActivate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/SmsActivate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/User/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/User/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/pages/services/add-service.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/pages/services/add-service.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/pages/services/category.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/pages/services/category.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/pages/services/edit-category.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/pages/services/edit-category.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,6 +209,9 @@
       <path value="$PROJECT_DIR$/vendor/facade/ignition" />
       <path value="$PROJECT_DIR$/vendor/sebastian/object-reflector" />
       <path value="" />
+      <path value="$PROJECT_DIR$/vendor/psr/clock" />
+      <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/vendor/stella-maris/clock" />
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="1">
@@ -280,7 +277,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/xampp",
+    "last_opened_file_path": "C:/Projects/ExternalProviders",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -307,7 +304,7 @@
       <recent name="G:\SMM_Matrix_v2.0_-_Nulled_Social_Media_Marketing_Tool\codecanyon-34394810-smm-matrix-social-media-marketing-tool\project\tests\Unit" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.phpunit.xml">
+  <component name="RunManager" selected="PHPUnit.SmsActivateTest.testGetUserBalance">
     <configuration name="AuthenticationTest.test_users_can_authenticate_using_the_login_screen" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="Tests\Feature\AuthenticationTest" configuration_file="$PROJECT_DIR$/../Masader/phpunit.xml" file="$PROJECT_DIR$/../Masader/tests/Feature/AuthenticationTest.php" method="test_users_can_authenticate_using_the_login_screen" scope="Method" />
       <method v="2" />

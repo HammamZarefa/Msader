@@ -22,9 +22,25 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-
                     </div>
+
                     <div class="col-sm-6 col-md-8">
+                        <div class="form-group">
+                            <label>@lang('Select Type')</label>
+                            <select class="form-control" id="type" name="type" onchange="showExtraField()">
+                                <option disabled value="" selected hidden>@lang('Select Type')</option>
+
+                                <option value="GAME">@lang('GAME')</option>
+                                <option value="CODE">@lang('CODE')</option>
+                                <option value="BALANCE">@lang('BALANCE')</option>
+                                <option value="NUMBER">@lang('NUMBER')</option>
+                                <option value="SMM">@lang('SMM')</option>
+
+                            </select>
+                            @if($errors->has('type'))
+                                <div class="error text-danger">@lang($errors->first('type')) </div>
+                            @endif
+                        </div>
                         <div class="form-group ">
                             <label>@lang('Category Title')</label>
                             <input type="text" name="category_title" value="{{old('category_title')}}"  class="form-control form-control-sm">

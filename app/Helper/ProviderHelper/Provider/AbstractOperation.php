@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helper\ProviderHelper\Provider;
+namespace Coda\ExternalProvider;
 
 use Exception;
 use GuzzleHttp\Client;

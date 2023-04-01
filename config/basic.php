@@ -8,9 +8,9 @@
   'fraction_number' => 2,
   'paginate' => 10,
   'email_verification' => 0,
-  'email_notification' => 1,
+  'email_notification' => 0,
   'sms_verification' => 0,
-  'sms_notification' => 1,
+  'sms_notification' => 0,
   'sender_email' => 'support@domain.com',
   'sender_email_name' => 'Bug Finder',
   'email_configuration' => 

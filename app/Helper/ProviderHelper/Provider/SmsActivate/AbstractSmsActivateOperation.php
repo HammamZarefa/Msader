@@ -2,7 +2,7 @@
 
 namespace App\Helper\ProviderHelper\Provider\SmsActivate;
 
-use App\Helper\ProviderHelper\Provider\AbstractOperation;
+use Coda\ExternalProvider\AbstractOperation;
 
 class AbstractSmsActivateOperation extends AbstractOperation
 {

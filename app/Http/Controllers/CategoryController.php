@@ -45,11 +45,12 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-        $req = Purify::clean($request->except('_token', '_method'));
+        $req = (new \Stevebauman\Purify\Purify)->clean($request->except('_token', '_method'));
 
         $rules = [
             'category_title' => 'required',
             'category_description' => 'nullable',
+            'type' => 'required',
             'image' => ['nullable', 'image', new FileTypeValidate(['jpeg','jpg','png'])]
         ];
 
@@ -65,16 +66,25 @@ class CategoryController extends Controller
             try {
                 $cat->image = $this->uploadImage($request['image'], config('location.category.path'), config('location.category.size'));
             } catch (\Exception $exp) {
-                return back()->with('error', 'Image could not be uploaded.');
+                return back()->with('error', trans('Image could not be uploaded.'));
             }
         }
-
 
         $cat->category_title = $req['category_title'];
         $cat->category_description = $req['category_description'];
         $cat->status = $req['status'];
+        $cat->type = $req['type'];
+//        if ($req['type'] == "BALANCE" || $req['type'] == "OTHER"){
+//            if ($req['special_field'] != ""){
+//                $cat->special_field = $req['special_field'];
+//            }else{
+//                $cat->special_field = null;
+//            }
+//        }else{
+//            $cat->special_field = null;
+//        }
         $cat->save();
-        return back()->with('success', 'Successfully Updated');
+        return back()->with('success', trans('Successfully Updated'));
     }
 
 
@@ -161,7 +171,7 @@ class CategoryController extends Controller
                 continue;
             }else{
                 $re->status = 0;
-                $re->save();   
+                $re->save();
             }
         }
         return back()->with('success', 'Successfully Updated');
