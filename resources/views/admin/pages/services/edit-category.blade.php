@@ -24,6 +24,20 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-8">
+                        <div class="form-group">
+                            <label>@lang('Select Type')</label>
+                            <select class="form-control" id="type" name="type" onchange="showExtraField()">
+                                <option value={{$category->type}}" selected
+                                        hidden>{{$category->type}}</option>
+                                <option value="GAME">@lang('GAME')</option>
+                                <option value="CODE">@lang('CODE')</option>
+                                <option value="BALANCE">@lang('BALANCE')</option>
+                                <option value="5SIM">@lang('5SIM')</option>
+                            </select>
+                            @if($errors->has('type'))
+                                <div class="error text-danger">@lang($errors->first('type')) </div>
+                            @endif
+                        </div>
                         <div class="form-group ">
                             <label>@lang('Category Title')</label>
                             <input type="text" name="category_title" value="{{old('category_title',$category->category_title)}}" required="required" class="form-control form-control-sm">

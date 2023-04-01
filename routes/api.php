@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Helper\smsActivateHelper;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/v1','ApiController@apiV1')->name('userApiKey');
+
+Route::get('getcountries/{product}','ApiProviderController@smsActivateGetCountries');

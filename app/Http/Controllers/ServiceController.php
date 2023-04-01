@@ -94,7 +94,6 @@ class ServiceController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-
         $service = new Service();
         $service->service_title = $req['service_title'];
         $service->category_id = $req['category_id'];
@@ -124,8 +123,13 @@ class ServiceController extends Controller
             endif;
         else:
             $success = "Successfully Updated";
-        endif;
-
+        endif;;
+        if($service->category->type=="NUMBER")
+        {
+            $provider=ApiProvider::where('slug','smsactivate')->first();
+            $service->api_provider_id = $provider->id;
+            $service->link = json_encode(['service' => $req['product'] ,'country' => $req['country']]);
+        }
         $service->save();
         return back()->with('success', $success);
     }

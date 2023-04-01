@@ -3,8 +3,6 @@
     @lang('Service')
 @endsection
 @section('content')
-
-
     <div class="card card-primary card-form m-0 m-md-4 my-4 m-md-0 shadow">
         <div class="card-body ">
             <form action="{{route('admin.service.store')}}" method="POST" class="form">
@@ -24,10 +22,12 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>@lang('Select Category')</label>
-                            <select class="form-control" id="category_id" name="category_id">
+                            <select class="form-control" id="category_id" name="category_id"
+                                    onchange="showExtraField()">
                                 <option disabled value="" selected hidden>@lang('Select category')</option>
-                                @foreach($categories as $categorie)
-                                    <option value="{{ $categorie->id  }}">@lang($categorie->category_title)</option>
+                                @foreach($categories as $key=>$categorie)
+                                    <option value="{{ $categorie->id  }}"
+                                            id="{{$categorie->type}}_{{$key}}">@lang($categorie->category_title)</option>
                                 @endforeach
                             </select>
                             @if($errors->has('category_id'))
@@ -35,6 +35,29 @@
                             @endif
                         </div>
                     </div>
+                    <div class="form-group" id="extra" style="display: none;">
+                        <label>@lang('Select Product')</label>
+                        <select class="form-control" id="product" name="product" autocomplete="on"
+                                onchange="getCountries(this)">
+                            <option disabled value="" selected hidden>@lang('Select Product')</option>
+                            @foreach(getSmsActivateServices() as  $product)
+                                <option value="{{$product['Service Code']}}">{{$product['Name']}}</option>
+                            @endforeach
+                        </select>
+                        <div id="smsactivatecountries" style="display: none;">
+                            <label>@lang('Select Country')</label>
+                            <select class="form-control" id="country" name="country" autocomplete="on">
+                                <option disabled value="" selected hidden>@lang('Select Country')</option>
+{{--                                @foreach( getSmsActivateCountries() as $country)--}}
+{{--                                    <option value="{{$country['id']}}">{{$country['eng']}}</option>--}}
+{{--                                @endforeach--}}
+                            </select>
+                        </div>
+                        @if($errors->has('type'))
+                            <div class="error text-danger">@lang($errors->first('type')) </div>
+                        @endif
+                    </div>
+
                 </div>
                 <div class="divider"></div>
                 <h5 class="table-group-title text-primary mb-2 mb-md-3"><span>@lang('Price & Status')</span></h5>
@@ -104,13 +127,15 @@
                 <div class="form-group ">
                     <div class="switch-field d-flex">
                         <div class="form-check p-0">
-                            <input class="form-check-input" type="radio" name="manual_api" id="less" value="0" {{ old('manual_api', 0) == '0' ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="manual_api" id="less"
+                                   value="0" {{ old('manual_api', 0) == '0' ? 'checked' : '' }}>
                             <label class="form-check-label" for="less">
                                 @lang('Manual')
                             </label>
                         </div>
                         <div class="form-check p-0">
-                            <input class="form-check-input" type="radio" name="manual_api" id="more" value="1" {{ old('manual_api') == '1' ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="manual_api" id="more"
+                                   value="1" {{ old('manual_api') == '1' ? 'checked' : '' }}>
                             <label class="form-check-label" for="more">
                                 @lang('Api')
                             </label>
@@ -124,7 +149,8 @@
                             <select class="form-control" name="api_provider_id">
                                 <option value="0" hidden>@lang('Select API Provider name')</option>
                                 @foreach($apiProviders as $apiProvider)
-                                    <option value="{{ $apiProvider->id }}" {{ old('api_provider_id') == $apiProvider->id ? 'selected' : '' }}>{{ $apiProvider->api_name }}</option>
+                                    <option
+                                        value="{{ $apiProvider->id }}" {{ old('api_provider_id') == $apiProvider->id ? 'selected' : '' }}>{{ $apiProvider->api_name }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('api_provider_id'))
@@ -145,7 +171,8 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label " for="fieldone">@lang('Description')</label>
-                    <textarea class="form-control" rows="4" placeholder="@lang('Description') " name="description"></textarea>
+                    <textarea class="form-control" rows="4" placeholder="@lang('Description') "
+                              name="description"></textarea>
                     @if($errors->has('description'))
                         <div class="error text-danger">@lang($errors->first('description')) </div>
                     @endif
@@ -162,6 +189,57 @@
 @endsection
 @push('js')
     <script>
+        function showExtraField() {
+            var opti = document.getElementById('category_id').options;
+            opt = opti[opti.selectedIndex].id;
+            // opt=opt.options[opt.selectedIndex].id;
+            console.log(opt.includes('NUMBER'))
+            if (opt.includes('NUMBER')) {
+                $('#extra').attr('style', 'display : block;');
+                // $('#country').attr(require);
+            } else {
+                $('#extra').attr('style', 'display : none;')
+            }
+
+            console.log(opt)
+        }
+
+        function getCountries(sel) {
+            product = sel.options[sel.selectedIndex].value;
+            $.ajax({
+                url: "/api/getcountries/" + product,
+                data: 'product=' + product,
+                success: function (data) {
+                    $('#smsactivatecountries').attr('style', 'display : block;');
+                    $( "#country") .empty()
+                    $("#country").attr('disabled', false);
+                    $.each(data,function(key, value)
+                    {
+                        $("#country").append('<option value=' + value.country + '>' + value.name +' price =' + value.price +' count = '+ value.count + '</option>');
+                    });
+                }
+            });
+        }
+
+        function getPrice() {
+
+        }
+
+        $(document).ready(function () {
+            "use strict";
+            $(document).on('click', '#more', function () {
+                $(".moreField").removeClass('d-none');
+            });
+            $(document).on('click', '#less', function () {
+                $(".moreField").addClass('d-none');
+            });
+
+            $('#category_id').select2({
+                selectOnClose: true
+            });
+
+        });
+
         $(document).ready(function () {
             "use strict";
             $(document).on('click', '#more', function () {
@@ -177,7 +255,5 @@
 
         });
     </script>
-
-
 
 @endpush

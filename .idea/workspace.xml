@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c0d1c1ac-6dae-428a-88cb-02729136e36c" name="Default" comment="" />
+    <list default="true" id="c0d1c1ac-6dae-428a-88cb-02729136e36c" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/AbstractOperation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/AbstractOperation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/AbstractSmsActivateOperation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/AbstractSmsActivateOperation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/SmsActivate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/SmsActivate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/User/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/User/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/pages/services/add-service.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/pages/services/add-service.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/pages/services/category.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/pages/services/category.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/pages/services/edit-category.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/pages/services/edit-category.blade.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,7 +35,7 @@
     </dirStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Msader" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -47,7 +56,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.4">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 8.1">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
       <path value="$PROJECT_DIR$/vendor/nexmo/laravel" />
@@ -199,6 +208,10 @@
       <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
       <path value="$PROJECT_DIR$/vendor/facade/ignition" />
       <path value="$PROJECT_DIR$/vendor/sebastian/object-reflector" />
+      <path value="" />
+      <path value="$PROJECT_DIR$/vendor/psr/clock" />
+      <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/vendor/stella-maris/clock" />
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="1">
@@ -261,37 +274,37 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "G:/Msader/public",
+    "last_opened_file_path": "C:/Projects/ExternalProviders",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "php.override.implement.member.chooser.php.doc": "NONE",
+    "settings.editor.selected.configurable": "php.test.frameworks.configurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Hammam\PhpstormProjects\Msader\app\Helper\ProviderHelper\Provider" />
+      <recent name="C:\Users\Hammam\PhpstormProjects\Msader\app\Helper\ProviderHelper" />
+      <recent name="C:\Users\Hammam\PhpstormProjects\Msader\vendor" />
       <recent name="G:\Msader\public" />
       <recent name="G:\t-store\public" />
-      <recent name="G:\SMM_Matrix_v2.0_-_Nulled_Social_Media_Marketing_Tool\codecanyon-34394810-smm-matrix-social-media-marketing-tool\project\resources\views\admin\pages\payment_methods" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Hammam\PhpstormProjects\Msader\app\Helper\ProviderHelper\Provider\SmsActivate" />
+      <recent name="C:\Users\Hammam\PhpstormProjects\Msader\tests\Feature\ProviderHelper" />
+      <recent name="C:\Users\Hammam\PhpstormProjects\Msader\tests\Feature" />
+      <recent name="C:\Users\Hammam\PhpstormProjects\Msader\vendor" />
       <recent name="G:\SMM_Matrix_v2.0_-_Nulled_Social_Media_Marketing_Tool\codecanyon-34394810-smm-matrix-social-media-marketing-tool\project\tests\Unit" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.AuthenticationTest.test_users_can_authenticate_using_the_login_screen">
-    <configuration name="AuthenticationTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="Tests\Feature\AuthenticationTest" configuration_file="$PROJECT_DIR$/../Masader/phpunit.xml" file="$PROJECT_DIR$/../Masader/tests/Feature/AuthenticationTest.php" scope="Class" />
-      <method v="2" />
-    </configuration>
-    <configuration name="AuthenticationTest.test_login_screen_can_be_rendered" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="Tests\Feature\AuthenticationTest" configuration_file="$PROJECT_DIR$/../Masader/phpunit.xml" file="$PROJECT_DIR$/../Masader/tests/Feature/AuthenticationTest.php" method="test_login_screen_can_be_rendered" scope="Method" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="PHPUnit.SmsActivateTest.testGetUserBalance">
     <configuration name="AuthenticationTest.test_users_can_authenticate_using_the_login_screen" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="Tests\Feature\AuthenticationTest" configuration_file="$PROJECT_DIR$/../Masader/phpunit.xml" file="$PROJECT_DIR$/../Masader/tests/Feature/AuthenticationTest.php" method="test_users_can_authenticate_using_the_login_screen" scope="Method" />
       <method v="2" />
@@ -300,16 +313,42 @@
       <TestRunner class="Tests\Feature\AuthenticationTest" configuration_file="$PROJECT_DIR$/../Masader/phpunit.xml" file="$PROJECT_DIR$/../Masader/tests/Feature/AuthenticationTest.php" method="test_users_can_not_authenticate_with_invalid_password" scope="Method" />
       <method v="2" />
     </configuration>
+    <configuration name="SmsActivateTest.testGetUserBalance" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Tests\Feature\ProviderHelper\SmsActivateTest" configuration_file="$PROJECT_DIR$/phpunit.xml" coverage_engine="PHPDBG" file="$PROJECT_DIR$/tests/Feature/ProviderHelper/SmsActivateTest.php" method="testGetUserBalance" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="SmsActivateTest.test_example" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Tests\Feature\ProviderHelper\SmsActivateTest" coverage_engine="PHPDBG" file="$PROJECT_DIR$/tests/Feature/ProviderHelper/SmsActivateTest.php" method="test_example" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="phpunit.xml (1)" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="PHP 8.1" />
+        </PhpTestInterpreterSettings>
+      </CommandLine>
       <TestRunner scope="XML" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="PHPUnit.phpunit.xml" />
+      <item itemvalue="PHPUnit.phpunit.xml (1)" />
+      <item itemvalue="PHPUnit.AuthenticationTest.test_users_can_authenticate_using_the_login_screen" />
+      <item itemvalue="PHPUnit.AuthenticationTest.test_users_can_not_authenticate_with_invalid_password" />
+      <item itemvalue="PHPUnit.SmsActivateTest.test_example" />
+      <item itemvalue="PHPUnit.SmsActivateTest.testGetUserBalance" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="PHPUnit.SmsActivateTest.testGetUserBalance" />
+        <item itemvalue="PHPUnit.phpunit.xml (1)" />
+        <item itemvalue="PHPUnit.SmsActivateTest.test_example" />
         <item itemvalue="PHPUnit.AuthenticationTest.test_users_can_authenticate_using_the_login_screen" />
         <item itemvalue="PHPUnit.AuthenticationTest.test_users_can_not_authenticate_with_invalid_password" />
-        <item itemvalue="PHPUnit.AuthenticationTest" />
-        <item itemvalue="PHPUnit.AuthenticationTest.test_login_screen_can_be_rendered" />
       </list>
     </recent_temporary>
   </component>
@@ -334,6 +373,9 @@
       <workItem from="1678746652661" duration="2791000" />
       <workItem from="1678953417694" duration="774000" />
       <workItem from="1678954536837" duration="3107000" />
+      <workItem from="1679534910179" duration="1691000" />
+      <workItem from="1679603822230" duration="3798000" />
+      <workItem from="1679680387217" duration="9291000" />
     </task>
     <servers />
   </component>
@@ -367,8 +409,16 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/tests/Unit/GenerateAwtTest.php">

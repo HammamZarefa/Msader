@@ -32,7 +32,7 @@ class ApiProviderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -192,10 +192,10 @@ class ApiProviderController extends Controller
         $apiLiveData = Curl::to($provider->url)->withData(['key' => $provider->api_key, 'action' => 'services'])->post();
         $currencyData = json_decode($apiLiveData);
         foreach ($provider->services as $k => $data) {
-            if (isset($data->price)){
+            if (isset($data->price)) {
                 $data->update([
                     'api_provider_price' => collect($currencyData)->where('service', $data->api_service_id)->pluck('price')[0] ?? $data->api_provider_price ?? $data->price,
-                     'price' => collect($currencyData)->where('service', $data->api_service_id)->pluck('price')[0] ?? $data->price
+                    'price' => collect($currencyData)->where('service', $data->api_service_id)->pluck('price')[0] ?? $data->price
                 ]);
             }
         }
@@ -362,5 +362,17 @@ class ApiProviderController extends Controller
         })->get();
         $api_providers->append($search);
         return view('admin.pages.api_providers.show', compact('api_providers'));
+    }
+
+    public function smsActivateGetCountries($product)
+    {
+        $provider = ApiProvider::where('slug', 'smsactivate')->first();
+        $countries = Curl::to($provider['url'])->withData(['api_key' => $provider['api_key'], 'action' => 'getTopCountriesByService', 'service' => $product])->get();
+        $countries=json_decode($countries);
+        foreach ($countries as $country)
+        {
+            $country->name = getDataFromCountry($country->country)['eng'];
+        }
+        return $countries;
     }
 }
