@@ -60,8 +60,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files":[
-            "app/Helper/helpers.php",
-            "app/Helper/smsActivate.php"
+            "app/Helper/helpers.php"
         ]
     },
     "autoload-dev": {
