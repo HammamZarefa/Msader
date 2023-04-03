@@ -14,6 +14,7 @@ use App\Services\TransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Ixudra\Curl\Facades\Curl;
 use Stevebauman\Purify\Facades\Purify;
@@ -447,11 +448,12 @@ class OrderController extends Controller
         if ($apiproviderdata->slug == "smsactivate") {
             $postData = [
                 'api_key' => $apiproviderdata['api_key'],
-                'action' => 'getNumber',
+                'action' => 'getNumberV2',
                 'service' => json_decode($service->link)->service,
                 'country' => json_decode($service->link)->country
             ];
             $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
+            Log::info($apiservicedata);
             $apidata = json_decode($apiservicedata);
             if (isset($apidata->activationId)) {
                 $order->status_description = "order: {
