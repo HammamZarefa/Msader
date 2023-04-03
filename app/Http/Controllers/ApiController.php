@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Ixudra\Curl\Facades\Curl;
 use Illuminate\Support\Facades\Validator;
 use Stevebauman\Purify\Facades\Purify;
@@ -217,21 +218,24 @@ class ApiController extends Controller
                 return response()->json(['errors' => $validator->errors()], 422);
             }
             $order = Order::where('id', $req['order'])->where('user_id', $user->id)->first();
-            $apiproviderdata = ApiProvider::where('slug','smsactivate')->first();
+            $apiproviderdata = ApiProvider::where('slug', 'smsactivate')->first();
             $postData = [
                 'api_key' => $apiproviderdata['api_key'],
-                'action' => 'getStatus',
-                'id' => $order->api_order_id
+                'action' => 'getActiveActivations'
             ];
             $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
-            $apidata = json_decode($apiservicedata);
-            if (isset($apidata->smsCode)) {
-                $order->status_description = "smscode: {
-                    $apidata->smsCode}";
-                return response()->json(['status' => 'success' , 'smsCode' => $apidata->smsCode], 200);
+            $apidata = json_decode($apiservicedata,1);
+            Log::info($apidata);
+            if (isset($apidata['status']) && $apidata['status'] == "success") {
+                foreach ($apidata['activeActivations'] as $activation) {
+                    if ($activation['activationId'] == $order->api_order_id) {
+                        $order->status_description = "smscode: {$activation['smsText']}";
+                        return response()->json(['status' => 'success', 'smsCode' => $activation['smsText']], 200);
+                    }
+                }
             } else {
 
-                return response()->json(['status' => 'error' , 'message' => 'try agin later'], 200);
+                return response()->json(['status' => 'error', 'message' => 'NO_ACTIVATIONS please try agin later'], 200);
             }
 
         }

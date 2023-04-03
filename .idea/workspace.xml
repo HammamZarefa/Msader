@@ -5,14 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0d1c1ac-6dae-428a-88cb-02729136e36c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/AbstractOperation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/AbstractOperation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/AbstractSmsActivateOperation.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/AbstractSmsActivateOperation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/SmsActivate.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Helper/ProviderHelper/Provider/SmsActivate/SmsActivate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Msader.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Msader.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/User/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/User/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/pages/services/add-service.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/pages/services/add-service.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/pages/services/category.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/pages/services/category.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/pages/services/edit-category.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/pages/services/edit-category.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -272,29 +269,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Projects/ExternalProviders",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "php.override.implement.member.chooser.php.doc": "NONE",
-    "settings.editor.selected.configurable": "php.test.frameworks.configurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Projects/WhiteSea&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;php.override.implement.member.chooser.php.doc&quot;: &quot;NONE&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;php.test.frameworks.configurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Hammam\PhpstormProjects\Msader\app\Helper" />
+      <recent name="C:\Users\Hammam\PhpstormProjects\Msader\app\Services" />
       <recent name="C:\Users\Hammam\PhpstormProjects\Msader\app\Helper\ProviderHelper\Provider" />
       <recent name="C:\Users\Hammam\PhpstormProjects\Msader\app\Helper\ProviderHelper" />
       <recent name="C:\Users\Hammam\PhpstormProjects\Msader\vendor" />
-      <recent name="G:\Msader\public" />
-      <recent name="G:\t-store\public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Hammam\PhpstormProjects\Msader\app\Helper\ProviderHelper\Provider\SmsActivate" />
@@ -376,6 +373,9 @@
       <workItem from="1679534910179" duration="1691000" />
       <workItem from="1679603822230" duration="3798000" />
       <workItem from="1679680387217" duration="9291000" />
+      <workItem from="1680293582544" duration="29779000" />
+      <workItem from="1680386004577" duration="655000" />
+      <workItem from="1680461071650" duration="5932000" />
     </task>
     <servers />
   </component>
