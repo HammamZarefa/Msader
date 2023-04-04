@@ -137,7 +137,7 @@ class OrderController extends Controller
             $price = $orderData['price'];
             $user = $apiUser ? $apiUser : Auth::user();
             if ($user->balance < $price) {
-                if ($request->expectsJson())
+                if ($apiUser)
                     return response()->json(['errors' => ['message' => "Insufficient balance."]], 422);
                 else
                     return back()->with('error', "Insufficient balance in your wallet.")->withInput();
@@ -159,7 +159,7 @@ class OrderController extends Controller
 
             } catch (\Exception $e) {
                 DB::rollback();
-                if ($request->expectsJson())
+                if ($apiUser)
                     return response()->json(['errors' => ['message' => "Try again or contact admin " . $e]]);
                 else
                     return back()->with('error', "There are some arror . ")->withInput();
@@ -187,12 +187,12 @@ class OrderController extends Controller
                 'currency' => $basic->currency,
                 'transaction' => $transaction->trx_id,
             ]);
-            if ($request->expectsJson())
-                return response()->json(['status' => 'success', 'order' => $order->id], 200);
+            if ($apiUser)
+                return response()->json(['status' => 'success', 'order' => $order->id,'link' => $order->link], 200);
             else
                 return back()->with('success', 'Your order has been submitted');
         } else {
-            if ($request->expectsJson())
+            if ($apiUser)
                 return response()->json(['errors' => ['message' => "Order quantity should be minimum {
                 $service->min_amount} and maximum {$service->max_amount}"]], 422);
             else
@@ -462,7 +462,7 @@ class OrderController extends Controller
                 $order->link = $apidata->phoneNumber;
             } else {
                 $order->status_description = "error: {
-                    $apidata->error}";
+                   $apidata->error ?? ' '}";
             }
         } else {
             $postData = [

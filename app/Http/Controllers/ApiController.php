@@ -229,8 +229,8 @@ class ApiController extends Controller
             if (isset($apidata['status']) && $apidata['status'] == "success") {
                 foreach ($apidata['activeActivations'] as $activation) {
                     if ($activation['activationId'] == $order->api_order_id) {
-                        $order->status_description = "smscode: {$activation['smsText']}";
-                        return response()->json(['status' => 'success', 'smsCode' => $activation['smsText']], 200);
+                        $order->status_description = "smscode: {$activation['smsCode'][0]}";
+                        return response()->json(['status' => 'success', 'smsCode' => $activation['smsCode'][0]], 200);
                     }
                 }
             } else {
