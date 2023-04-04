@@ -151,9 +151,10 @@ class OrderController extends Controller
                     $this->apiProviderOrder($service, $req, $order);
                 }
                 $order->save();
-                $user->balance -= $price;
-                $user->save();
-
+                if (!$service->category->type == "NUMBER") {
+                    $user->balance -= $price;
+                    $user->save();
+                }
                 $transaction = $this->transactionService->createTransaction($user, $price, 'Place order', '-');
                 DB::commit();
 
@@ -188,7 +189,7 @@ class OrderController extends Controller
                 'transaction' => $transaction->trx_id,
             ]);
             if ($apiUser)
-                return response()->json(['status' => 'success', 'order' => $order->id,'link' => $order->link], 200);
+                return response()->json(['status' => 'success', 'order' => $order->id, 'link' => $order->link], 200);
             else
                 return back()->with('success', 'Your order has been submitted');
         } else {

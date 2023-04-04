@@ -230,14 +230,23 @@ class ApiController extends Controller
                 foreach ($apidata['activeActivations'] as $activation) {
                     if ($activation['activationId'] == $order->api_order_id) {
                         $order->status_description = "smscode: {$activation['smsCode'][0]}";
+                        $order->status = 'completed';
+                        $order->save();
+                        $this->finishNumberOrder($order);
                         return response()->json(['status' => 'success', 'smsCode' => $activation['smsCode'][0]], 200);
                     }
                 }
             } else {
-
                 return response()->json(['status' => 'error', 'message' => 'NO_ACTIVATIONS please try agin later'], 200);
             }
-
         }
+    }
+    public function finishNumberOrder($order)
+    {
+        $user = $order->users;
+        $user->balance -= $order->price;
+        $user->save();
+        $transaction= new TransactionService();
+        $transaction->createTransaction($user, $order->price, 'Place order', '-');
     }
 }
