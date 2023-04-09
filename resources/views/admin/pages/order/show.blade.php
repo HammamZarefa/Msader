@@ -46,8 +46,10 @@
                                 <h5>@lang(optional($order->service)->service_title) </h5>
                                 @lang('Link'): @lang($order->link)<br>
                                 @lang('Quantity'): @lang($order->quantity)<br>
-                                  @lang("Start counter:") {{ $order->start_counter }}<br>
-                            	@lang('Remains:') {{ $order->remains }}
+                                  @lang("Api Order:") {{ $order->api_order_id }}<br>
+                            </td>
+                            <td data-label="@lang('Order Details')">
+                                 {{ $order->status_description }}
                             </td>
                             <td data-label="@lang('Created')">{{dateTime($order->created_at , 'd M Y, h:i A')}} </td>
                             <td data-label="@lang('Status')">
