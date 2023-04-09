@@ -462,8 +462,8 @@ class OrderController extends Controller
                 $order->api_order_id = $apidata->activationId;
                 $order->link = $apidata->phoneNumber;
             } else {
-                $order->status_description = "error: {
-                   $apidata->error ?? ' '}";
+                $order->status_description = "error: {".
+                  isset($apidata->error) ?? ' غير متوفر من المصدر' ."}";
             }
         } else {
             $postData = [
