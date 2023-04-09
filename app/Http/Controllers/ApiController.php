@@ -224,16 +224,21 @@ class ApiController extends Controller
                 'action' => 'getActiveActivations'
             ];
             $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
-            $apidata = json_decode($apiservicedata,1);
+            $apidata = json_decode($apiservicedata, 1);
             Log::info($apidata);
             if (isset($apidata['status']) && $apidata['status'] == "success") {
                 foreach ($apidata['activeActivations'] as $activation) {
                     if ($activation['activationId'] == $order->api_order_id) {
-                        $order->status_description = "smscode: {$activation['smsCode'][0]}";
-                        $order->status = 'completed';
-                        $order->save();
-                        $this->finishNumberOrder($order);
-                        return response()->json(['status' => 'success', 'smsCode' => $activation['smsCode'][0]], 200);
+                        if (isset($activation['smsCode'][0])) {
+                            if ($order->status != 'completed') {
+                                $order->status_description = "smscode: {$activation['smsCode'][0]}";
+                                $order->status = 'completed';
+                                $order->save();
+                                $this->finishNumberOrder($order);
+                            }
+                            return response()->json(['status' => 'success', 'smsCode' => $activation['smsCode'][0]], 200);
+                        } else return response()->json(['status' => 'error', 'message' => 'NO_ACTIVATIONS please try agin later'], 200);
+                        break;
                     }
                 }
             } else {
@@ -241,12 +246,13 @@ class ApiController extends Controller
             }
         }
     }
+
     public function finishNumberOrder($order)
     {
         $user = $order->users;
         $user->balance -= $order->price;
         $user->save();
-        $transaction= new TransactionService();
-        $transaction->createTransaction($user, $order->price, 'Place order', '-');
+        $transaction = new TransactionService();
+        $transaction->createTransaction($user, $order->price, 'Place order ' . $order->id, '-');
     }
 }

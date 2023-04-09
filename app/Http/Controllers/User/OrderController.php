@@ -155,7 +155,7 @@ class OrderController extends Controller
                     $user->balance -= $price;
                     $user->save();
                 }
-                $transaction = $this->transactionService->createTransaction($user, $price, 'Place order', '-');
+                $transaction = $this->transactionService->createTransaction($user, $price, 'Place order' . $order->id, '-');
                 DB::commit();
 
             } catch (\Exception $e) {
