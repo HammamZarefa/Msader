@@ -198,7 +198,6 @@ class ApiController extends Controller
             }
             $orders = explode(",", $req['orders']);
 
-
             $result = Order::whereIn('id', $orders)->where('user_id', $user->id)->get()->map(function ($order) {
                 return [
                     'order' => $order->id,
@@ -255,4 +254,5 @@ class ApiController extends Controller
         $transaction = new TransactionService();
         $transaction->createTransaction($user, $order->price, 'Place order ' . $order->id, '-');
     }
+
 }

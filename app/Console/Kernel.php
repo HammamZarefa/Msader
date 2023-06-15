@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        BlockIoIPN::class,
+        Cron::class,
     ];
 
     /**
@@ -27,12 +27,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-
-        $blockIoGateway = Gateway::where(['code' => 'blockio', 'status' => 1])->count();
-        if ($blockIoGateway == 1) {
-            $schedule->command('blockIo:ipn')->everyThirtyMinutes();
-        }
+         $schedule->command('Cron:status')->everyTwoMinutes();
+//
+//        $blockIoGateway = Gateway::where(['code' => 'blockio', 'status' => 1])->count();
+//        if ($blockIoGateway == 1) {
+//            $schedule->command('blockIo:ipn')->everyThirtyMinutes();
+//        }
+        $schedule->command('Cron:status')->everyTwoMinutes();
     }
 
     /**
