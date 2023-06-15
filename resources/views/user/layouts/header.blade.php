@@ -4,7 +4,7 @@
         <nav class="navbar navbar-expand-xl navbar-light  mx-lg-5" id="boltd">
             <a class="navbar-brand" href="{{route('home')}}">
                 <img src="{{ getFile(config('location.logoIcon.path').'logo.png')}}" alt="homepage"
-                     class="dark-logo" />
+                     class="dark-logo"/>
             </a>
             <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,9 +27,12 @@
                             <i data-feather="chevron-down" class="svg-icon"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item {{menuActive('user.order.create')}}" href="{{ route('user.order.create') }}">@lang('New Order')</a>
-                            <a class="dropdown-item {{menuActive('user.order.mass')}}" href="{{ route('user.order.mass') }}">@lang('Mass Order')</a>
-                            <a class="dropdown-item {{menuActive('user.order.index')}}" href="{{ route('user.order.index') }}">@lang('All Order')</a>
+                            <a class="dropdown-item {{menuActive('user.order.create')}}"
+                               href="{{ route('user.order.create') }}">@lang('New Order')</a>
+                            <a class="dropdown-item {{menuActive('user.order.mass')}}"
+                               href="{{ route('user.order.mass') }}">@lang('Mass Order')</a>
+                            <a class="dropdown-item {{menuActive('user.order.index')}}"
+                               href="{{ route('user.order.index') }}">@lang('All Order')</a>
                         </div>
                     </li>
 
@@ -41,7 +44,6 @@
                         <a class="nav-link {{ Request::routeIs('user.addFund*')  ? 'active' : '' }}"
                            href="{{route('user.addFund')}}">@lang('Add Fund')</a>
                     </li>
-
 
 
                     <li class="nav-item ">
@@ -71,28 +73,32 @@
                                 <i data-feather="user" class="svg-icon mr-2 ml-1"></i>
                                 @lang('My Profile')</a>
 
-                            <a class="dropdown-item {{menuActive('user.referral')}}" href="{{ route('user.referral') }}">
+                            <a class="dropdown-item {{menuActive('user.referral')}}"
+                               href="{{ route('user.referral') }}">
                                 <i data-feather="users" class="svg-icon mr-2 ml-1"></i>
                                 @lang('My Referral')</a>
 
-                            <a class="dropdown-item {{menuActive(['user.referral.bonus','user.referral.bonus.search'])}}" href="{{ route('user.referral.bonus') }}">
+                            <a class="dropdown-item {{menuActive(['user.referral.bonus','user.referral.bonus.search'])}}"
+                               href="{{ route('user.referral.bonus') }}">
                                 <i data-feather="list" class="svg-icon mr-2 ml-1"></i>
                                 @lang('Referral Bonus')</a>
 
 
-
-
-                            <a class="dropdown-item {{menuActive('user.api.docs')}}" href="{{ route('user.api.docs') }}">
+                            <a class="dropdown-item {{menuActive('user.api.docs')}}"
+                               href="{{ route('user.api.docs') }}">
                                 <i data-feather="key" class="svg-icon mr-2 ml-1"></i> @lang('API Setting')
                             </a>
 
-                            <a class="dropdown-item {{menuActive('user.ticket.create')}}" href="{{ route('user.ticket.create') }}">
+                            <a class="dropdown-item {{menuActive('user.ticket.create')}}"
+                               href="{{ route('user.ticket.create') }}">
                                 <i class="fab fa-hire-a-helper mr-2 ml-1 icon-color"></i>@lang('Open Ticket')
                             </a>
-                            <a class="dropdown-item {{menuActive('user.ticket.list')}}" href="{{ route('user.ticket.list') }}">
+                            <a class="dropdown-item {{menuActive('user.ticket.list')}}"
+                               href="{{ route('user.ticket.list') }}">
                                 <i class="fas fa-ticket-alt mr-2 ml-1 icon-color"></i> @lang('Show Ticket')
                             </a>
-                            <a class="dropdown-item {{menuActive(['user.twostep.security'])}}" href="{{route('user.twostep.security')}}">
+                            <a class="dropdown-item {{menuActive(['user.twostep.security'])}}"
+                               href="{{route('user.twostep.security')}}">
                                 <i class="fas fa-lock mr-2 ml-1 icon-color"></i> @lang('2FA Security')
                             </a>
 
@@ -103,6 +109,10 @@
                                                      document.getElementById('logout-form').submit();"><i
                                     data-feather="power" class="svg-icon mr-2 ml-1"></i>
                                 {{ __('Logout') }}
+                            </a>
+                            <a onclick="darkMode()" class="dropdown-item"
+                               aria-expanded="false">
+                                <span><i class="far fa-moon bell-font"></i> @lang('Mode')</span>
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
@@ -139,8 +149,9 @@
                                                 </span>
 
                                     <div class="d-inline-block v-middle pl-2">
-                                        <span class="font-12  d-block text-muted"  v-cloak v-html="item.description.text"></span>
-                                        <span class="font-12  d-block text-muted text-truncate"  v-cloak>@{{ item.formatted_date }}</span>
+                                        <span class="font-12  d-block text-muted" v-cloak
+                                              v-html="item.description.text"></span>
+                                        <span class="font-12  d-block text-muted text-truncate" v-cloak>@{{ item.formatted_date }}</span>
                                     </div>
                                 </a>
 
@@ -148,7 +159,8 @@
                         </li>
 
                         <li>
-                            <a class="nav-link pt-3 text-center text-dark notification-clear-btn" href="javascript:void(0);"
+                            <a class="nav-link pt-3 text-center text-dark notification-clear-btn"
+                               href="javascript:void(0);"
                                v-if="items.length > 0" @click.prevent="readAll">
                                 <strong>@lang('Clear all')</strong>
                             </a>
@@ -166,13 +178,8 @@
             <!-- End Notification -->
 
             <div class="push-notification">
-                <a onclick="darkMode()" class="nav-link dropdown-toggle pl-md-3 cursor-pointer"
-                   aria-expanded="false">
-                    <span><i class="far fa-moon bell-font"></i></span>
-                </a>
+                <span style="color:rgb(173 96 242) ">{{Auth()->user()->balance}}</span>
             </div>
-
-
         </nav>
 
     </div>

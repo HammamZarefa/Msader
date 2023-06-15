@@ -27,12 +27,13 @@
                         <div class="form-group">
                             <label>@lang('Select Type')</label>
                             <select class="form-control" id="type" name="type" onchange="showExtraField()">
-                                <option value={{$category->type}}" selected
-                                        hidden>{{$category->type}}</option>
+                                <option value="{{$category->type}}" selected
+                           hidden>{{$category->type}}</option>
                                 <option value="GAME">@lang('GAME')</option>
                                 <option value="CODE">@lang('CODE')</option>
                                 <option value="BALANCE">@lang('BALANCE')</option>
-                                <option value="5SIM">@lang('5SIM')</option>
+                                <option value="NUMBER">@lang('NUMBER')</option>
+                                <option value="SMM">@lang('SMM')</option>
                             </select>
                             @if($errors->has('type'))
                                 <div class="error text-danger">@lang($errors->first('type')) </div>

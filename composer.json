@@ -28,6 +28,7 @@
         "phpmailer/phpmailer": "^6.2",
         "propaganistas/laravel-phone": "^4.3",
         "pusher/pusher-php-server": "^4.1",
+        "sammyjo20/saloon": "2.0",
         "securionpay/securionpay-php": "^2.2.0",
         "stevebauman/purify": "^4.0",
         "swiftmailer/swiftmailer": "^6.0",

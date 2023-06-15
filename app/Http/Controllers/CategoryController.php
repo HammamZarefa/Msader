@@ -141,6 +141,7 @@ class CategoryController extends Controller
         $cat->category_title = $catData['category_title'];
         $cat->category_description = $catData['category_description'];
         $cat->status = $catData['status'];
+        $cat->type = $catData['type'];
         $cat->save();
         return back()->with('success', 'Successfully Updated');
     }

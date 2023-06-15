@@ -100,8 +100,6 @@ class OrderController extends Controller
         } else {
             $data['selectService'] = null;
         }
-
-
         $data['categories'] = Category::with('service')
             ->whereHas('service', function ($query) {
                 $query->where('service_status', 1)->userRate();
@@ -147,23 +145,22 @@ class OrderController extends Controller
                 //create new ordrer without save
                 $order = $this->createOrder($req, $orderData, $user);
                 //proccessing provider order
-                if (isset($service->api_provider_id)) {
+                if (isset($service->api_provider_id) && $service->api_provider_id !=0) {
                     $this->apiProviderOrder($service, $req, $order);
                 }
                 $order->save();
-                if (!$service->category->type == "NUMBER") {
+                if ($service->category->type != "NUMBER") {
                     $user->balance -= $price;
                     $user->save();
                 }
                 $transaction = $this->transactionService->createTransaction($user, $price, 'Place order' . $order->id, '-');
                 DB::commit();
-
             } catch (\Exception $e) {
                 DB::rollback();
                 if ($apiUser)
-                    return response()->json(['errors' => ['message' => "Try again or contact admin " . $e]]);
+                    return response()->json(['errors' => ['message' => "Try again or contact admin " . $e->getMessage()]]);
                 else
-                    return back()->with('error', "There are some arror . ")->withInput();
+                    return back()->with('error', "There are some arror . ".$e->getMessage())->withInput();
             }
 
             $msg = [
@@ -383,7 +380,7 @@ class OrderController extends Controller
         $rules = [
             'category' => 'required|integer|min:1|not_in:0',
             'service' => 'required|integer|min:1|not_in:0',
-            'link' => 'required|url',
+            'link' => 'required',
             'quantity' => 'required|integer',
             'check' => 'required',
         ];

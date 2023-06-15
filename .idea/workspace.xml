@@ -6,7 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="c0d1c1ac-6dae-428a-88cb-02729136e36c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/Cron.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/Cron.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/CategoryController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FrontendController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FrontendController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/User/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/User/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/pages/services/edit-category.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/pages/services/edit-category.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/user/layouts/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user/layouts/header.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -330,11 +339,11 @@
     </configuration>
     <list>
       <item itemvalue="PHPUnit.phpunit.xml" />
-      <item itemvalue="PHPUnit.phpunit.xml (1)" />
       <item itemvalue="PHPUnit.AuthenticationTest.test_users_can_authenticate_using_the_login_screen" />
       <item itemvalue="PHPUnit.AuthenticationTest.test_users_can_not_authenticate_with_invalid_password" />
-      <item itemvalue="PHPUnit.SmsActivateTest.test_example" />
       <item itemvalue="PHPUnit.SmsActivateTest.testGetUserBalance" />
+      <item itemvalue="PHPUnit.SmsActivateTest.test_example" />
+      <item itemvalue="PHPUnit.phpunit.xml (1)" />
     </list>
     <recent_temporary>
       <list>
@@ -375,6 +384,18 @@
       <workItem from="1680461071650" duration="5932000" />
       <workItem from="1680557687373" duration="11304000" />
       <workItem from="1680672069162" duration="16000" />
+      <workItem from="1681060595800" duration="8072000" />
+      <workItem from="1682070714690" duration="22000" />
+      <workItem from="1682108197412" duration="61000" />
+      <workItem from="1682108417959" duration="640000" />
+      <workItem from="1682112130357" duration="93000" />
+      <workItem from="1682112238529" duration="2000" />
+      <workItem from="1682243145336" duration="125000" />
+      <workItem from="1683318841012" duration="942000" />
+      <workItem from="1683321839533" duration="5830000" />
+      <workItem from="1683470790550" duration="4399000" />
+      <workItem from="1684777766138" duration="3753000" />
+      <workItem from="1686764304278" duration="11673000" />
     </task>
     <servers />
   </component>

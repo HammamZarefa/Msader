@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Traits\Notify;
 use App\Mail\SendMail;
+use App\Models\ApiProvider;
 use App\Models\Category;
 use App\Models\Content;
 use App\Models\ContentDetails;
@@ -14,6 +15,7 @@ use App\Models\Service;
 use App\Models\Subscriber;
 use App\Models\Template;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Ixudra\Curl\Facades\Curl;
 use Stevebauman\Purify\Facades\Purify;
@@ -283,32 +285,91 @@ class FrontendController extends Controller
 
     public function cron()
     {
-		$orders = Order::with(['service', 'service.provider'])->whereNotIn('status', ['completed', 'refunded', 'canceled'])->whereHas('service', function ($query) {
+        Order::with(['service', 'service.provider'])->whereNotIn('status', ['completed', 'refunded', 'canceled'])->whereHas('service', function ($query) {
             $query->whereNotNull('api_provider_id')->orWhere('api_provider_id', '!=', 0);
-        })->get();
-
-        foreach($orders as $order){
+        })->get()->map(function ($order) {
             $service = $order->service;
             if (isset($service->api_provider_id)) {
                 $apiproviderdata = $service->provider;
-                $apiservicedata = Curl::to($apiproviderdata['url'])->withData(['key' => $apiproviderdata['api_key'], 'action' => 'status','order'=>$order->api_order_id])->post();
-                $apidata = json_decode($apiservicedata);
-                if (isset($apidata->status)) {
-                    $order->status =  strtolower($apidata->status);
-					$order->start_counter = @$apidata->start_count;
-					$order->remains = @$apidata->remains;
+                if ($service->api_provider_id != 3) {
+                    $apiservicedata = Curl::to($apiproviderdata['url'])->withData(['key' => $apiproviderdata['api_key'], 'action' => 'status', 'order' => $order->api_order_id])->post();
+                    $apidata = json_decode($apiservicedata);
+                    if (isset($apidata->order)) {
+                        $order->status_description = "order: {$apidata->order}";
+                        $order->api_order_id = $apidata->order;
+                    } else {
+                        $order->status_description = "error: {@$apidata->error}";
+                    }
                 }
-
-				if (isset($apidata->error)) {
-					$order->status_description = "error: {" .@$apidata->error ."}";
-				}
-
+//                else {
+//                    $postData = [
+//                        'api_key' => $apiproviderdata['api_key'],
+//                        'action' => 'getActiveActivations'
+//                    ];
+//                    $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
+//                    $apidata = json_decode($apiservicedata, 1);
+//                    if (isset($apidata['status']) && $apidata['status'] == "success") {
+//                        foreach ($apidata['activeActivations'] as $activation) {
+//                            if ($activation['activationId'] == $order->api_order_id) {
+//                                $this->info($activation);
+//                                if (isset($activation['smsCode'][0])) {
+//                                    if ($order->status != 'completed') {
+//                                        $order->status_description = "smscode: {$activation['smsCode'][0]}";
+//                                        $order->status = 'completed';
+//                                        $order->save();
+//                                        app('App\Http\Controllers\ApiController')->finishNumberOrder($order);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                }
                 $order->save();
             }
-        };
-
-		return 'ok';
+        });
+        $numberOrders = Order::with(['service', 'service.provider'])->whereNotIn('status', ['completed', 'refunded', 'canceled'])->whereHas('service', function ($query) {
+            $query->whereNotNull('api_provider_id')->orWhere('api_provider_id', '=', 3);
+        })->get();
+        $apiproviderdata = ApiProvider::findorfail(3);
+        foreach ($numberOrders as $order) {
+            $postData = [
+                'api_key' => $apiproviderdata['api_key'],
+                'action' => 'getStatus',
+                'id' => $order->api_order_id
+            ];
+            $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
+            if ($apiservicedata == 'STATUS_CANCEL' || $apiservicedata == 'WRONG_ACTIVATION_ID') {
+                $order->status = 'canceled';
+                $order->save();
+            } elseif ($apiservicedata == 'STATUS_OK')
+                $this->finishNumberOrder($order, $apiproviderdata);
+        }
     }
 
+    public function finishNumberOrder($order, $apiProvider)
+    {
+        $postData = [
+            'api_key' => $apiProvider['api_key'],
+            'action' => 'getActiveActivations'
+        ];
+        $apiservicedata = Curl::to($apiProvider['url'])->withData($postData)->post();
+        $apidata = json_decode($apiservicedata, 1);
+        if (isset($apidata['status']) && $apidata['status'] == "success") {
+            foreach ($apidata['activeActivations'] as $activation) {
+                if ($activation['activationId'] == $order->api_order_id) {
+                    Log::info($activation['activationId']);
+                    if (isset($activation['smsCode'][0])) {
+                        if ($order->status != 'completed') {
+                            $order->status_description = "smscode: {$activation['smsCode'][0]}";
+                            $order->status = 'completed';
+                            $order->save();
+                            app('App\Http\Controllers\ApiController')->finishNumberOrder($order);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }
