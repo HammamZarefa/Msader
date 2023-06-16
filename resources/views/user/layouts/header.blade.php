@@ -178,7 +178,7 @@
             <!-- End Notification -->
 
             <div class="push-notification">
-                <span style="color:rgb(173 96 242) ">{{Auth()->user()->balance}}</span>
+                <span style="color:rgb(173 96 242) ">{{Auth()->user()->balance}}$</span>
             </div>
         </nav>
 

@@ -17,6 +17,7 @@ use App\Models\Template;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Ixudra\Curl\Facades\Curl;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Auth;
@@ -342,7 +343,7 @@ class FrontendController extends Controller
             if ($apiservicedata == 'STATUS_CANCEL' || $apiservicedata == 'WRONG_ACTIVATION_ID') {
                 $order->status = 'canceled';
                 $order->save();
-            } elseif ($apiservicedata == 'STATUS_OK')
+            } elseif (Str::contains($apiservicedata, 'STATUS_OK'))
                 $this->finishNumberOrder($order, $apiproviderdata);
         }
     }
