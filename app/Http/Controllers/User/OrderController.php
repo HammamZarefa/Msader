@@ -24,7 +24,8 @@ class OrderController extends Controller
     use Notify;
 
     private $transactionService;
-
+    protected $user;
+    
     public function __construct(TransactionService $transactionService)
     {
         $this->transactionService = $transactionService;
@@ -297,7 +298,7 @@ class OrderController extends Controller
 
                                     $orderM->status = 'pending';
 
-                                    if (isset($service->api_provider_id)) {
+                                    if (isset($serviceid->api_provider_id)) {
                                         $apiproviderdata = ApiProvider::find($serviceid->api_provider_id);
                                         if ($apiproviderdata) {
                                             $apiservicedata = Curl::to($singleOrder[2])->withData(['key' => $apiproviderdata['api_key'], 'action' => 'add', 'service' => $serviceid->api_service_id, 'link' => $singleOrder[2], 'quantity' => $singleOrder[1]])->post();

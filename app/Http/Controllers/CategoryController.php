@@ -45,7 +45,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-        $req = (new \Stevebauman\Purify\Purify)->clean($request->except('_token', '_method'));
+        $req =  Purify::clean($request->except('_token', '_method'));
 
         $rules = [
             'category_title' => 'required',

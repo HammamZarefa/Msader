@@ -166,7 +166,7 @@ return [
          */
         Intervention\Image\ImageServiceProvider::class,
         Ixudra\Curl\CurlServiceProvider::class,
-        Nexmo\Laravel\NexmoServiceProvider::class,
+        // Nexmo\Laravel\NexmoServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
 
 
