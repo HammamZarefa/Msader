@@ -161,6 +161,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
+
         /*
          * Package Service Providers...
          */
@@ -180,7 +182,7 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\ExternalServiceProvider::class,
     ],
 
     /*
@@ -237,6 +239,7 @@ return [
         'Curl' => Ixudra\Curl\Facades\Curl::class,
         'Nexmo' => Nexmo\Laravel\Facade\Nexmo::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'SmsActivate' => App\Facades\SmsActivate::class
 
 
     ],
