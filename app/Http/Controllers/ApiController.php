@@ -8,8 +8,10 @@ use App\Models\Order;
 use App\Models\Service;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Services\changeOrderStatusService;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Ixudra\Curl\Facades\Curl;
 use Illuminate\Support\Facades\Validator;
@@ -219,31 +221,29 @@ class ApiController extends Controller
                 return response()->json(['errors' => $validator->errors()], 422);
             }
             $order = Order::where('id', $req['order'])->where('user_id', $user->id)->first();
-            $apiproviderdata = ApiProvider::where('slug', 'smsactivate')->first();
-            $postData = [
-                'api_key' => $apiproviderdata['api_key'],
-                'action' => 'getActiveActivations'
-            ];
-            $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
-            $apidata = json_decode($apiservicedata, 1);
-            Log::info($apidata);
-            if (isset($apidata['status']) && $apidata['status'] == "success") {
-                foreach ($apidata['activeActivations'] as $activation) {
-                    if ($activation['activationId'] == $order->api_order_id) {
-                        if (isset($activation['smsCode'][0])) {
-                            if ($order->status != 'completed') {
-                                $order->status_description = "smscode: {$activation['smsCode'][0]}";
-                                $order->status = 'completed';
-                                $order->save();
-                                $this->finishNumberOrder($order);
-                            }
-                            return response()->json(['status' => 'success', 'smsCode' => $activation['smsCode'][0]], 200);
-                        } else return response()->json(['status' => 'error', 'message' => 'NO_ACTIVATIONS please try agin later'], 200);
-                        break;
+            if (isset($order->code)) {
+                return response()->json(['status' => 'success', 'smsCode' => $order->code], 200);
+            } else {
+                $provider = $order->service->provider;
+                $response = app()->make($provider->slug)->setProvider(mapProvider($provider))->getSMS($order->api_order_id);
+                if (isset($response['status']) && $response['status'] != $order->status) {
+                    if (isset($response['code'])) {
+                        DB::beginTransaction();
+                        try {
+                            $order->code = $response['code'];
+                            $order->status = 'completed';
+                            $order->save();
+                            $this->finishNumberOrder($order);
+                            DB::commit();
+                            return response()->json(['status' => 'success', 'smsCode' => $response['code']], 200);
+                        } catch (\Exception $e) {
+                            DB::rollback();
+                        }
+                    } else {
+                        changeOrderStatusService::statusChange($order, $response['status']);
+                        return response()->json(['status' => 'error', 'message' => 'NO_ACTIVATIONS please try agin later'], 200);
                     }
                 }
-            } else {
-                return response()->json(['status' => 'error', 'message' => 'NO_ACTIVATIONS please try agin later'], 200);
             }
         }
     }

@@ -10,24 +10,14 @@ class GetSMS extends AbstractSmsActivateOperation
 {
     protected string $operationUrl;
     protected string $method = 'POST';
-    protected $order_id;
 
-    /**
-     * @return string
-     */
-    public function getOperationUrl(): string
+
+    public function setBody($order_id)
     {
-        return "getStatus&id=" . $this->order_id;
+        $this->operationUrl = "getStatus&id=" . $order_id;
+        return $this;
     }
 
-
-    /**
-     * @param mixed $order_id
-     */
-    public function setOrderId($order_id): void
-    {
-        $this->order_id = $order_id;
-    }
 
     public function returnExternalProviderResponse($jsonResponse): array
     {

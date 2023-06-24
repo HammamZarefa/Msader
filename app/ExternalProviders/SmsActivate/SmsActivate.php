@@ -39,7 +39,7 @@ class SmsActivate implements ProviderInterface
 
     public function getSms($order_id): array
     {
-        return GetSMS::setProvider($this->provider)->setOrderId($order_id)->send();
+        $res= GetSMS::setProvider($this->provider)->setBody($order_id)->send();
     }
 
     public function setProvider($provider): ProviderInterface
@@ -60,7 +60,7 @@ class SmsActivate implements ProviderInterface
                 ]
             ],
             [
-                'name' => 'apikey',
+                'name' => 'api_key',
                 'isRequired' => 'true',
                 'type' => 'text',
             ],
