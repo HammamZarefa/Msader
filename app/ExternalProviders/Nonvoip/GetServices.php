@@ -10,9 +10,8 @@ class GetServices extends AbstractNonvoipOperation
     protected string $method = 'POST';
 
 
-    public function returnExternalProviderResponse($jsonResponse): array
+    public function returnExternalProviderResponse($jsonDecode): array
     {
-        $jsonDecode = json_decode($jsonResponse->getBody()->getContents(), 1);
         foreach ($jsonDecode as $service) {
             $response[] = [
                 'service' => $service['service_id'],
