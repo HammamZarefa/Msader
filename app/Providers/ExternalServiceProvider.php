@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\ExternalProviders\Nonvoip\Nonvoip;
 use App\ExternalProviders\SmsActivate\SmsActivate;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,6 +17,9 @@ class ExternalServiceProvider extends ServiceProvider
     {
         $this->app->bind('smsactivate', function () {
             return new SmsActivate();
+        });
+        $this->app->bind('nonvoip', function () {
+            return new Nonvoip();
         });
     }
 

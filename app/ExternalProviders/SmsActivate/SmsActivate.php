@@ -6,6 +6,7 @@ namespace App\ExternalProviders\SmsActivate;
 use App\ExternalProviders\ProviderInterface;
 use Facades\App\ExternalProviders\SmsActivate\GetBalance;
 use Facades\App\ExternalProviders\SmsActivate\CreateOrder;
+use Facades\App\ExternalProviders\SmsActivate\GetSMS;
 
 class SmsActivate implements ProviderInterface
 {
@@ -29,6 +30,16 @@ class SmsActivate implements ProviderInterface
     public function getOrderStatus(string $orderId, string $reference): array
     {
         // TODO: Implement getOrderStatus() method.
+    }
+
+    public function getCountries(): array
+    {
+        return [];
+    }
+
+    public function getSms($order_id): array
+    {
+        return GetSMS::setProvider($this->provider)->setOrderId($order_id)->send();
     }
 
     public function setProvider($provider): ProviderInterface
@@ -57,13 +68,4 @@ class SmsActivate implements ProviderInterface
     }
 
 
-    public function getCountries(): array
-    {
-        return [];
-    }
-
-    public function getSms(): array
-    {
-        return [];
-    }
 }

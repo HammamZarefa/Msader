@@ -15,8 +15,10 @@ use App\Models\Service;
 use App\Models\Subscriber;
 use App\Models\Template;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Ixudra\Curl\Facades\Curl;
 use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Support\Facades\Auth;
@@ -290,46 +292,54 @@ class FrontendController extends Controller
         })->get()->map(function ($order) {
             $service = $order->service;
             if (isset($service->api_provider_id)) {
-                $apiproviderdata = $service->provider;
-                if ($service->api_provider_id != 3) {
-                    $apiservicedata = Curl::to($apiproviderdata['url'])->withData(['key' => $apiproviderdata['api_key'], 'action' => 'status', 'order' => $order->api_order_id])->post();
+                $provider = $service->provider;
+                if (isset($provider->slug) && $service->category->type == "NUMBER") {
+                    $response = app()->make($provider->slug)->setProvider(mapProvider($provider))->getSMS($order->api_order_id);
+                    if (isset($response['status']) && $response['status'] != $order->status) {
+                        if (isset($response['code']))
+                        {
+                            DB::beginTransaction();
+                            try {
+                            $order->code = $response['code'];
+                            $order->status = 'completed';
+                            $order->save();
+                            app('App\Http\Controllers\ApiController')->finishNumberOrder($order);
+                                DB::commit();
+                            } catch (\Exception $e) {
+                                DB::rollback();
+                            }
+                        }
+
+                        $this->statusChange($order, $response['status']);
+                    }
+
+                }
+                elseif ($service->api_provider_id != 3 && $order->api_order_id) {
+                    $apiservicedata = Curl::to($provider['url'])
+                        ->withData(['key' => $provider['api_key'], 'action' => 'status', 'order' => $order->api_order_id])->post();
                     $apidata = json_decode($apiservicedata);
                     if (isset($apidata->order)) {
                         $order->status_description = "order: {$apidata->order}";
                         $order->api_order_id = $apidata->order;
+                        if ($apidata->status == 'Rejected' || $apidata->status == 'Canceled')
+                            $apidata->status = 'refunded';
+                        $this->statusChange($order, $apidata->status);
+                    } elseif (isset($apidata->status)) {
+                        if ($apidata->status == 'Canceled')
+                            $apidata->status = 'refunded';
+                        $this->statusChange($order, $apidata->status);
                     } else {
-                        $order->status_description = "error: {@$apidata->error}";
+                        if (isset($apidata->error))
+                            $order->status_description = "error: {@$apidata->error}";
+                        else
+                            $order->status_description = 'error';
                     }
                 }
-//                else {
-//                    $postData = [
-//                        'api_key' => $apiproviderdata['api_key'],
-//                        'action' => 'getActiveActivations'
-//                    ];
-//                    $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
-//                    $apidata = json_decode($apiservicedata, 1);
-//                    if (isset($apidata['status']) && $apidata['status'] == "success") {
-//                        foreach ($apidata['activeActivations'] as $activation) {
-//                            if ($activation['activationId'] == $order->api_order_id) {
-//                                $this->info($activation);
-//                                if (isset($activation['smsCode'][0])) {
-//                                    if ($order->status != 'completed') {
-//                                        $order->status_description = "smscode: {$activation['smsCode'][0]}";
-//                                        $order->status = 'completed';
-//                                        $order->save();
-//                                        app('App\Http\Controllers\ApiController')->finishNumberOrder($order);
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                }
                 $order->save();
             }
         });
         $numberOrders = Order::with(['service', 'service.provider'])->whereNotIn('status', ['completed', 'refunded', 'canceled'])->whereHas('service', function ($query) {
-            $query->whereNotNull('api_provider_id')->orWhere('api_provider_id', '=', 3);
+            $query->Where('api_provider_id', '=', 3);
         })->get();
         $apiproviderdata = ApiProvider::findorfail(3);
         foreach ($numberOrders as $order) {
@@ -339,11 +349,15 @@ class FrontendController extends Controller
                 'id' => $order->api_order_id
             ];
             $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
+            Log::info($apiservicedata);
             if ($apiservicedata == 'STATUS_CANCEL' || $apiservicedata == 'WRONG_ACTIVATION_ID') {
                 $order->status = 'canceled';
                 $order->save();
-            } elseif ($apiservicedata == 'STATUS_OK')
+            } elseif (Str::contains($apiservicedata, 'STATUS_OK')) {
+                Log::info($apiservicedata);
                 $this->finishNumberOrder($order, $apiproviderdata);
+
+            }
         }
     }
 
@@ -371,5 +385,28 @@ class FrontendController extends Controller
             }
         }
     }
+
+    public function statusChange(Order $order, $status)
+    {
+        $user = $order->users;
+        if ($status == 'refunded') {
+            if ($order->status != 'refunded') {
+                $user->balance += $order->price;
+                $transaction1 = new Transaction();
+                $transaction1->user_id = $user->id;
+                $transaction1->trx_type = '+';
+                $transaction1->amount = $order->price;
+                $transaction1->remarks = 'استرجاع الرصيد بعد تحويل حالة الطلب الى مسترجع';
+                $transaction1->trx_id = strRandom();
+                $transaction1->charge = 0;
+                if ($user->save()) {
+                    $transaction1->save();
+                }
+            }
+        }
+        $order->status = strtolower($status);
+        $order->save();
+    }
+
 
 }
