@@ -8,7 +8,7 @@ interface ProviderInterface
 
     public function getCountries(): array;
 
-    public function getSms(): array;
+    public function getSms($order_id): array;
 
     public function getUserBalance(): array;
 

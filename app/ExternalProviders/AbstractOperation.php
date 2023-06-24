@@ -19,6 +19,14 @@ abstract class AbstractOperation
     protected string $orderId;
     protected $log;
 
+    const STATUS_COMPLETE = 'completed';
+    const STATUS_CANCELED = 'canceled';
+    const STATUS_AWAITING = 'awaiting';
+    const STATUS_PENDING = 'pending';
+    const STATUS_PROCESSING = 'processing';
+    const STATUS_PROGRESS = 'progress';
+    const STATUS_REFUNDED = 'refunded';
+
 
     public function setProvider($provider): AbstractOperation
     {
@@ -40,12 +48,11 @@ abstract class AbstractOperation
                 "header" => $header = $this->getHeader(),
                 "body" => $body = $this->getBody(),
             ];
-            dd($logArray);
             $this->dpLogger($logArray);
             $client = new Client();
             $options = [
                 'headers' => $header,
-                $this->requestDataType => $body ?? '',
+                $this->requestDataType => $body,
             ];
             $response = $client->request($method, $url, $options);
             return $this->handleResponse($response);
@@ -95,7 +102,7 @@ abstract class AbstractOperation
             if ($statusCode >= 200 && $statusCode < 300) {
                 $jsonDecode = json_decode($jsonResponse->getBody()->getContents(), 1);
                 $this->dpLogger(['disclosure' => $jsonDecode]);
-                return $this->returnExternalProviderResponse($jsonDecode);
+                return $this->returnExternalProviderResponse($jsonResponse);
             }
         } catch (Exception $e) {
             throw new ExternalProviderRemoteException("External Provider Returned An Error: {$e->getMessage()}", $e->getCode(), $e);

@@ -22,6 +22,8 @@ class CreateApiProvidersTable extends Migration
             $table->string('currency')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->longText('description')->nullable();
+            $table->string('email')->nullable();
+            $table->string('slug')->nullable();
             $table->timestamps();
         });
     }

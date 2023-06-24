@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exceptions\ExternalProviderRemoteException;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Notify;
 use App\Models\ApiProvider;
@@ -25,7 +26,7 @@ class OrderController extends Controller
 
     private $transactionService;
     protected $user;
-    
+
     public function __construct(TransactionService $transactionService)
     {
         $this->transactionService = $transactionService;
@@ -298,7 +299,7 @@ class OrderController extends Controller
 
                                     $orderM->status = 'pending';
 
-                                    if (isset($serviceid->api_provider_id)) {
+                                    if (isset($service->api_provider_id)) {
                                         $apiproviderdata = ApiProvider::find($serviceid->api_provider_id);
                                         if ($apiproviderdata) {
                                             $apiservicedata = Curl::to($singleOrder[2])->withData(['key' => $apiproviderdata['api_key'], 'action' => 'add', 'service' => $serviceid->api_service_id, 'link' => $singleOrder[2], 'quantity' => $singleOrder[1]])->post();
@@ -444,7 +445,20 @@ class OrderController extends Controller
     public function apiProviderOrder($service, $req, $order)
     {
         $apiproviderdata = ApiProvider::find($service->api_provider_id);
-        if ($apiproviderdata->slug == "smsactivate") {
+        if(isset($apiproviderdata->slug))
+        {
+            $apidata = app()->make($apiproviderdata->slug)
+                ->setProvider(mapProvider($apiproviderdata))
+                ->setOrder(['service' => $service->api_service_id])
+                ->placeOrder();
+            if($apidata['is_success'])
+            {
+                $order->api_order_id = $apidata['reference'];
+                $order->link = $apidata['custom_field'] ?? '';
+            }else
+                 throw new ExternalProviderRemoteException('Try again later');
+        }
+        elseif ($apiproviderdata->api_name == "SMS Activate") {
             $postData = [
                 'api_key' => $apiproviderdata['api_key'],
                 'action' => 'getNumberV2',
@@ -463,7 +477,8 @@ class OrderController extends Controller
                 $order->status_description = "error: {".
                   isset($apidata->error) ?? ' غير متوفر من المصدر' ."}";
             }
-        } else {
+        }
+        else {
             $postData = [
                 'key' => $apiproviderdata['api_key'],
                 'action' => 'add',

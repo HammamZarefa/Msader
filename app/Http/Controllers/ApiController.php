@@ -188,6 +188,7 @@ class ApiController extends Controller
             $result['start_count'] = (int)$order->start_count;
             $result['remains'] = (int)$order->remains;
             $result['currency'] = $basic->currency;
+            $result['description'] = $order->status_description;
             return response()->json($result, 200);
         } elseif (strtolower($req['action']) == 'orders') {
             $validator = Validator::make($req, [
@@ -204,7 +205,8 @@ class ApiController extends Controller
                     'status' => $order->status,
                     'charge' => $order->service['api_provider_price'],
                     'start_count' => (int)$order->start_count,
-                    'remains' => (int)$order->remains
+                    'remains' => (int)$order->remains,
+                    'description' => $order->status_description
                 ];
             });
             return response()->json($result, 200);
