@@ -17,8 +17,8 @@ class AbstractSmsActivateOperation extends AbstractOperation
 
     public function getUrl()
     {
-        $apikey = $this->provider["apikey"];
-        return $this->getBaseUrl() . "?api_key={$apikey}" . "&action={$this->getOperationUrl()}";
+        $api_key = $this->provider["api_key"];
+        return $this->getBaseUrl() . "?api_key={$api_key}" . "&action={$this->getOperationUrl()}";
     }
 
     public function getBody()

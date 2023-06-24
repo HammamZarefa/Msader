@@ -73,7 +73,7 @@ class Nonvoip implements ProviderInterface
 
     public function getSms($order_id): array
     {
-        return GetSMS::setProvider($this->provider)->setOrderId($order_id)->send();
+        return GetSMS::setProvider($this->provider)->setBody($order_id)->send();
     }
 
     public function setOrder($order)
