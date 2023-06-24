@@ -9,9 +9,9 @@ class GetBalance extends AbstractSmsActivateOperation
     protected string $operationUrl = 'getBalance';
     protected string $method = 'GET';
 
-    public function returnExternalProviderResponse($jsonDecode): array
+    public function returnExternalProviderResponse($jsonResponse): array
     {
-
+        $jsonDecode = (string) $jsonResponse->getBody();
         $response = new ExternalProviderResponse();
         $response->setIsSuccess(true);
         $response->setPayload($jsonDecode);

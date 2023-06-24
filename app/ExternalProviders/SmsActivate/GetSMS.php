@@ -21,6 +21,7 @@ class GetSMS extends AbstractSmsActivateOperation
 
     public function returnExternalProviderResponse($jsonResponse): array
     {
+        $jsonResponse = (string) $jsonResponse->getBody();
         $response = new ExternalProviderResponse();
         $response->setIsSuccess(true);
         $response->setPayload($jsonResponse);
