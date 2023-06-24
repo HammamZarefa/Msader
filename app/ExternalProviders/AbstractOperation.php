@@ -102,7 +102,7 @@ abstract class AbstractOperation
             if ($statusCode >= 200 && $statusCode < 300) {
                 $jsonDecode = json_decode($jsonResponse->getBody()->getContents(), 1);
                 $this->dpLogger(['disclosure' => $jsonDecode]);
-                return $this->returnExternalProviderResponse($jsonResponse);
+                return $this->returnExternalProviderResponse($jsonDecode ? $jsonDecode : $jsonResponse);
             }
         } catch (Exception $e) {
             throw new ExternalProviderRemoteException("External Provider Returned An Error: {$e->getMessage()}", $e->getCode(), $e);
