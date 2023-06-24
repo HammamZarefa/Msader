@@ -21,9 +21,6 @@ class OrderController extends Controller
      */
     public function index()
     {
-
-        app()->make('smsactivate')->setProvider(mapProvider(ApiProvider::findorfail(2)))->getSMS('1545342533');
-
         $page_title = "All Orders";
         $orders = Order::orderBy('id','desc')->with('service', 'users')->has('service')->paginate(config('basic..paginate'));
         return view('admin.pages.order.show', compact('orders', 'page_title'));
