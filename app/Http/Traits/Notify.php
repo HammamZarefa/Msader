@@ -6,12 +6,18 @@ use App\Mail\SendMail;
 use App\Models\Admin;
 use App\Models\Configure;
 use App\Models\EmailTemplate;
+use App\Models\Notice;
 use App\Models\NotifyTemplate;
 use App\Models\SiteNotification;
 use App\Models\SmsControl;
+use App\Notifications\AdminNotification;
+use App\Notifications\TelegramNotification;
 use Illuminate\Support\Facades\Mail;
 use PHPMailer\PHPMailer\PHPMailer;
 use  Facades\App\Services\BasicCurl;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Config;
+use Ramsey\Uuid\Nonstandard\Uuid;
 
 trait Notify
 {
@@ -279,7 +285,7 @@ trait Notify
             $siteNotification->description = $action;
             $admin->siteNotificational()->save($siteNotification);
 
-
+           $admin->notify(new TelegramNotification($siteNotification->description));
             event(new \App\Events\AdminNotification($siteNotification, $admin->id));
         }
     }

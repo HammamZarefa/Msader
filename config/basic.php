@@ -37,4 +37,5 @@
   'reCaptcha_status_registration' => 0,
   'MEASUREMENT_ID' => 'G-TFQZ8YZ468',
   'analytic_status' => 0,
+  'telegram_chat_id' => -924332117,
 );
