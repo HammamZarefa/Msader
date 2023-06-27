@@ -346,6 +346,46 @@
         </div>
     </div>
 
+    <!--Get SMS-->
+    <div class="container ">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card api-details mb-0">
+                    <h5 class="card-title text-white">@lang('GET SMS CODE')</h5>
+                    <div class="card-body content">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h6 class="text-lowercase">@lang('key')</h6>
+                                <p>@lang('Your API key')</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <h6 class="text-lowercase">@lang('action')</h6>
+                                <p>
+                                    @lang('smscode')
+                                </p>
+                            </div>
+                            <div class="col-sm-4">
+                                <h6 class="text-lowercase">@lang('order')</h6>
+                                <p>@lang('Order ID')</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="api-code mt-2 mb-5">
+                    <p class="text-success">//Example response</p>
+                    <pre class="text-white">
+{
+  "status": "success",
+  "smsCode": "1234"
+}
+</pre>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 @endsection
 
