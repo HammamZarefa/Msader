@@ -14,7 +14,7 @@ class SmsActivateTest extends TestCase
     {
         return [
             "url" => 'https://api.sms-activate.org/stubs/handler_api.php',
-            "apikey" => '72fc8d54db6955c737bA023792474e7f'
+            "apikey" => env('SMSACTIVATE_API_KEY')
         ];
     }
 

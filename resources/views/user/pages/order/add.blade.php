@@ -41,9 +41,9 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group ">
+                                    <div class="form-group link-field">
                                         <label>@lang('Link')</label>
-                                        <input type="text" name="link" value="{{ old('link') }}"
+                                        <input type="text" name="link" value="{{ old('link') }}" id="link"
                                                placeholder="www.example.com/your_profile_identity" class="form-control">
                                         @if($errors->has('link'))
                                             <div class="error text-danger">@lang($errors->first('link'))</div>
@@ -59,53 +59,53 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group drip_feed"
-                                         style="{{ old('runs') || old('interval')  || $errors->has('runs') || $errors->has('interval') ? '' : 'display: none;' }}">
-                                        <label>@lang('Drip-feed')</label>
-                                        <div class="custom-switch-btn w-md-25">
-                                            <input type="checkbox" name="drip_feed"
-                                                   class="custom-switch-checkbox dripfeed"
-                                                   id="status"
-                                                   value="0" {!!  old('runs') || old('interval') || $errors->has('runs') || $errors->has('interval') ? '' : 'checked="false"' !!}>
-                                            <label class="custom-switch-checkbox-label" for="status">
-                                                <span class="custom-switch-checkbox-inner"></span>
-                                                <span class="custom-switch-checkbox-switch"></span>
-                                            </label>
-                                        </div>
-                                    </div>
+{{--                                    <div class="form-group drip_feed"--}}
+{{--                                         style="{{ old('runs') || old('interval')  || $errors->has('runs') || $errors->has('interval') ? '' : 'display: none;' }}">--}}
+{{--                                        <label>@lang('Drip-feed')</label>--}}
+{{--                                        <div class="custom-switch-btn w-md-25">--}}
+{{--                                            <input type="checkbox" name="drip_feed"--}}
+{{--                                                   class="custom-switch-checkbox dripfeed"--}}
+{{--                                                   id="status"--}}
+{{--                                                   value="0" {!!  old('runs') || old('interval') || $errors->has('runs') || $errors->has('interval') ? '' : 'checked="false"' !!}>--}}
+{{--                                            <label class="custom-switch-checkbox-label" for="status">--}}
+{{--                                                <span class="custom-switch-checkbox-inner"></span>--}}
+{{--                                                <span class="custom-switch-checkbox-switch"></span>--}}
+{{--                                            </label>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
 
-                                    <div class="drip_feed_check"
-                                         style="{{ old('runs') || old('interval')  || $errors->has('runs') || $errors->has('interval') ? '' : 'display: none;' }}">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group drip_feed">
-                                                    <label>@lang('Runs')</label>
-                                                    <input type="number" id="runs" name="runs" class="form-control"
-                                                           value="{{ old('runs') }}">
-                                                    @if($errors->has('runs'))
-                                                        <div class="error text-danger">@lang($errors->first('runs'))</div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group drip_feed">
-                                                    <label>@lang('Interval (in minutes)')</label>
-                                                    <input type="number" name="interval" class="form-control"
-                                                           value="{{ old('interval') }}">
-                                                    @if($errors->has('interval'))
-                                                        <div class="error text-danger">@lang($errors->first('interval'))</div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
+{{--                                    <div class="drip_feed_check"--}}
+{{--                                         style="{{ old('runs') || old('interval')  || $errors->has('runs') || $errors->has('interval') ? '' : 'display: none;' }}">--}}
+{{--                                        <div class="row">--}}
+{{--                                            <div class="col-sm-6">--}}
+{{--                                                <div class="form-group drip_feed">--}}
+{{--                                                    <label>@lang('Runs')</label>--}}
+{{--                                                    <input type="number" id="runs" name="runs" class="form-control"--}}
+{{--                                                           value="{{ old('runs') }}">--}}
+{{--                                                    @if($errors->has('runs'))--}}
+{{--                                                        <div class="error text-danger">@lang($errors->first('runs'))</div>--}}
+{{--                                                    @endif--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="col-sm-6">--}}
+{{--                                                <div class="form-group drip_feed">--}}
+{{--                                                    <label>@lang('Interval (in minutes)')</label>--}}
+{{--                                                    <input type="number" name="interval" class="form-control"--}}
+{{--                                                           value="{{ old('interval') }}">--}}
+{{--                                                    @if($errors->has('interval'))--}}
+{{--                                                        <div class="error text-danger">@lang($errors->first('interval'))</div>--}}
+{{--                                                    @endif--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
 
-                                        <div class="form-group drip_feed">
-                                            <label>@lang('Total Quantity')</label>
-                                            <input type="text" class="form-control total_quantity" name="total_quantity"
-                                                   value="{{ (old('runs')) * (old('quantity')) }}"
-                                                   disabled>
-                                        </div>
-                                    </div>
+{{--                                        <div class="form-group drip_feed">--}}
+{{--                                            <label>@lang('Total Quantity')</label>--}}
+{{--                                            <input type="text" class="form-control total_quantity" name="total_quantity"--}}
+{{--                                                   value="{{ (old('runs')) * (old('quantity')) }}"--}}
+{{--                                                   disabled>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group price">
@@ -182,6 +182,8 @@
             }
             $(document).on('change', '#category', function (e) {
                 var cat_id = $('option:selected', this).val();
+                var catType = "{{$category->type}}"
+                    initForm(catType)
                 getService(cat_id);
             });
 
@@ -189,7 +191,15 @@
                 var ser_id = $('option:selected', this).val();
                 getServiceDetails(ser_id)
             });
-
+            function initForm(type)
+            {
+                console.log(type);
+                if(type == "NUMBER")
+                {
+                    $('.link-field').css("display", "none");
+                    $('#quantity').val(1);
+                }
+            }
             function getService(cat_id) {
                 $.ajax({
                     url: "{{ route('user.service') }}",
