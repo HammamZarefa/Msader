@@ -1,10 +1,10 @@
 <?php
 
-namespace Zkood\DeliveryPortal\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Log extends Model
+class ProviderLog extends Model
 {
     protected $casts = [
         'header' => 'json',
@@ -12,7 +12,6 @@ class Log extends Model
         'disclosure' => 'json',
     ];
 
-    protected $table = 'dep_logs';
 
     protected $fillable = ['order_id', 'url', 'method', 'header', 'body', 'disclosure'];
 }

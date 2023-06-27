@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSlugFieldToApiProvidersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddSlugFieldToApiProvidersTable extends Migration
      */
     public function up()
     {
-        Schema::table('api_providers', function (Blueprint $table) {
-            $table->string('slug')->nullable();
+        Schema::table('orders', function (Blueprint $table) {
+           $table->string('code')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddSlugFieldToApiProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::table('api_providers', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             //
         });
     }
-}
+};

@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Helper\ProviderHelper\Provider;
+namespace App\ExternalProviders;
 
 interface ProviderInterface
 {
     public function getServices(): array;
+
+    public function getCountries(): array;
+
+    public function getSms($order_id): array;
 
     public function getUserBalance(): array;
 
@@ -14,6 +18,6 @@ interface ProviderInterface
 
     public function getProviderSettings(): array;
 
-    public function setProvider($provider) : ProviderInterface;
+    public function setProvider($provider): ProviderInterface;
 
 }

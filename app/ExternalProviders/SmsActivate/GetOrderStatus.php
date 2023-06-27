@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helper\ProviderHelper\Provider\SmsActivate;
+namespace App\ExternalProviders\SmsActivate;
 
 class GetOrderStatus extends AbstractSmsActivateOperation
 {

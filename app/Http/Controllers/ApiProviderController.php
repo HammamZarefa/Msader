@@ -67,9 +67,9 @@ class ApiProviderController extends Controller
         endif;
         $ApiProvider->status = $apiProviderData['status'];
         $ApiProvider->description = $apiProviderData['description'];
-        if (isset($error)):
-            return back()->with('error', $error)->withInput();
-        endif;
+//        if (isset($error)):
+//            return back()->with('error', $error)->withInput();
+//        endif;
         $ApiProvider->save();
         return back()->with('success', 'successfully updated');
     }
@@ -225,9 +225,15 @@ class ApiProviderController extends Controller
             return back()->withErrors($validator)->withInput();
         }
         $provider = ApiProvider::find($request->api_provider_id);
-
-        $apiLiveData = Curl::to($provider['url'])->withData(['key' => $provider['api_key'], 'action' => 'services'])->get();
-        $apiServiceLists = json_decode($apiLiveData);
+        if (isset($provider->slug)) {
+            $apiServiceLists = app()->make($provider->slug)->setProvider(mapProvider($provider))->getServices();
+            $apiServiceLists = collect($apiServiceLists)->map(function ($array) {
+                return (object)$array;
+            })->toArray();;
+        } else {
+            $apiLiveData = Curl::to($provider['url'])->withData(['key' => $provider['api_key'], 'action' => 'services'])->get();
+            $apiServiceLists = json_decode($apiLiveData);
+        }
         return view('admin.pages.services.show-api-services', compact('apiServiceLists', 'provider'));
     }
 
@@ -238,14 +244,15 @@ class ApiProviderController extends Controller
         $services = Service::all();
         $insertCat = 1;
         $existService = 0;
-        foreach ($all_category as $categories):
-            if ($categories->category_title == $req['category']):
-                $insertCat = 0;
-            endif;
-        endforeach;
+        if (isset($req['category']))
+            foreach ($all_category as $categories):
+                if ($categories->category_title == $req['category']):
+                    $insertCat = 0;
+                endif;
+            endforeach;
         if ($insertCat == 1):
             $cat = new Category();
-            $cat->category_title = $req['category'];
+            $cat->category_title = $req['category'] ?? $req['name'];
             $cat->status = 1;
             $cat->save();
         endif;
@@ -256,11 +263,11 @@ class ApiProviderController extends Controller
         endforeach;
         if ($existService != 1):
             $service = new Service();
-            $idCat = Category::where('category_title', $req['category'])->first()->id;
+            $idCat = Category::where('category_title', $req['category'] ?? $req['name'])->first()->id;
             $service->service_title = $req['name'];
             $service->category_id = $idCat;
-            $service->min_amount = $req['min'];
-            $service->max_amount = $req['max'];
+            $service->min_amount = $req['min'] ?? 1;
+            $service->max_amount = $req['max'] ?? 1;
             $increased_price = ($req['rate'] * $req['price_percentage_increase']) / 100;
             $service->price = $req['rate'] + $increased_price;
             $service->service_status = 1;
@@ -368,9 +375,8 @@ class ApiProviderController extends Controller
     {
         $provider = ApiProvider::where('slug', 'smsactivate')->first();
         $countries = Curl::to($provider['url'])->withData(['api_key' => $provider['api_key'], 'action' => 'getTopCountriesByService', 'service' => $product])->get();
-        $countries=json_decode($countries);
-        foreach ($countries as $country)
-        {
+        $countries = json_decode($countries);
+        foreach ($countries as $country) {
             $country->name = getDataFromCountry($country->country)['eng'];
         }
         return $countries;

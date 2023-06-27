@@ -1,26 +1,30 @@
 <?php
 
-namespace App\Helper\ProviderHelper\Provider\SmsActivate;
+namespace App\ExternalProviders\SmsActivate;
 
-use App\Helper\ProviderHelper\Provider\ProviderInterface;
+
+use App\ExternalProviders\ProviderInterface;
+use Facades\App\ExternalProviders\SmsActivate\GetBalance;
+use Facades\App\ExternalProviders\SmsActivate\CreateOrder;
+use Facades\App\ExternalProviders\SmsActivate\GetSMS;
 
 class SmsActivate implements ProviderInterface
 {
-
+    protected array $provider;
 
     public function getServices(): array
     {
-        // TODO: Implement getServices() method.
+        return [];
     }
 
     public function getUserBalance(): array
     {
-        return GetBalance::setProvider($this->provider);
+        return GetBalance::setProvider($this->provider)->send();
     }
 
     public function placeOrder(): array
     {
-        // TODO: Implement placeOrder() method.
+        return CreateOrder::setProvider($this->provider)->setBody()->send();
     }
 
     public function getOrderStatus(string $orderId, string $reference): array
@@ -28,8 +32,19 @@ class SmsActivate implements ProviderInterface
         // TODO: Implement getOrderStatus() method.
     }
 
+    public function getCountries(): array
+    {
+        return [];
+    }
+
+    public function getSms($order_id): array
+    {
+        return GetSMS::setProvider($this->provider)->setBody($order_id)->send();
+    }
+
     public function setProvider($provider): ProviderInterface
     {
+        $this->provider = $provider;
         return $this;
     }
 
@@ -45,7 +60,7 @@ class SmsActivate implements ProviderInterface
                 ]
             ],
             [
-                'name' => 'apikey',
+                'name' => 'api_key',
                 'isRequired' => 'true',
                 'type' => 'text',
             ],

@@ -1,22 +1,31 @@
 <?php
 
-namespace Coda\ExternalProvider;
+namespace App\ExternalProviders;
 
+use App\Exceptions\ExternalProviderRemoteException;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Zkood\DeliveryPortal\Exceptions\ProviderRemoteException;
+use App\Models\ProviderLog as Log;
 
 abstract class AbstractOperation
 {
-    protected $requestDataType = "json";
-    protected $baseUrl;
-    protected $operationUrl;
-    protected $method;
-    protected $body;
-    protected $provider;
-    protected $orderId;
+    protected string $requestDataType = "json";
+    protected string $baseUrl;
+    protected string $operationUrl;
+    protected string $method;
+    protected array $body;
+    protected array $provider;
+    protected string $orderId;
     protected $log;
+
+    const STATUS_COMPLETE = 'completed';
+    const STATUS_CANCELED = 'canceled';
+    const STATUS_AWAITING = 'awaiting';
+    const STATUS_PENDING = 'pending';
+    const STATUS_PROCESSING = 'processing';
+    const STATUS_PROGRESS = 'progress';
+    const STATUS_REFUNDED = 'refunded';
 
 
     public function setProvider($provider): AbstractOperation
@@ -34,7 +43,6 @@ abstract class AbstractOperation
     {
         try {
             $logArray = [
-                "order_id" => $orderId = $this->getOrderId(),
                 "url" => $url = $this->getUrl(),
                 "method" => $method = $this->getMethod(),
                 "header" => $header = $this->getHeader(),
@@ -49,7 +57,7 @@ abstract class AbstractOperation
             $response = $client->request($method, $url, $options);
             return $this->handleResponse($response);
         } catch (Exception $e) {
-            throw new ProviderRemoteException($e->getMessage(), $e->getCode(), $e);
+            throw new ExternalProviderRemoteException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -94,10 +102,10 @@ abstract class AbstractOperation
             if ($statusCode >= 200 && $statusCode < 300) {
                 $jsonDecode = json_decode($jsonResponse->getBody()->getContents(), 1);
                 $this->dpLogger(['disclosure' => $jsonDecode]);
-                return $this->returnDeliveryPortalResponse($jsonDecode);
+                return $this->returnExternalProviderResponse($jsonDecode ? $jsonDecode : $jsonResponse);
             }
         } catch (Exception $e) {
-            throw new ProviderRemoteException("Delivery Portal Returned An Error: {$e->getMessage()}", $e->getCode(), $e);
+            throw new ExternalProviderRemoteException("External Provider Returned An Error: {$e->getMessage()}", $e->getCode(), $e);
         }
     }
 

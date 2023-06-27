@@ -4728,7 +4728,15 @@ function getDataFromCountry($key): array
 {
     $data = getSmsActivateCountries();
     $found = array_search($key, array_column($data, 'id'));
-        return $data[$found];
+    return $data[$found];
 
 }
 
+function mapProvider($provider)
+{
+    return [
+        'url' => $provider['url'],
+        'api_key' => $provider['api_key'],
+        'email' => $provider['email']
+    ];
+}

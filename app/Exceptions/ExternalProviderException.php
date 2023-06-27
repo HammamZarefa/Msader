@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Zkood\DeliveryPortal\Exceptions;
+namespace App\Exceptions;
 
 
 use Exception;
 use Throwable;
 
-class ProviderException extends Exception
+class ExternalProviderException extends Exception
 {
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
