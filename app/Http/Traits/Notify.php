@@ -2,6 +2,7 @@
 
 namespace App\Http\Traits;
 
+use App\Jobs\Notification as JobsNotification;
 use App\Mail\SendMail;
 use App\Models\Admin;
 use App\Models\Configure;
@@ -279,15 +280,16 @@ trait Notify
             $action['text'] = $template;
         }
 
-        $admins = Admin::all();
-        foreach ($admins as $admin){
-            $siteNotification = new SiteNotification();
-            $siteNotification->description = $action;
-            $admin->siteNotificational()->save($siteNotification);
+        // $admins = Admin::all();
+        // foreach ($admins as $admin){
+        //     $siteNotification = new SiteNotification();
+        //     $siteNotification->description = $action;
+        //     $admin->siteNotificational()->save($siteNotification);
 
-           $admin->notify(new TelegramNotification($siteNotification->description));
-            event(new \App\Events\AdminNotification($siteNotification, $admin->id));
-        }
+        //    $admin->notify(new TelegramNotification($siteNotification->description));
+        //     event(new \App\Events\AdminNotification($siteNotification, $admin->id));
+        // }
+        JobsNotification::dispatch($action);
     }
 
 
