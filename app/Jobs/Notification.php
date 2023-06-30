@@ -18,14 +18,16 @@ class Notification implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $action;
+    private $data;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($action)
+    public function __construct($action , $data)
     {
         $this->action = $action;
+        $this->data = $data;
     }
 
     /**
@@ -41,7 +43,7 @@ class Notification implements ShouldQueue
             $siteNotification->description = $this->action;
             $admin->siteNotificational()->save($siteNotification);
 
-           $admin->notify(new TelegramNotification($siteNotification->description));
+           $admin->notify(new TelegramNotification($siteNotification->description , $this->data));
             event(new \App\Events\AdminNotification($siteNotification, $admin->id));
         }
     }

@@ -258,7 +258,7 @@ trait Notify
     }
 
 
-    public function adminPushNotification($templateKey, $params = [], $action = [])
+    public function adminPushNotification($templateKey, $params = [], $action = [] , $data = [] )
     {
 
         $basic = (object) config('basic');
@@ -280,16 +280,16 @@ trait Notify
             $action['text'] = $template;
         }
 
-        // $admins = Admin::all();
-        // foreach ($admins as $admin){
-        //     $siteNotification = new SiteNotification();
-        //     $siteNotification->description = $action;
-        //     $admin->siteNotificational()->save($siteNotification);
+        $admins = Admin::all();
+        foreach ($admins as $admin){
+            $siteNotification = new SiteNotification();
+            $siteNotification->description = $action;
+            $admin->siteNotificational()->save($siteNotification);
 
-        //    $admin->notify(new TelegramNotification($siteNotification->description));
-        //     event(new \App\Events\AdminNotification($siteNotification, $admin->id));
-        // }
-        JobsNotification::dispatch($action);
+           $admin->notify(new TelegramNotification($siteNotification->description,$data));
+            // event(new \App\Events\AdminNotification($siteNotification, $admin->id));
+        }
+        // JobsNotification::dispatch($action , $data);
     }
 
 
