@@ -12,8 +12,8 @@
   'sms_verification' => 0,
   'sms_notification' => 0,
   'sender_email' => 'support@domain.com',
-  'sender_email_name' => 'Bug Finder',
-  'email_configuration' => 
+  'sender_email_name' => '',
+  'email_configuration' =>
   array (
     'name' => 'smtp',
     'smtp_host' => 'domain.com',
@@ -37,4 +37,5 @@
   'reCaptcha_status_registration' => 0,
   'MEASUREMENT_ID' => 'G-TFQZ8YZ468',
   'analytic_status' => 0,
+  'telegram_chat_id' => env('TELEGRAM_CHAT_ID', ''),
 );

@@ -47,6 +47,9 @@
                                 @lang('Link'): @lang($order->link)<br>
                                 @lang('Quantity'): @lang($order->quantity)<br>
                                   @lang("Api Order:") {{ $order->api_order_id }}<br>
+                                @if($order->code)
+                                    @lang("code :") {{ $order->code }}<br>
+                                @endif
                             </td>
                             <td data-label="@lang('Order Details')">
                                  {{ $order->status_description }}

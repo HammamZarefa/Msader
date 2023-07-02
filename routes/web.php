@@ -374,6 +374,8 @@ Route::middleware('Maintenance')->group(function () {
 
             //order
             Route::resource('order', 'User\OrderController');
+            // Route::post('order', 'User\OrderController@store')->name('user.order.store');;
+
             Route::get('/orders', 'User\OrderController@search')->name('order.search');
             Route::post('/order/status', 'User\OrderController@statusChange')->name('order.status.change');
             Route::get('/orders/{status}', 'User\OrderController@statusSearch')->name('order.status.search');

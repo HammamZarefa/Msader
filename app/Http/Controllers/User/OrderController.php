@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exceptions\ExternalProviderRemoteException;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Notify;
 use App\Models\ApiProvider;
@@ -24,6 +25,7 @@ class OrderController extends Controller
     use Notify;
 
     private $transactionService;
+    protected $user;
 
     public function __construct(TransactionService $transactionService)
     {
@@ -145,7 +147,7 @@ class OrderController extends Controller
                 //create new ordrer without save
                 $order = $this->createOrder($req, $orderData, $user);
                 //proccessing provider order
-                if (isset($service->api_provider_id) && $service->api_provider_id !=0) {
+                if (isset($service->api_provider_id) && $service->api_provider_id != 0) {
                     $this->apiProviderOrder($service, $req, $order);
                 }
                 $order->save();
@@ -160,7 +162,7 @@ class OrderController extends Controller
                 if ($apiUser)
                     return response()->json(['errors' => ['message' => "Try again or contact admin " . $e->getMessage()]]);
                 else
-                    return back()->with('error', "There are some arror . ".$e->getMessage())->withInput();
+                    return back()->with('error', "There are some arror . " . $e->getMessage())->withInput();
             }
 
             $msg = [
@@ -443,7 +445,17 @@ class OrderController extends Controller
     public function apiProviderOrder($service, $req, $order)
     {
         $apiproviderdata = ApiProvider::find($service->api_provider_id);
-        if ($apiproviderdata->slug == "smsactivate") {
+        if (isset($apiproviderdata->slug) && $apiproviderdata->slug != 'smsactivate') {
+            $apidata = app()->make($apiproviderdata->slug)
+                ->setProvider(mapProvider($apiproviderdata))
+                ->setOrder(['service' => $service->api_service_id])
+                ->placeOrder();
+            if (isset($apidata['is_success']) && $apidata['is_success']) {
+                $order->api_order_id = $apidata['reference'];
+                $order->link = $apidata['custom_field'] ?? '';
+            } else
+                throw new ExternalProviderRemoteException('Try again later ' . @$apidata['error']);
+        } elseif ($apiproviderdata->slug == "smsactivate") {
             $postData = [
                 'api_key' => $apiproviderdata['api_key'],
                 'action' => 'getNumberV2',
@@ -459,8 +471,8 @@ class OrderController extends Controller
                 $order->api_order_id = $apidata->activationId;
                 $order->link = $apidata->phoneNumber;
             } else {
-                $order->status_description = "error: {".
-                  isset($apidata->error) ?? ' غير متوفر من المصدر' ."}";
+                $order->status_description = "error: {" .
+                isset($apidata->error) ?? ' غير متوفر من المصدر' . "}";
             }
         } else {
             $postData = [
