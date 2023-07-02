@@ -450,11 +450,11 @@ class OrderController extends Controller
                 ->setProvider(mapProvider($apiproviderdata))
                 ->setOrder(['service' => $service->api_service_id])
                 ->placeOrder();
-            if ($apidata['is_success']) {
+            if (isset($apidata['is_success']) && $apidata['is_success']) {
                 $order->api_order_id = $apidata['reference'];
                 $order->link = $apidata['custom_field'] ?? '';
             } else
-                throw new ExternalProviderRemoteException('Try again later');
+                throw new ExternalProviderRemoteException('Try again later ' . @$apidata['error']);
         } elseif ($apiproviderdata->slug == "smsactivate") {
             $postData = [
                 'api_key' => $apiproviderdata['api_key'],

@@ -13,7 +13,7 @@ class CreateOrder extends AbstractNonvoipOperation
     public function setBody($order)
     {
         $this->body = [
-            'service_id' => $order['service']
+            'service_id' => (string)$order['service']
         ];
         return $this;
     }
