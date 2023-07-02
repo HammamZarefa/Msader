@@ -57,7 +57,7 @@ abstract class AbstractOperation
             $response = $client->request($method, $url, $options);
             return $this->handleResponse($response);
         } catch (Exception $e) {
-            throw new ExternalProviderRemoteException($e->getMessage(), $e->getCode(), $e);
+            return ["is_success" => false , "error" => $e->getMessage()];
         }
     }
 

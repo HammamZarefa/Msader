@@ -33,7 +33,7 @@ class TelegramNotification extends Notification
      */
     public function via($notifiable)
     {
-        return [TelegramChannel::class];    
+        return [TelegramChannel::class];
     }
 
     public function toTelegram($notifiable){
@@ -44,5 +44,5 @@ class TelegramNotification extends Notification
 
     }
 
-   
+
 }
