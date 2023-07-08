@@ -41,7 +41,7 @@ class GetOrderStatus extends AbstractSwProductsOperation
     public function mapStatus($remoteStatus)
     {
         $status =[
-            '0' => self::STATUS_PENDING,
+            '0' => self::STATUS_PROCESSING,
             '1' => self::STATUS_COMPLETE,
             '2' => self::STATUS_REFUNDED,
         ];
