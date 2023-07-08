@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\ExternalProviders\CashSMM\CashSMM;
 use App\ExternalProviders\Nonvoip\Nonvoip;
 use App\ExternalProviders\SmsActivate\SmsActivate;
+use App\ExternalProviders\SwProducts\SwProducts;
 use Illuminate\Support\ServiceProvider;
 
 class ExternalServiceProvider extends ServiceProvider
@@ -24,6 +25,9 @@ class ExternalServiceProvider extends ServiceProvider
         });
         $this->app->bind('cachsmm', function () {
             return new CashSMM();
+        });
+        $this->app->bind('swproducts', function () {
+            return new SwProducts();
         });
 
     }

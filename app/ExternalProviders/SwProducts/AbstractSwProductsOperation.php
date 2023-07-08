@@ -11,7 +11,7 @@ class AbstractSwProductsOperation extends AbstractOperation
         return [
             "Content-Type" => "application/json",
             "Accept" => "application/json",
-            "Authorization" => "Bearer ".$this->provider["apikey"]
+            "Authorization" => "Bearer ".$this->provider["api_key"]
         ];
     }
 
