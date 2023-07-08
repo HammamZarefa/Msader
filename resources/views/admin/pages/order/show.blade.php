@@ -23,6 +23,7 @@
                         <th scope="col">@lang('Order Details')</th>
                         <th scope="col">@lang('Created')</th>
                         <th scope="col">@lang('Status')</th>
+                        <th scope="col">@lang('Source')</th>
                         <th scope="col">@lang('Action')</th>
                     </tr>
                     </thead>
@@ -50,9 +51,7 @@
                                 @if($order->code)
                                     @lang("code :") {{ $order->code }}<br>
                                 @endif
-                            </td>
-                            <td data-label="@lang('Order Details')">
-                                 {{ $order->status_description }}
+                                {{ $order->status_description }}
                             </td>
                             <td data-label="@lang('Created')">{{dateTime($order->created_at , 'd M Y, h:i A')}} </td>
                             <td data-label="@lang('Status')">
@@ -73,6 +72,9 @@
                                 @elseif($order->status == 'refunded') <span
                                     class="badge badge-pill badge-danger">{{'Refunded'}}</span>
                                 @endif
+                            </td>
+                            <td data-label="@lang('Source')">
+                                {{ $order->service->provider->api_name ?? 'Msader' }}
                             </td>
                             <td data-label="@lang('Action')">
                                 <div class="dropdown show dropup">

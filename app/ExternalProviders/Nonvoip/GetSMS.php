@@ -17,9 +17,8 @@ class GetSMS extends AbstractNonvoipOperation
         ];
         return $this;
     }
-    public function returnExternalProviderResponse($jsonResponse): array
+    public function returnExternalProviderResponse($jsonDecode): array
     {
-        $jsonDecode = json_decode($jsonResponse->getBody()->getContents(), 1);
         $response = new ExternalProviderResponse();
         $response->setIsSuccess(true);
         $response->setStatus(isset($jsonDecode['code']) ? self::STATUS_COMPLETE :
