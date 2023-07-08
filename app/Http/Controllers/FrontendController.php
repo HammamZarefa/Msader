@@ -296,25 +296,22 @@ class FrontendController extends Controller
                 if (isset($provider->slug) && $service->category->type == "NUMBER") {
                     $response = app()->make($provider->slug)->setProvider(mapProvider($provider))->getSMS($order->api_order_id);
                     if (isset($response['status']) && $response['status'] != $order->status) {
-                        if (isset($response['code']))
-                        {
+                        if (isset($response['code']) && $response['code'] != '') {
                             DB::beginTransaction();
                             try {
-                            $order->code = $response['code'];
-                            $order->status = 'completed';
-                            $order->save();
-                            app('App\Http\Controllers\ApiController')->finishNumberOrder($order);
+                                $order->code = $response['code'];
+                                $order->status = 'completed';
+                                $order->save();
+                                app('App\Http\Controllers\ApiController')->finishNumberOrder($order);
                                 DB::commit();
                             } catch (\Exception $e) {
                                 DB::rollback();
                             }
-                        }
-
-                        $this->statusChange($order, $response['status']);
+                        } else
+                            $this->statusChange($order, $response['status']);
                     }
 
-                }
-                elseif ($service->api_provider_id != 3 && $order->api_order_id) {
+                } elseif ($service->api_provider_id != 3 && $order->api_order_id) {
                     $apiservicedata = Curl::to($provider['url'])
                         ->withData(['key' => $provider['api_key'], 'action' => 'status', 'order' => $order->api_order_id])->post();
                     $apidata = json_decode($apiservicedata);

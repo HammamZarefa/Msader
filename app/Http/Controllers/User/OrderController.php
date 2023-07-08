@@ -174,7 +174,13 @@ class OrderController extends Controller
                 "link" => route('admin.order.edit', $order->id),
                 "icon" => "fas fa - cart - plus text - white"
             ];
-            $this->adminPushNotification('ORDER_CREATE', $msg, $action);
+
+            $data=[
+                'service_name'=> $service->category->category_title,
+                'service_type' => $service->category->type,
+                'quantity'  => $orderData['quantity'] , 
+            ];
+            $this->adminPushNotification('ORDER_CREATE', $msg, $action , $data);
 
 
             $this->sendMailSms($user, 'ORDER_CONFIRM', [

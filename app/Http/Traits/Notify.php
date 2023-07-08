@@ -2,6 +2,7 @@
 
 namespace App\Http\Traits;
 
+use App\Jobs\Notification as JobsNotification;
 use App\Mail\SendMail;
 use App\Models\Admin;
 use App\Models\Configure;
@@ -257,7 +258,7 @@ trait Notify
     }
 
 
-    public function adminPushNotification($templateKey, $params = [], $action = [])
+    public function adminPushNotification($templateKey, $params = [], $action = [] , $data = [] )
     {
 
         $basic = (object) config('basic');
@@ -285,9 +286,10 @@ trait Notify
             $siteNotification->description = $action;
             $admin->siteNotificational()->save($siteNotification);
 
-           $admin->notify(new TelegramNotification($siteNotification->description));
-            event(new \App\Events\AdminNotification($siteNotification, $admin->id));
+           $admin->notify(new TelegramNotification($siteNotification->description,$data));
+            // event(new \App\Events\AdminNotification($siteNotification, $admin->id));
         }
+        // JobsNotification::dispatch($action , $data);
     }
 
 
