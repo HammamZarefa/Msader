@@ -11,11 +11,13 @@ class GetServices extends AbstractSwProductsOperation
 
     public function returnExternalProviderResponse($jsonDecode): array
     {
-        $response = new ExternalProviderResponse();
-        $response->setIsSuccess(true);
-        $response->setPayload($jsonDecode);
-        $response->setOrderId($this->getOrderId());
-        return $response->return();
+        foreach ($jsonDecode['games'] as $service) {
+            $response[] = [
+                'service' => $service['id'],
+                'name' => $service['name_ar']
+            ];
+        }
+        return $response;
     }
 
 }

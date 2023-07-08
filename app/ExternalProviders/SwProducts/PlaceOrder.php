@@ -11,12 +11,10 @@ class PlaceOrder extends AbstractSwProductsOperation
 
     public function setBody($order)
     {
-        $this->trackId = $order['track_id'];
         $this->body = [
-            'game_id' => $order['product'],
             'service_id' => $order['service'],
-            'gamer_id' => $order['player_id'],
-            'username' => $order['player_name']
+            'gamer_id' => $order['link'],
+            "game_id" => $order['category']
         ];
         return $this;
     }
@@ -26,7 +24,7 @@ class PlaceOrder extends AbstractSwProductsOperation
         $response = new ExternalProviderResponse();
         $response->setIsSuccess(true);
         $response->setPayload($jsonDecode);
-        $response->setOrderId($this->getOrderId());
+        $response->setOrderId($jsonDecode['data']['id']);
         return $response->return();
     }
 }

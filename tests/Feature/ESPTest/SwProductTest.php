@@ -10,16 +10,7 @@ use Tests\TestCase;
 class SwProductTest extends TestCase
 {
 
-    use WithFaker;
     use RefreshDatabase;
-
-    private $order = [
-        'product' => 23,
-        'service' => 33,
-        'player_id' => 0000,
-        'player_name' => 'تجريبي',
-        "track_id" => '65665'
-    ];
     private $refernce = '94839';
     public function setUp(): void
     {
@@ -33,7 +24,7 @@ class SwProductTest extends TestCase
     {
         return [
             "url" => 'https://sw-games.net/api/',
-            "apikey" => '8|exZOPQiEKXllapPESxXFWuzgy7X1ECqRlR5PQAIj'
+            "api_key" => env('SWPRODUCTS_API_KEY')
         ];
     }
 
@@ -43,8 +34,6 @@ class SwProductTest extends TestCase
             ->getUserBalance();
         $this->assertUnifiedResponse($getBalanceResponse);
         $this->assertArrayHasKey('data', $getBalanceResponse['payload']);
-        $log = Log::all();
-        dd($log);
     }
 
     public function testGetServices()
@@ -62,7 +51,6 @@ class SwProductTest extends TestCase
             ->placeOrder();
         $this->assertUnifiedResponse($getServicesResponse);
         $this->assertArrayHasKey('data', $getServicesResponse['payload']);
-        dd($getServicesResponse);
     }
 
     public function testGetOrderStatus()

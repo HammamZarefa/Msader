@@ -15,8 +15,8 @@ class NonvoipTest extends TestCase
     {
         return [
             "url" => 'https://non-voip.com/api/reseller',
-            "api_key" => 'dEUfWPqYHlD877',
-            "email" => 'msaderstore@gmail.com'
+            "NONVOIP_API_KEY" => env('NONVOIP_API_KEY'),
+            "email" => env('NONVOIP_EMAIL')
         ];
     }
 

@@ -175,12 +175,12 @@ class OrderController extends Controller
                 "icon" => "fas fa - cart - plus text - white"
             ];
 
-            $data=[
-                'service_name'=> $service->category->category_title,
+            $data = [
+                'service_name' => $service->category->category_title,
                 'service_type' => $service->category->type,
-                'quantity'  => $orderData['quantity'] , 
+                'quantity' => $orderData['quantity'],
             ];
-            $this->adminPushNotification('ORDER_CREATE', $msg, $action , $data1);
+            $this->adminPushNotification('ORDER_CREATE', $msg, $action, $data);
 
 
             $this->sendMailSms($user, 'ORDER_CONFIRM', [
@@ -454,7 +454,11 @@ class OrderController extends Controller
         if (isset($apiproviderdata->slug) && $apiproviderdata->slug != 'smsactivate') {
             $apidata = app()->make($apiproviderdata->slug)
                 ->setProvider(mapProvider($apiproviderdata))
-                ->setOrder(['service' => $service->api_service_id])
+                ->setOrder([
+                    'service' => $service->api_service_id,
+                    'link' => @$order->link,
+                    'category' => $service->service_type,
+                    ])
                 ->placeOrder();
             if (isset($apidata['is_success']) && $apidata['is_success']) {
                 $order->api_order_id = $apidata['reference'];

@@ -268,8 +268,8 @@ class ApiProviderController extends Controller
             $service->category_id = $idCat;
             $service->min_amount = $req['min'] ?? 1;
             $service->max_amount = $req['max'] ?? 1;
-            $increased_price = ($req['rate'] * $req['price_percentage_increase']) / 100;
-            $service->price = $req['rate'] + $increased_price;
+            $increased_price = (@$req['rate'] * $req['price_percentage_increase']) / 100 ;
+            $service->price = @$req['rate'] + $increased_price;
             $service->service_status = 1;
             $service->api_provider_id = $req['provider'];
             $service->api_service_id = @$req['id'];
