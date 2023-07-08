@@ -34,8 +34,18 @@ class GetOrderStatus extends AbstractSwProductsOperation
         $response->setIsSuccess(true);
         $response->setPayload($jsonDecode);
         $response->setOrderId($this->getOrderId());
-        $response->setStatus($jsonDecode['data']['order']['status']);
+        $response->setStatus($this->mapStatus($jsonDecode['data']['order']['status']));
         return $response->return();
+    }
+
+    public function mapStatus($remoteStatus)
+    {
+        $status =[
+            '0' => self::STATUS_PROCESSING,
+            '1' => self::STATUS_COMPLETE,
+            '2' => self::STATUS_REFUNDED,
+        ];
+            return $status[$remoteStatus] ?? self::STATUS_CANCELED;
     }
 }
 

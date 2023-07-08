@@ -14,6 +14,7 @@ use App\Models\Order;
 use App\Models\Service;
 use App\Models\Subscriber;
 use App\Models\Template;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -310,8 +311,13 @@ class FrontendController extends Controller
                         } else
                             $this->statusChange($order, $response['status']);
                     }
-
-                } elseif ($service->api_provider_id != 3 && $order->api_order_id) {
+                } elseif (isset($provider->slug) && $service->category->type != "NUMBER"  && $order->api_order_id) {
+                    $response = app()->make($provider->slug)->setProvider(mapProvider($provider))
+                        ->getOrderStatus($order->id, $order->api_order_id);
+                    if (isset($response['status']) && $response['status'] != $order->status) {
+                        $this->statusChange($order, $response['status']);
+                    }
+                } elseif ($service->api_provider_id != 3 && $order->api_order_id ) {
                     $apiservicedata = Curl::to($provider['url'])
                         ->withData(['key' => $provider['api_key'], 'action' => 'status', 'order' => $order->api_order_id])->post();
                     $apidata = json_decode($apiservicedata);

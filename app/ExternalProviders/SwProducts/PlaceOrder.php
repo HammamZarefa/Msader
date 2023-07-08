@@ -24,7 +24,8 @@ class PlaceOrder extends AbstractSwProductsOperation
         $response = new ExternalProviderResponse();
         $response->setIsSuccess(true);
         $response->setPayload($jsonDecode);
-        $response->setOrderId($jsonDecode['data']['id']);
+        $response->setReference($jsonDecode['data']['id']);
+        $response->setOrderId($this->getOrderId());
         return $response->return();
     }
 }
