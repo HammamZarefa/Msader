@@ -180,7 +180,7 @@ class OrderController extends Controller
                 'service_type' => $service->category->type,
                 'quantity'  => $orderData['quantity'] , 
             ];
-            $this->adminPushNotification('ORDER_CREATE', $msg, $action , $data);
+            $this->adminPushNotification('ORDER_CREATE', $msg, $action , $data1);
 
 
             $this->sendMailSms($user, 'ORDER_CONFIRM', [
