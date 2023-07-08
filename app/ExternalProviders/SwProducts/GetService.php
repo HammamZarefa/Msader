@@ -11,6 +11,7 @@ class GetService extends AbstractSwProductsOperation
 
     public function returnExternalProviderResponse($jsonDecode): array
     {
+        dd($jsonDecode);
         $response = new ExternalProviderResponse();
         $response->setIsSuccess(true);
         $response->setPayload($jsonDecode);

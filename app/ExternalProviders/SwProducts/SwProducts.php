@@ -70,7 +70,7 @@ class SwProducts implements ProviderInterface
                 ]
             ],
             [
-                'name' => 'apikey',
+                'name' => 'api_key',
                 'isRequired' => 'true',
                 'type' => 'text',
             ],
