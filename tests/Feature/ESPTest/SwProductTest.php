@@ -24,7 +24,7 @@ class SwProductTest extends TestCase
     {
         return [
             "url" => 'https://sw-games.net/api/',
-            "apikey" => '8|exZOPQiEKXllapPESxXFWuzgy7X1ECqRlR5PQAIj'
+            "api_key" => env('SWPRODUCTS_API_KEY')
         ];
     }
 
