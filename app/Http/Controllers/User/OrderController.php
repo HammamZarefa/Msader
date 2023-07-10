@@ -462,7 +462,7 @@ class OrderController extends Controller
                 ->placeOrder();
             if (isset($apidata['is_success']) && $apidata['is_success']) {
                 $order->api_order_id = $apidata['reference'];
-                $order->link = $apidata['custom_field'] ?? '';
+                $order->link = $apidata['custom_field'] ?? $order->link;
             } else
                 throw new ExternalProviderRemoteException('Try again later ' . @$apidata['error']);
         } elseif ($apiproviderdata->slug == "smsactivate") {
