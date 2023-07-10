@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\LogController;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -321,6 +322,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('content-show/{content}', 'Admin\ContentController@show')->name('content.show');
         Route::put('content-update/{content}/{language?}', 'Admin\ContentController@update')->name('content.update');
         Route::delete('contents/{id}', 'Admin\ContentController@contentDelete')->name('content.delete');
+        
+       /* ===== ADMIN Show Index ===== */
+        // Route::get('log',[LogController::class,'index'])->name('log.show');
+        Route::get('log_search',[LogController::class,'search'])->name('log_search');
+
     });
 
 });
