@@ -159,10 +159,14 @@ class OrderController extends Controller
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                if ($apiUser)
+                if ($apiUser){
                     return response()->json(['errors' => ['message' => "Try again or contact admin " . $e->getMessage()]]);
-                else
+                    Log::error($e->getMessage());    
+                }
+                else{
                     return back()->with('error', "There are some arror . " . $e->getMessage())->withInput();
+                    Log::error($e->getMessage());
+                }
             }
 
             $msg = [
