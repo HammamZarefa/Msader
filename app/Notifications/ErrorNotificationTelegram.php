@@ -44,8 +44,8 @@ class ErrorNotificationTelegram extends Notification
         return TelegramMessage::create()
             ->to(Config::get('basic.telegram_chat_id'))
             ->content("*"."new Exception notification"
-                      ."*\n\n" . "Exception Message:  " . "*".$this->message
-                      ."*\n\n" . "Exception input:  " . "*".$this->input
+                      ."*\n\n" . "Error Message:  " . "*".$this->message
+                      ."*\n\n" . "Error input:  " . "*".$this->input
                       ."*\n"
 
                     );
