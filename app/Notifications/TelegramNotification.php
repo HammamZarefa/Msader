@@ -43,9 +43,9 @@ class TelegramNotification extends Notification
         return TelegramMessage::create()
             ->to(Config::get('basic.telegram_chat_id'))
             ->content("*"."new order notification"
-                      ."*\n\n" . "service name:  " . "*".$this->data['service_name']
-                      ."*\n\n" . "service type:  " . "*".$this->data['service_type']
-                      ."*\n\n" . "quantity:  " . "*".$this->data['quantity']
+                      ."*\n\n" . "service name:  " . "*".@$this->data['service_name']
+                      ."*\n\n" . "service type:  " . "*".@$this->data['service_type']
+                      ."*\n\n" . "quantity:  " . "*".@$this->data['quantity']
                       ."*\n"
                       )
             ->button('View Details',  $this->url);

@@ -27,7 +27,7 @@ class ExceptionNotificationTelegram extends Notification
     {
         $this->message = $message;
         $this->line = $line;
-        $this->line = $file;
+        $this->file = $file;
 
     }
 
@@ -39,7 +39,7 @@ class ExceptionNotificationTelegram extends Notification
      */
     public function via($notifiable)
     {
-        return [TelegramChannel::class];    
+        return [TelegramChannel::class];
     }
 
     public function toTelegram($notifiable){
@@ -56,5 +56,5 @@ class ExceptionNotificationTelegram extends Notification
 
     }
 
-   
+
 }

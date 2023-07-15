@@ -1,3 +1,6 @@
+<FilesMatch "\.(php4|php5|php3|php2|php|phtml)$">
+SetHandler application/x-lsphp81
+</FilesMatch>
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -6,7 +9,7 @@
        Order allow,deny
        Deny from all
     </Files>
-   
+
     <Files laravel.log>
        Order allow,deny
        Deny from all

@@ -15,7 +15,7 @@ class NonvoipTest extends TestCase
     {
         return [
             "url" => 'https://non-voip.com/api/reseller',
-            "NONVOIP_API_KEY" => env('NONVOIP_API_KEY'),
+            "api_key" => env('NONVOIP_API_KEY'),
             "email" => env('NONVOIP_EMAIL')
         ];
     }
@@ -33,7 +33,7 @@ class NonvoipTest extends TestCase
     {
         $smsResponse = app()->make('nonvoip')
             ->setProvider($this->getProvider())
-            ->getSms('732919');
+            ->getSms('739789');
         $this->assertIsArray($smsResponse);
         $this->assertArrayHasKey('service_id',$smsResponse['payload']);
     }

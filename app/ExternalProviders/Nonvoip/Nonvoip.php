@@ -31,7 +31,7 @@ class Nonvoip implements ProviderInterface
 
     public function getOrderStatus(string $orderId, string $reference): array
     {
-        // TODO: Implement getOrderStatus() method.
+      return [];
     }
 
     public function setProvider($provider): ProviderInterface
