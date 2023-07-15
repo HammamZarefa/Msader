@@ -6,6 +6,7 @@ namespace App\ExternalProviders\CashSMM;
 use App\ExternalProviders\ProviderInterface;
 use Facades\App\ExternalProviders\CashSMM\GetBalance;
 use Facades\App\ExternalProviders\CashSMM\CreateOrder;
+use Facades\App\ExternalProviders\CashSMM\GetOrderStatus;
 use Facades\App\ExternalProviders\CashSMM\GetServices;
 
 class CashSMM implements ProviderInterface
@@ -30,7 +31,7 @@ class CashSMM implements ProviderInterface
 
     public function getOrderStatus(string $orderId, string $reference): array
     {
-        // TODO: Implement getOrderStatus() method.
+        return  GetOrderStatus::setProvider($this->provider)->setBody($reference)->send();
     }
 
     public function getCountries(): array

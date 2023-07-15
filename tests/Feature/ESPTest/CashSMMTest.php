@@ -48,4 +48,13 @@ class CashSMMTest extends TestCase
         $this->assertIsArray($servicesResponse);
         $this->assertArrayHasKey('service', $servicesResponse[0]);
     }
+
+    public function testGetOrderStatus()
+    {
+        $servicesResponse = app()->make('cachsmm')
+            ->setProvider($this->getProvider())
+            ->getOrderStatus('726','31317');
+        $this->assertIsArray($servicesResponse);
+        $this->assertArrayHasKey('status', $servicesResponse);
+    }
 }
