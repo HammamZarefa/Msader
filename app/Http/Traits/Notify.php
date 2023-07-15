@@ -12,6 +12,8 @@ use App\Models\NotifyTemplate;
 use App\Models\SiteNotification;
 use App\Models\SmsControl;
 use App\Notifications\AdminNotification;
+use App\Notifications\ErrorNotificationTelegram;
+use App\Notifications\ExceptionNotificationTelegram;
 use App\Notifications\TelegramNotification;
 use Illuminate\Support\Facades\Mail;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -292,7 +294,10 @@ trait Notify
         // JobsNotification::dispatch($action , $data);
     }
 
-
-
-
+    public function adminPushNotificationError($e){
+        $admins = Admin::all();
+        foreach ($admins as $admin){
+           $admin->notify(new ErrorNotificationTelegram($e->getMessage(),$e->getMessage()->withInput()));
+        }
+    }
 }
