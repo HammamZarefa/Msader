@@ -431,8 +431,16 @@
                     </ul>
                 </li>
 
-
+                <li class="nav-small-cap"><span class="hide-menu">Log info</span></li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{route('admin.log_search')}}" aria-expanded="false">
+                        <i></i><span
+                            class="hide-menu">log details</span>
+                    </a>
+                </li>
                 <li class="list-divider"></li>
+                
+                
 
 
             </ul>
