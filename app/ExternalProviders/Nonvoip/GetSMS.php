@@ -6,14 +6,14 @@ use App\ExternalProviders\ExternalProviderResponse;
 
 class GetSMS extends AbstractNonvoipOperation
 {
-    protected string $operationUrl = 'get_messages ';
+    protected string $operationUrl = 'get_messages';
     protected string $method = 'POST';
 
 
     public function setBody($orderId)
     {
         $this->body=[
-            'order_id' => $orderId
+            'order_id' => strval($orderId)
         ];
         return $this;
     }

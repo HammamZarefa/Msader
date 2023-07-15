@@ -188,7 +188,7 @@ class ApiController extends Controller
             $result['status'] = $order->status;
             $result['charge'] = $order->service['api_provider_price'];
             $result['start_count'] = (int)$order->start_count;
-            $result['remains'] = (int)$order->remains;
+            $result['code'] = $order->code;
             $result['currency'] = $basic->currency;
             $result['description'] = $order->status_description;
             return response()->json($result, 200);
@@ -207,7 +207,7 @@ class ApiController extends Controller
                     'status' => $order->status,
                     'charge' => $order->service['api_provider_price'],
                     'start_count' => (int)$order->start_count,
-                    'remains' => (int)$order->remains,
+                    'code' => $order->code,
                     'description' => $order->status_description
                 ];
             });
