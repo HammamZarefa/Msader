@@ -31,6 +31,21 @@ class LogController extends Controller
                    return $query->where('method', 'LIKE', "%{$search['method']}%");
                 }
              })
+             -> when(isset($search['header']), function ($query) use ($search) {
+               if ($search['header'] != -1) {
+                  return $query->where('header', 'LIKE', "%{$search['header']}%");
+               }
+            })
+            -> when(isset($search['body']), function ($query) use ($search) {
+               if ($search['body'] != -1) {
+                  return $query->where('body', 'LIKE', "%{$search['body']}%");
+               }
+            })
+            -> when(isset($search['disclosure']), function ($query) use ($search) {
+               if ($search['disclosure'] != -1) {
+                  return $query->where('disclosure', 'LIKE', "%{$search['disclosure']}%");
+               }
+            })
             ->get();
 
             $logs = ProviderLog::all();
