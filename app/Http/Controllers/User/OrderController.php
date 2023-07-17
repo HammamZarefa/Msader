@@ -162,7 +162,7 @@ class OrderController extends Controller
                 $this->adminPushNotificationError($e);
                 if ($apiUser){
                     return response()->json(['errors' => ['message' => "Try again or contact admin " . $e->getMessage()]]);
-                    Log::error($e->getMessage());    
+                    Log::error($e->getMessage());
                 }
                 else{
                     return back()->with('error', "There are some arror . " . $e->getMessage())->withInput();
@@ -182,7 +182,7 @@ class OrderController extends Controller
 
             $data = [
                 'service_name' => $service->category->category_title,
-                'service_type' => $service->category->type,
+                'user' => $user->username,
                 'quantity' => $orderData['quantity'],
             ];
             $this->adminPushNotification('ORDER_CREATE', $msg, $action, $data);
