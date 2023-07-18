@@ -8,12 +8,15 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Services\changeOrderStatusService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Stevebauman\Purify\Facades\Purify;
 
 class OrderController extends Controller
 {
     use Notify;
+
     /*
      * Display a listing of the resource.
      *
@@ -22,7 +25,7 @@ class OrderController extends Controller
     public function index()
     {
         $page_title = "All Orders";
-        $orders = Order::orderBy('id','desc')->with('service', 'users')->has('service')->paginate(config('basic..paginate'));
+        $orders = Order::orderBy('id', 'desc')->with('service', 'users')->has('service')->paginate(config('basic..paginate'));
         return view('admin.pages.order.show', compact('orders', 'page_title'));
     }
 
@@ -144,12 +147,18 @@ class OrderController extends Controller
         $order->api_order_id = $request->api_order_id;
         $order->link = $req['link'];
         $order->remains = $req['remains'] == '' ? null : $req['remains'];
-        if ($request->status) {
-            $order->status = $req['status'];
+        DB::beginTransaction();
+        try {
+            if ($request->status) {
+                app(changeOrderStatusService::class)->statusChange($order, $req['statusChange']);
+            }
+            $order->reason = $req['reason'];
+            $order->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', $e->getMessage());
         }
-        $order->reason = $req['reason'];
-        $order->save();
-
         $this->sendMailSms($order->users, 'ORDER_UPDATE', [
             'order_id' => $order->id,
             'start_counter' => $order->start_counter,
@@ -178,8 +187,7 @@ class OrderController extends Controller
     {
         $req = $request->all();
         $order = Order::find($request->id);
-        $order->status = $req['statusChange'];
-        $order->save();
+        app(changeOrderStatusService::class)->statusChange($order, $req['statusChange']);
         return back()->with('success', 'Successfully Updated');
     }
 
@@ -189,8 +197,6 @@ class OrderController extends Controller
         $user = User::where('name', 'LIKE', "%{$request->user}%")->get()->pluck('name');
         return response()->json($user);
     }
-
-
 
 
     /*
@@ -252,7 +258,7 @@ class OrderController extends Controller
                 return $query->whereDate("created_at", $dateSearch);
             })
             ->paginate(config('basic.paginate'));
-        $transaction =  $transaction->appends($search);
+        $transaction = $transaction->appends($search);
 
         return view('admin.pages.transaction.index', compact('transaction'));
     }
