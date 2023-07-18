@@ -13,6 +13,7 @@ use App\Models\SiteNotification;
 use App\Models\SmsControl;
 use App\Notifications\AdminNotification;
 use App\Notifications\ErrorNotificationTelegram;
+use App\Notifications\ErrorsNotificationTelegram;
 use App\Notifications\ExceptionNotificationTelegram;
 use App\Notifications\TelegramNotification;
 use Illuminate\Support\Facades\Mail;
@@ -295,9 +296,10 @@ trait Notify
     }
 
     public function adminPushNotificationError($e){
+
         $admins = Admin::all();
         foreach ($admins as $admin){
-           $admin->notify(new ErrorNotificationTelegram($e->getMessage(),$e->getMessage()->withInput()));
+           $admin->notify(new ErrorsNotificationTelegram($e->getMessage()));
         }
     }
 }

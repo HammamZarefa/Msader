@@ -160,6 +160,7 @@ class OrderController extends Controller
             } catch (\Exception $e) {
                 DB::rollback();
                 $this->adminPushNotificationError($e);
+                
                 if ($apiUser){
                     return response()->json(['errors' => ['message' => "Try again or contact admin " . $e->getMessage()]]);
                     Log::error($e->getMessage());
