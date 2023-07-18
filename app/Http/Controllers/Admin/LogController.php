@@ -9,25 +9,26 @@ use Illuminate\Http\Request;
 
 class LogController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $logs = ProviderLog::all();
         return view('admin.pages.log.show', compact('logs'));
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $search = $request->all();
-        $logs_searchs = ProviderLog::
-            when(isset($search['url']), function ($query) use ($search) {
-                if ($search['url'] != -1) {
-                   return $query->where('url', 'LIKE', "%{$search['url']}%");
-                }
-             })
+        $logs = ProviderLog::when(isset($search['url']), function ($query) use ($search) {
+            if ($search['url'] != -1) {
+                return $query->where('url', 'LIKE', "%{$search['url']}%");
+            }
+        })
+            ->when(isset($search['date']), function ($query) use ($search) {
+                return $query->whereDate("created_at", $search['date']);
+            })
             ->orderBy('created_at', 'desc')->get();
-
-            $logs = ProviderLog::all();
-            $provider_api = ApiProvider::all();
-            // dd($logs[55]['disclosure']['order_id']);
-            return view('admin.pages.log.show', compact('provider_api','logs_searchs'));
+        $providers = ApiProvider::all();
+        return view('admin.pages.log.show', compact('providers', 'logs'));
 
     }
 
