@@ -290,9 +290,9 @@ trait Notify
             $admin->siteNotificational()->save($siteNotification);
 
            $admin->notify(new TelegramNotification($siteNotification->description,$data));
-            // event(new \App\Events\AdminNotification($siteNotification, $admin->id));
+            event(new \App\Events\AdminNotification($siteNotification, $admin->id));
         }
-        // JobsNotification::dispatch($action , $data);
+        JobsNotification::dispatch($action , $data);
     }
 
     public function adminPushNotificationError($e){
