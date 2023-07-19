@@ -37,10 +37,10 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            // $admins = Admin::all();
-            // foreach ($admins as $admin){
-            //    $admin->notify(new ExceptionNotificationTelegram($e->getMessage(),$e->getLine(),$e->getFile()));
-            // }
+            $admins = Admin::all();
+            foreach ($admins as $admin){
+               $admin->notify(new ExceptionNotificationTelegram($e->getMessage(),$e->getLine(),$e->getFile()));
+            }
         });
     }
 
