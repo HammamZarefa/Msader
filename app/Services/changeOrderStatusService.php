@@ -9,6 +9,7 @@ class changeOrderStatusService
 {
     public static function statusChange(Order $order, $status)
     {
+
         $user = $order->users;
         if ($status == 'refunded') {
             if ($order->status != 'refunded') {
