@@ -434,10 +434,21 @@
                 <li class="nav-small-cap"><span class="hide-menu">Log info</span></li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{route('admin.log_search')}}" aria-expanded="false">
-                        <i></i><span
+                        <i class="fas fa-clipboard-list"></i>
+                        <span
                             class="hide-menu">log details</span>
                     </a>
                 </li>
+
+                <li class="nav-small-cap"><span class="hide-menu">Invoices info</span></li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{route('admin.invoice_show')}}" aria-expanded="false">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span
+                            class="hide-menu">Invoice details</span>
+                    </a>
+                </li>
+
                 <li class="list-divider"></li>
                 
                 

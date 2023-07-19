@@ -31,7 +31,7 @@ class LogController extends Controller
                    return $query->where('method', 'LIKE', "%{$search['method']}%");
                 }
              })
-            ->get();
+            ->orderBy('created_at','desc')->get();
 
             $logs = ProviderLog::all();
             return view('admin.pages.log.show', compact('logs','logs_searchs'));
