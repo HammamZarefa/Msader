@@ -1,10 +1,10 @@
 <?php
 
-namespace App\ExternalProviders\CashSMM;
+namespace App\ExternalProviders\N1Panel;
 
 use App\ExternalProviders\ExternalProviderResponse;
 
-class GetBalance extends AbstractCashSMMOperation
+class GetBalance extends AbstractN1PanelOperation
 {
     protected string $operationUrl = 'balance';
     protected string $method = 'POST';

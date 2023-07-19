@@ -1,11 +1,11 @@
 <?php
 
-namespace App\ExternalProviders\CashSMM;
+namespace App\ExternalProviders\N1Panel;
 
 use App\ExternalProviders\AbstractOperation;
 use App\ExternalProviders\ExternalProviderResponse;
 
-class GetOrderStatus extends AbstractCashSMMOperation
+class GetOrderStatus extends AbstractN1PanelOperation
 {
     protected string $operationUrl = 'status';
     protected string $method = 'POST';

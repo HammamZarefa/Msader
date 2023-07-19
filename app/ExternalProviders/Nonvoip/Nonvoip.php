@@ -21,7 +21,7 @@ class Nonvoip implements ProviderInterface
 
     public function getUserBalance(): array
     {
-        return GetBalance::setProvider($this->provider)->send();
+        return [];
     }
 
     public function placeOrder(): array

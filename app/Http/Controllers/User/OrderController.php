@@ -195,7 +195,7 @@ class OrderController extends Controller
                 'paid_amount' => $price,
                 'remaining_balance' => $user->balance,
                 'currency' => $basic->currency,
-                'transaction' => $transaction->trx_id,
+                'transaction' => @$transaction->trx_id,
             ]);
             if ($apiUser)
                 return response()->json(['status' => 'success', 'order' => $order->id, 'link' => $order->link], 200);

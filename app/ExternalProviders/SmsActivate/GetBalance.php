@@ -15,7 +15,7 @@ class GetBalance extends AbstractSmsActivateOperation
         $response = new ExternalProviderResponse();
         $response->setIsSuccess(true);
         $response->setPayload($jsonDecode);
-        $response->setOrderId($this->getOrderId());
+       $response->setBalance(str_replace("ACCESS_BALANCE:",'',$jsonDecode));
         return $response->return();
     }
 }
