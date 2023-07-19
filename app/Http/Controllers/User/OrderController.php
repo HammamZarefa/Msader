@@ -158,18 +158,16 @@ class OrderController extends Controller
                 if ($service->category->type != "NUMBER") {
                     $user->balance -= $price;
                     $user->save();
+                    $transaction = $this->transactionService->createTransaction($user, $price, 'Place order' . $order->id, '-');
                 }
-                $transaction = $this->transactionService->createTransaction($user, $price, 'Place order' . $order->id, '-');
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
                 $this->adminPushNotificationError($e);
-                
-                if ($apiUser){
+                if ($apiUser) {
                     return response()->json(['errors' => ['message' => "Try again or contact admin " . $e->getMessage()]]);
                     Log::error($e->getMessage());
-                }
-                else{
+                } else {
                     return back()->with('error', "There are some arror . " . $e->getMessage())->withInput();
                     Log::error($e->getMessage());
                 }
@@ -468,7 +466,7 @@ class OrderController extends Controller
                     'service' => $service->api_service_id,
                     'link' => @$order->link,
                     'category' => $service->service_type,
-                    ])
+                ])
                 ->placeOrder();
             if (isset($apidata['is_success']) && $apidata['is_success']) {
                 $order->api_order_id = $apidata['reference'];
