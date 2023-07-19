@@ -15,6 +15,7 @@ class GetBalance extends AbstractSwProductsOperation
         $response->setIsSuccess(true);
         $response->setPayload($jsonDecode);
         $response->setOrderId($this->getOrderId());
+        $response->setBalance($jsonDecode['data']['client']['balance']);
         return $response->return();
     }
 

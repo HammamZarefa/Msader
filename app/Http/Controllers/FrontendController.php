@@ -317,51 +317,52 @@ class FrontendController extends Controller
                     if (isset($response['status']) && $response['status'] != $order->status) {
                         $this->statusChange($order, $response['status']);
                     }
-                } elseif ($service->api_provider_id != 3 && $order->api_order_id ) {
-                    $apiservicedata = Curl::to($provider['url'])
-                        ->withData(['key' => $provider['api_key'], 'action' => 'status', 'order' => $order->api_order_id])->post();
-                    $apidata = json_decode($apiservicedata);
-                    if (isset($apidata->order)) {
-                        $order->status_description = "order: {$apidata->order}";
-                        $order->api_order_id = $apidata->order;
-                        if ($apidata->status == 'Rejected' || $apidata->status == 'Canceled')
-                            $apidata->status = 'refunded';
-                        $this->statusChange($order, $apidata->status);
-                    } elseif (isset($apidata->status)) {
-                        if ($apidata->status == 'Canceled')
-                            $apidata->status = 'refunded';
-                        $this->statusChange($order, $apidata->status);
-                    } else {
-                        if (isset($apidata->error))
-                            $order->status_description = "error: {@$apidata->error}";
-                        else
-                            $order->status_description = 'error';
-                    }
                 }
+//                elseif ($service->api_provider_id != 3 && $order->api_order_id ) {
+//                    $apiservicedata = Curl::to($provider['url'])
+//                        ->withData(['key' => $provider['api_key'], 'action' => 'status', 'order' => $order->api_order_id])->post();
+//                    $apidata = json_decode($apiservicedata);
+//                    if (isset($apidata->order)) {
+//                        $order->status_description = "order: {$apidata->order}";
+//                        $order->api_order_id = $apidata->order;
+//                        if ($apidata->status == 'Rejected' || $apidata->status == 'Canceled')
+//                            $apidata->status = 'refunded';
+//                        $this->statusChange($order, $apidata->status);
+//                    } elseif (isset($apidata->status)) {
+//                        if ($apidata->status == 'Canceled')
+//                            $apidata->status = 'refunded';
+//                        $this->statusChange($order, $apidata->status);
+//                    } else {
+//                        if (isset($apidata->error))
+//                            $order->status_description = "error: {@$apidata->error}";
+//                        else
+//                            $order->status_description = 'error';
+//                    }
+//                }
                 $order->save();
             }
         });
-        $numberOrders = Order::with(['service', 'service.provider'])->whereNotIn('status', ['completed', 'refunded', 'canceled'])->whereHas('service', function ($query) {
-            $query->Where('api_provider_id', '=', 3);
-        })->get();
-        $apiproviderdata = ApiProvider::findorfail(3);
-        foreach ($numberOrders as $order) {
-            $postData = [
-                'api_key' => $apiproviderdata['api_key'],
-                'action' => 'getStatus',
-                'id' => $order->api_order_id
-            ];
-            $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
-            Log::info($apiservicedata);
-            if ($apiservicedata == 'STATUS_CANCEL' || $apiservicedata == 'WRONG_ACTIVATION_ID') {
-                $order->status = 'canceled';
-                $order->save();
-            } elseif (Str::contains($apiservicedata, 'STATUS_OK')) {
-                Log::info($apiservicedata);
-                $this->finishNumberOrder($order, $apiproviderdata);
-
-            }
-        }
+//        $numberOrders = Order::with(['service', 'service.provider'])->whereNotIn('status', ['completed', 'refunded', 'canceled'])->whereHas('service', function ($query) {
+//            $query->Where('api_provider_id', '=', 3);
+//        })->get();
+//        $apiproviderdata = ApiProvider::findorfail(3);
+//        foreach ($numberOrders as $order) {
+//            $postData = [
+//                'api_key' => $apiproviderdata['api_key'],
+//                'action' => 'getStatus',
+//                'id' => $order->api_order_id
+//            ];
+//            $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
+//            Log::info($apiservicedata);
+//            if ($apiservicedata == 'STATUS_CANCEL' || $apiservicedata == 'WRONG_ACTIVATION_ID') {
+//                $order->status = 'canceled';
+//                $order->save();
+//            } elseif (Str::contains($apiservicedata, 'STATUS_OK')) {
+//                Log::info($apiservicedata);
+//                $this->finishNumberOrder($order, $apiproviderdata);
+//
+//            }
+//        }
     }
 
     public function finishNumberOrder($order, $apiProvider)
