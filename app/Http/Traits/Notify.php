@@ -46,9 +46,9 @@ trait Notify
         }
         $message = str_replace("[[name]]", $user->username, $email_body);
 
-        if(!$templateObj && $subject == null){
-           return false;
-        }else{
+        if (!$templateObj && $subject == null) {
+            return false;
+        } else {
 
             if ($templateObj) {
                 $message = str_replace("[[message]]", $templateObj->template, $message);
@@ -84,9 +84,9 @@ trait Notify
         }
         $message = str_replace("[[name]]", $user->username, $email_body);
 
-        if(!$templateObj && $subject == null){
+        if (!$templateObj && $subject == null) {
             return false;
-        }else{
+        } else {
 
             if ($templateObj) {
                 $message = str_replace("[[message]]", $templateObj->template, $message);
@@ -110,21 +110,21 @@ trait Notify
 
     public function sms($user, $templateKey, $params = [], $requestMessage = null)
     {
-        $basic = (object) config('basic');
+        $basic = (object)config('basic');
         if ($basic->sms_notification != 1) {
             return false;
         }
 
-        $smsControl =SmsControl::firstOrCreate(['id' => 1]);
+        $smsControl = SmsControl::firstOrCreate(['id' => 1]);
 
         $templateObj = EmailTemplate::where('template_key', $templateKey)->where('language_id', $user->language_id)->where('sms_status', 1)->first();
         if (!$templateObj) {
             $templateObj = EmailTemplate::where('template_key', $templateKey)->where('sms_status', 1)->first();
         }
 
-        if(!$templateObj && $requestMessage == null){
+        if (!$templateObj && $requestMessage == null) {
             return false;
-        }else{
+        } else {
             if ($templateObj) {
                 $template = $templateObj->sms_body;
                 foreach ($params as $code => $value) {
@@ -134,7 +134,6 @@ trait Notify
                 $template = $requestMessage;
             }
         }
-
 
 
         $paramData = is_null($smsControl->paramData) ? [] : json_decode($smsControl->paramData, true);
@@ -173,21 +172,21 @@ trait Notify
 
     public function smsVerification($user, $templateKey, $params = [], $requestMessage = null)
     {
-        $basic = (object) config('basic');
+        $basic = (object)config('basic');
         if ($basic->sms_verification != 1) {
             return false;
         }
 
-        $smsControl =SmsControl::firstOrCreate(['id' => 1]);
+        $smsControl = SmsControl::firstOrCreate(['id' => 1]);
 
         $templateObj = EmailTemplate::where('template_key', $templateKey)->where('language_id', $user->language_id)->where('sms_status', 1)->first();
         if (!$templateObj) {
             $templateObj = EmailTemplate::where('template_key', $templateKey)->where('sms_status', 1)->first();
         }
 
-        if(!$templateObj && $requestMessage == null){
+        if (!$templateObj && $requestMessage == null) {
             return false;
-        }else{
+        } else {
             if ($templateObj) {
                 $template = $templateObj->sms_body;
                 foreach ($params as $code => $value) {
@@ -197,7 +196,6 @@ trait Notify
                 $template = $requestMessage;
             }
         }
-
 
 
         $paramData = is_null($smsControl->paramData) ? [] : json_decode($smsControl->paramData, true);
@@ -236,7 +234,7 @@ trait Notify
 
     public function userPushNotification($user, $templateKey, $params = [], $action = [])
     {
-        $basic = (object) config('basic');
+        $basic = (object)config('basic');
         if ($basic->push_notification != 1) {
             return false;
         }
@@ -261,17 +259,17 @@ trait Notify
     }
 
 
-    public function adminPushNotification($templateKey, $params = [], $action = [] , $data = [] )
+    public function adminPushNotification($templateKey, $params = [], $action = [], $data = [])
     {
 
-        $basic = (object) config('basic');
+        $basic = (object)config('basic');
         if ($basic->push_notification != 1) {
             return false;
         }
 
         $templateObj = NotifyTemplate::where('template_key', $templateKey)->where('status', 1)->first();
 
-        if(!$templateObj){
+        if (!$templateObj) {
             return false;
         }
 
@@ -282,24 +280,20 @@ trait Notify
             }
             $action['text'] = $template;
         }
-
         $admins = Admin::all();
-        foreach ($admins as $admin){
+        foreach ($admins as $admin) {
             $siteNotification = new SiteNotification();
             $siteNotification->description = $action;
             $admin->siteNotificational()->save($siteNotification);
 
-           $admin->notify(new TelegramNotification($siteNotification->description,$data));
             event(new \App\Events\AdminNotification($siteNotification, $admin->id));
         }
-        JobsNotification::dispatch($action , $data);
+        new TelegramNotification($siteNotification->description, $data);
+        JobsNotification::dispatch($action, $data);
     }
 
-    public function adminPushNotificationError($e){
-
-        $admins = Admin::all();
-        foreach ($admins as $admin){
-           $admin->notify(new ErrorsNotificationTelegram($e->getMessage()));
-        }
+    public function adminPushNotificationError($e)
+    {
+        new ErrorsNotificationTelegram($e->getMessage());
     }
 }

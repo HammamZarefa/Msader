@@ -1,10 +1,10 @@
 <?php
 
-namespace App\ExternalProviders\CashSMM;
+namespace App\ExternalProviders\FasterSMM;
 
 use App\ExternalProviders\ExternalProviderResponse;
 
-class CreateOrder extends AbstractCashSMMOperation
+class CreateOrder extends AbstractFasterSMMOperation
 {
     protected string $operationUrl = "add";
     protected string $method = "POST";

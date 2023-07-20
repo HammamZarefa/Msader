@@ -1,16 +1,16 @@
 <?php
 
-namespace App\ExternalProviders\CashSMM;
+namespace App\ExternalProviders\FasterSMM;
 
 
-use Facades\App\ExternalProviders\CashSMM\Validators\Order;
+use Facades\App\ExternalProviders\FasterSMM\Validators\Order;
 use App\ExternalProviders\ProviderInterface;
-use Facades\App\ExternalProviders\CashSMM\GetBalance;
-use Facades\App\ExternalProviders\CashSMM\CreateOrder;
-use Facades\App\ExternalProviders\CashSMM\GetOrderStatus;
-use Facades\App\ExternalProviders\CashSMM\GetServices;
+use Facades\App\ExternalProviders\FasterSMM\GetBalance;
+use Facades\App\ExternalProviders\FasterSMM\CreateOrder;
+use Facades\App\ExternalProviders\FasterSMM\GetOrderStatus;
+use Facades\App\ExternalProviders\FasterSMM\GetServices;
 
-class CashSMM implements ProviderInterface
+class FasterSMM implements ProviderInterface
 {
     protected array $provider;
     protected array $order;
@@ -70,7 +70,7 @@ class CashSMM implements ProviderInterface
                 'isRequired' => 'true',
                 'type' => 'select',
                 'options' => [
-                    ['label' => 'production', 'value' => 'https://cashsmm.com/api/v2']
+                    ['label' => 'production', 'value' => 'https://fastersmm.com/api/v2']
                 ]
             ],
             [

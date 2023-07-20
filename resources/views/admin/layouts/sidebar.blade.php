@@ -434,9 +434,8 @@
                 <li class="nav-small-cap"><span class="hide-menu">Log info</span></li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{route('admin.log_search')}}" aria-expanded="false">
-                        <i class="fas fa-clipboard-list"></i>
-                        <span
-                            class="hide-menu">log details</span>
+                        <i data-feather="list" class="feather-icon"></i>
+                        <span    class="hide-menu">Provider Logs</span>
                     </a>
                 </li>
 

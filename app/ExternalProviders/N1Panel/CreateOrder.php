@@ -1,10 +1,10 @@
 <?php
 
-namespace App\ExternalProviders\CashSMM;
+namespace App\ExternalProviders\N1Panel;
 
 use App\ExternalProviders\ExternalProviderResponse;
 
-class CreateOrder extends AbstractCashSMMOperation
+class CreateOrder extends AbstractN1PanelOperation
 {
     protected string $operationUrl = "add";
     protected string $method = "POST";

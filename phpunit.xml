@@ -28,7 +28,9 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="CACHSMM_API_KEY" value="c79b413f14d762dd61a679830eae3238"/>
+        <env name="N1PANEL_API_KEY" value="ddfacbce4c32fdc6f8abd9a35d8fdc35"/>
         <env name="SMSACTIVATE_API_KEY" value="72fc8d54db6955c737bA023792474e7f"/>
+        <env name="FASTERSMM_API_KEY" value="4ffe99827f43d1c5eceb9d739c02694a"/>
         <env name="NONVOIP_API_KEY" value="dEUfWPqYHlD877"/>
         <env name="NONVOIP_EMAIL" value="msaderstore@gmail.com"/>
         <env name="SWPRODUCTS_API_KEY" value="8|exZOPQiEKXllapPESxXFWuzgy7X1ECqRlR5PQAIj"/>
