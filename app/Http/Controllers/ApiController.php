@@ -41,7 +41,7 @@ class ApiController extends Controller
             return response()->json(['errors' => ['action' => "Invalid request action"]], 422);
         }
 
-        $user = User::where('api_token', $req['key'])->first(['id', 'api_token', 'status', 'balance']);
+        $user = User::where('api_token', $req['key'])->first(['id', 'api_token', 'status', 'balance','username']);
         if (!$user) {
             return response()->json(['errors' => ['key' => "Invalid Key"]], 422);
         }

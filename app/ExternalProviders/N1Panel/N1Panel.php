@@ -1,16 +1,16 @@
 <?php
 
-namespace App\ExternalProviders\CashSMM;
+namespace App\ExternalProviders\N1Panel;
 
 
-use Facades\App\ExternalProviders\CashSMM\Validators\Order;
+use Facades\App\ExternalProviders\N1Panel\Validators\Order;
 use App\ExternalProviders\ProviderInterface;
-use Facades\App\ExternalProviders\CashSMM\GetBalance;
-use Facades\App\ExternalProviders\CashSMM\CreateOrder;
-use Facades\App\ExternalProviders\CashSMM\GetOrderStatus;
-use Facades\App\ExternalProviders\CashSMM\GetServices;
+use Facades\App\ExternalProviders\N1Panel\GetBalance;
+use Facades\App\ExternalProviders\N1Panel\CreateOrder;
+use Facades\App\ExternalProviders\N1Panel\GetOrderStatus;
+use Facades\App\ExternalProviders\N1Panel\GetServices;
 
-class CashSMM implements ProviderInterface
+class N1Panel implements ProviderInterface
 {
     protected array $provider;
     protected array $order;
@@ -70,7 +70,7 @@ class CashSMM implements ProviderInterface
                 'isRequired' => 'true',
                 'type' => 'select',
                 'options' => [
-                    ['label' => 'production', 'value' => 'https://cashsmm.com/api/v2']
+                    ['label' => 'production', 'value' => 'https://n1panel.com/api/v2']
                 ]
             ],
             [

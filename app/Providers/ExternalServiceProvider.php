@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\ExternalProviders\CashSMM\CashSMM;
+use App\ExternalProviders\FasterSMM\FasterSMM;
+use App\ExternalProviders\N1Panel\N1Panel;
 use App\ExternalProviders\Nonvoip\Nonvoip;
 use App\ExternalProviders\SmsActivate\SmsActivate;
 use App\ExternalProviders\SwProducts\SwProducts;
@@ -23,13 +25,18 @@ class ExternalServiceProvider extends ServiceProvider
         $this->app->bind('nonvoip', function () {
             return new Nonvoip();
         });
-        $this->app->bind('cachsmm', function () {
+        $this->app->bind('cashsmm', function () {
             return new CashSMM();
+        });
+        $this->app->bind('n1panel', function () {
+            return new N1Panel();
         });
         $this->app->bind('swproducts', function () {
             return new SwProducts();
         });
-
+        $this->app->bind('fastersmm', function () {
+            return new FasterSMM();
+        });
     }
 
     /**
