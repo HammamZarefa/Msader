@@ -438,6 +438,16 @@
                         <span    class="hide-menu">Provider Logs</span>
                     </a>
                 </li>
+
+                <li class="nav-small-cap"><span class="hide-menu">Invoices info</span></li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{route('admin.invoice_show')}}" aria-expanded="false">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span
+                            class="hide-menu">Invoice details</span>
+                    </a>
+                </li>
+
                 <li class="list-divider"></li>
                 
                 
