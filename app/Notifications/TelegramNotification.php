@@ -51,6 +51,4 @@ class TelegramNotification extends Notification
             ->button('View Details',  $this->url);
 
     }
-
-
 }

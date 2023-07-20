@@ -47,6 +47,7 @@ abstract class AbstractOperation
                 "method" => $method = $this->getMethod(),
                 "header" => $header = $this->getHeader(),
                 "body" => $body = $this->getBody(),
+                "order_id" => $this->getOrderId(),
             ];
             $this->dpLogger($logArray);
             $client = new Client();

@@ -29,7 +29,6 @@ class LogController extends Controller
             ->orderBy('created_at', 'desc')->get();
         $providers = ApiProvider::all();
         return view('admin.pages.log.show', compact('providers', 'logs'));
-
     }
 
 }

@@ -150,6 +150,7 @@ class OrderController extends Controller
             try {
                 //create new ordrer without save
                 $order = $this->createOrder($req, $orderData, $user);
+                $order->save();
                 //proccessing provider order
                 if (isset($service->api_provider_id) && $service->api_provider_id != 0) {
                     $this->apiProviderOrder($service, $req, $order);
@@ -199,7 +200,7 @@ class OrderController extends Controller
                 'paid_amount' => $price,
                 'remaining_balance' => $user->balance,
                 'currency' => $basic->currency,
-                'transaction' => $transaction->trx_id,
+                'transaction' => @$transaction->trx_id,
             ]);
             if ($apiUser)
                 return response()->json(['status' => 'success', 'order' => $order->id, 'link' => $order->link], 200);
@@ -463,9 +464,11 @@ class OrderController extends Controller
             $apidata = app()->make($apiproviderdata->slug)
                 ->setProvider(mapProvider($apiproviderdata))
                 ->setOrder([
+                    'id' => $order->id,
                     'service' => $service->api_service_id,
                     'link' => @$order->link,
                     'category' => $service->service_type,
+                    'quantity' => $order->quantity
                 ])
                 ->placeOrder();
             if (isset($apidata['is_success']) && $apidata['is_success']) {
@@ -492,31 +495,32 @@ class OrderController extends Controller
                 $order->status_description = "error: {" .
                 isset($apidata->error) ?? ' غير متوفر من المصدر' . "}";
             }
-        } else {
-            $postData = [
-                'key' => $apiproviderdata['api_key'],
-                'action' => 'add',
-                'service' => $service->api_service_id,
-                'link' => $req['link'],
-                'quantity' => $req['quantity']
-            ];
-
-            if (isset($req['runs']))
-                $postData['runs'] = $req['runs'];
-
-            if (isset($req['interval']))
-                $postData['interval'] = $req['interval'];
-
-            $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
-            $apidata = json_decode($apiservicedata);
-            if (isset($apidata->order)) {
-                $order->status_description = "order: {
-                    $apidata->order}";
-                $order->api_order_id = $apidata->order;
-            } else {
-                $order->status_description = "error: {
-                    $apidata->error}";
-            }
         }
+//        else {
+//            $postData = [
+//                'key' => $apiproviderdata['api_key'],
+//                'action' => 'add',
+//                'service' => $service->api_service_id,
+//                'link' => $req['link'],
+//                'quantity' => $req['quantity']
+//            ];
+//
+//            if (isset($req['runs']))
+//                $postData['runs'] = $req['runs'];
+//
+//            if (isset($req['interval']))
+//                $postData['interval'] = $req['interval'];
+//
+//            $apiservicedata = Curl::to($apiproviderdata['url'])->withData($postData)->post();
+//            $apidata = json_decode($apiservicedata);
+//            if (isset($apidata->order)) {
+//                $order->status_description = "order: {
+//                    $apidata->order}";
+//                $order->api_order_id = $apidata->order;
+//            } else {
+//                $order->status_description = "error: {
+//                    $apidata->error}";
+//            }
+//        }
     }
 }

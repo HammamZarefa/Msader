@@ -23,7 +23,7 @@ class ExceptionNotificationTelegram extends Notification
      *
      * @return void
      */
-    public function __construct($message,$line,$file)
+    public function __construct($message, $line, $file)
     {
         $this->message = $message;
         $this->line = $line;
@@ -34,7 +34,7 @@ class ExceptionNotificationTelegram extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -42,18 +42,16 @@ class ExceptionNotificationTelegram extends Notification
         return [TelegramChannel::class];
     }
 
-    public function toTelegram($notifiable){
-        // dd($this->data);
+    public function toTelegram($notifiable)
+    {
         return TelegramMessage::create()
             ->to(Config::get('basic.telegram_chat_id'))
-            ->content("*"."new Exception notification"
-                      ."*\n\n" . "Exception Message:  " . "*".$this->message
-                      ."*\n\n" . "Exception line:  " . "*".$this->line
-                      ."*\n\n" . "Exception file:  " . "*".$this->file
-                      ."*\n"
-
-                    );
-
+            ->content("*" . "new Exception notification"
+                . "*\n\n" . "Exception Message:  " . "*" . $this->message
+                . "*\n\n" . "Exception line:  " . "*" . $this->line
+                . "*\n\n" . "Exception file:  " . "*" . $this->file
+                . "*\n"
+            );
     }
 
 

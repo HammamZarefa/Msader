@@ -1,11 +1,11 @@
 <?php
 
-namespace App\ExternalProviders\CashSMM;
+namespace App\ExternalProviders\N1Panel;
 
 use App\ExternalProviders\AbstractOperation;
 use App\ExternalProviders\ExternalProviderResponse;
 
-class GetOrderStatus extends AbstractCashSMMOperation
+class GetOrderStatus extends AbstractN1PanelOperation
 {
     protected string $operationUrl = 'status';
     protected string $method = 'POST';
@@ -18,13 +18,11 @@ class GetOrderStatus extends AbstractCashSMMOperation
 
         return $this;
     }
-
-    public function setOrderId($orderId): AbstractOperation
+    public function setOrderId($orderId) : AbstractOperation
     {
         $this->orderId = $orderId;
         return $this;
     }
-
     public function returnExternalProviderResponse($jsonResponse): array
     {
         $response = new ExternalProviderResponse();

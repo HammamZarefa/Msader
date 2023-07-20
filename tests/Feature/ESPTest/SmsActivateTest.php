@@ -9,23 +9,22 @@ use Tests\TestCase;
 
 class SmsActivateTest extends TestCase
 {
-
+    use RefreshDatabase;
     public function getProvider()
     {
         return [
             "url" => 'https://api.sms-activate.org/stubs/handler_api.php',
-            "apikey" => env('SMSACTIVATE_API_KEY')
+            "api_key" => env('SMSACTIVATE_API_KEY')
         ];
     }
 
     public function testGetBalance()
     {
-        $placeOrderResponse = app()->make('smsactivate')
+        $balanceResponse = app()->make('smsactivate')
             ->setProvider($this->getProvider())
             ->getUserBalance();
-        dd($placeOrderResponse);
-        $this->assertUnifiedResponse($placeOrderResponse);
-        $this->assertEquals($this->package['track_id'], $placeOrderResponse['track_id']);
+        $this->assertIsArray($balanceResponse);
+        $this->assertNotNull($balanceResponse['balance']);
     }
     public function testGetOrderStatus()
     {

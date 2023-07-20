@@ -20,7 +20,9 @@ class ApiProviderController extends Controller
     public function index()
     {
         $api_providers = ApiProvider::orderBy('id', 'DESC')->get();
-
+        foreach ($api_providers as $provider) {
+            $this->balanceUpdate($provider->id);
+        }
         return view('admin.pages.api_providers.show', compact('api_providers'));
     }
 
@@ -54,17 +56,16 @@ class ApiProviderController extends Controller
         $ApiProvider->api_name = $apiProviderData['api_name'];
         $ApiProvider->api_key = $apiProviderData['api_key'];
         $ApiProvider->url = $apiProviderData['url'];
-        $apiLiveData = Curl::to($apiProviderData['url'])->withData(['key' => $apiProviderData['api_key'], 'action' => 'balance'])->post();
-        $currencyData = json_decode($apiLiveData);
-//        dd($currencyData);
-        if (isset($currencyData->balance)):
-            $ApiProvider->balance = $currencyData->balance;
-            $ApiProvider->currency = $currencyData->currency;
-        elseif (isset($currencyData->error)):
-            $error = $currencyData->error;
-        else:
-            $error = "Please Check your API URL Or API Key";
-        endif;
+//        $apiLiveData = Curl::to($apiProviderData['url'])->withData(['key' => $apiProviderData['api_key'], 'action' => 'balance'])->post();
+//        $currencyData = json_decode($apiLiveData);
+//        if (isset($currencyData->balance)):
+//            $ApiProvider->balance = $currencyData->balance;
+//            $ApiProvider->currency = $currencyData->currency;
+//        elseif (isset($currencyData->error)):
+//            $error = $currencyData->error;
+//        else:
+//            $error = "Please Check your API URL Or API Key";
+//        endif;
         $ApiProvider->status = $apiProviderData['status'];
         $ApiProvider->description = $apiProviderData['description'];
 //        if (isset($error)):
@@ -133,15 +134,15 @@ class ApiProviderController extends Controller
         $provider->api_key = $request['api_key'];
         $provider->url = $request['url'];
         $apiLiveData = Curl::to($request['url'])->withData(['key' => $request['api_key'], 'action' => 'balance'])->post();
-        $currencyData = json_decode($apiLiveData);
-        if (isset($currencyData->balance)):
-            $provider->balance = $currencyData->balance;
-            $provider->currency = $currencyData->currency;
-        elseif (isset($currencyData->error)):
-            $error = $currencyData->error;
-        else:
-            $error = "Please Check your API URL Or API Key";
-        endif;
+//        $currencyData = json_decode($apiLiveData);
+//        if (isset($currencyData->balance)):
+//            $provider->balance = $currencyData->balance;
+//            $provider->currency = $currencyData->currency;
+//        elseif (isset($currencyData->error)):
+//            $error = $currencyData->error;
+//        else:
+//            $error = "Please Check your API URL Or API Key";
+//        endif;
         $provider->status = $request['status'];
         $provider->description = $request['description'];
         if (isset($error)):
@@ -188,6 +189,7 @@ class ApiProviderController extends Controller
 
     public function priceUpdate($id)
     {
+        dd(1);
         $provider = ApiProvider::with('services')->findOrFail($id);
         $apiLiveData = Curl::to($provider->url)->withData(['key' => $provider->api_key, 'action' => 'services'])->post();
         $currencyData = json_decode($apiLiveData);
@@ -205,11 +207,14 @@ class ApiProviderController extends Controller
     public function balanceUpdate($id)
     {
         $provider = ApiProvider::findOrFail($id);
-        $apiLiveData = Curl::to($provider->url)->withData(['key' => $provider->api_key, 'action' => 'balance'])->post();
-        $providerBalance = json_decode($apiLiveData);
+        if (isset($provider->slug))
+            $providerBalance = app()->make($provider->slug)->setProvider(mapProvider($provider))->getUserBalance();
+        else {
+            $apiLiveData = Curl::to($provider->url)->withData(['key' => $provider->api_key, 'action' => 'balance'])->post();
+            $providerBalance = json_decode($apiLiveData, 1);
+        }
         $provider->update([
-            'balance' => $providerBalance->balance ?? $provider->balance,
-            'currency' => $providerBalance->currency ?? $provider->currency,
+            'balance' => $providerBalance['balance'] ?? $provider->balance,
         ]);
         return back()->with('success', 'Successfully updated');
     }
@@ -268,7 +273,7 @@ class ApiProviderController extends Controller
             $service->category_id = $idCat;
             $service->min_amount = $req['min'] ?? 1;
             $service->max_amount = $req['max'] ?? 1;
-            $increased_price = (@$req['rate'] * $req['price_percentage_increase']) / 100 ;
+            $increased_price = (@$req['rate'] * $req['price_percentage_increase']) / 100;
             $service->price = @$req['rate'] + $increased_price;
             $service->service_status = 1;
             $service->api_provider_id = $req['provider'];

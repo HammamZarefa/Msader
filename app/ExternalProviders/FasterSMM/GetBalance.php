@@ -1,10 +1,10 @@
 <?php
 
-namespace App\ExternalProviders\CashSMM;
+namespace App\ExternalProviders\FasterSMM;
 
 use App\ExternalProviders\ExternalProviderResponse;
 
-class GetBalance extends AbstractCashSMMOperation
+class GetBalance extends AbstractFasterSMMOperation
 {
     protected string $operationUrl = 'balance';
     protected string $method = 'POST';

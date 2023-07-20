@@ -14,7 +14,7 @@ class ExternalProviderResponse
     private $custom_field;
     private $service;
     private $code;
-
+    private $balance;
 
 
     public function return(): array
@@ -27,6 +27,7 @@ class ExternalProviderResponse
         $return["custom_field"] = $this->getCustomField();
         $return["service"] = $this->getService();
         $return["code"] = $this->getCode();
+        $return["balance"] = $this->getBalance();
         return $return;
     }
 
@@ -170,4 +171,23 @@ class ExternalProviderResponse
     {
         $this->code = $code;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function getBalance()
+    {
+        return $this->balance;
+    }
+
+    /**
+     * @param mixed $balance
+     */
+    public function setBalance($balance): void
+    {
+        $this->balance = $balance;
+    }
+
+
 }
