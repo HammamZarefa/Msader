@@ -47,7 +47,7 @@ class ServiceController extends Controller
             ->when(isset($search['provider']), function ($query) use ($search) {
 
                 if ($search['provider'] == -1) {
-                    return $query->where('api_provider_id', null);
+                    return $query->where('api_provider_id', '!=', '-1');
                 }
                 return $query->where('api_provider_id', $search['provider']);
             })
@@ -156,6 +156,7 @@ class ServiceController extends Controller
         }
         return back()->with('success', 'Successfully Updated');
     }
+
 
     public function edit($id)
     {

@@ -11,6 +11,7 @@ use Facades\App\ExternalProviders\SmsActivate\GetSMS;
 class SmsActivate implements ProviderInterface
 {
     protected array $provider;
+    protected array $order;
 
     public function getServices(): array
     {
@@ -24,7 +25,7 @@ class SmsActivate implements ProviderInterface
 
     public function placeOrder(): array
     {
-        return CreateOrder::setProvider($this->provider)->setBody()->send();
+        return CreateOrder::setProvider($this->provider)->setBody($this->order)->send();
     }
 
     public function getOrderStatus(string $orderId, string $reference): array
@@ -46,6 +47,17 @@ class SmsActivate implements ProviderInterface
     {
         $this->provider = $provider;
         return $this;
+    }
+
+    public function setOrder($order)
+    {
+        $this->order = $order;
+        return $this;
+    }
+
+    public function getOrder()
+    {
+        return $this->order;
     }
 
     public function getProviderSettings(): array

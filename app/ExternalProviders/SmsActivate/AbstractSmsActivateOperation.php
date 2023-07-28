@@ -3,6 +3,7 @@
 namespace App\ExternalProviders\SmsActivate;
 
 use App\ExternalProviders\AbstractOperation;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class AbstractSmsActivateOperation extends AbstractOperation
@@ -18,7 +19,8 @@ class AbstractSmsActivateOperation extends AbstractOperation
     public function getUrl()
     {
         $api_key = $this->provider["api_key"];
-        return $this->getBaseUrl() . "?api_key={$api_key}" . "&action={$this->getOperationUrl()}";
+        return $this->getBaseUrl() . "?api_key={$api_key}" .
+            "&action={$this->getOperationUrl()} &" . Arr::query($this->getBody());;
     }
 
     public function getBody()

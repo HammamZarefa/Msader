@@ -315,6 +315,8 @@ class FrontendController extends Controller
                     $response = app()->make($provider->slug)->setProvider(mapProvider($provider))
                         ->getOrderStatus($order->id, $order->api_order_id);
                     if (isset($response['status']) && $response['status'] != $order->status) {
+                        if (strtolower($response['status']) == 'canceled')
+                            $response['status'] = 'refunded';
                         $this->statusChange($order, $response['status']);
                     }
                 }

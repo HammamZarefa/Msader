@@ -208,6 +208,13 @@
                         <span class="hide-menu">@lang('Payment Log')</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{route('admin.payment-history.index')}}" aria-expanded="false">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span
+                            class="hide-menu">@lang('Offline Payments')</span>
+                    </a>
+                </li>
                 <li class="list-divider"></li>
 
 
@@ -260,7 +267,8 @@
 
                 <li class="nav-small-cap"><span class="hide-menu">@lang('Subscriber')</span></li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link sidebar-link" href="{{route('admin.subscriber.index')}}" aria-expanded="false">
+                    <a class="sidebar-link sidebar-link" href="{{route('admin.subscriber.index')}}"
+                       aria-expanded="false">
                         <i class="fas fa-envelope-open"></i>
                         <span class="hide-menu">@lang('Subscriber List')</span>
                     </a>
@@ -278,12 +286,13 @@
                 </li>
 
                 @if(config('basic.theme') == 'minimal' )
-                <li class="sidebar-item">
-                    <a class="sidebar-link sidebar-link" href="{{route('admin.color-settings')}}" aria-expanded="false">
-                        <i class="fas fa-paint-brush"></i>
-                        <span class="hide-menu">@lang('Color Settings')</span>
-                    </a>
-                </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link sidebar-link" href="{{route('admin.color-settings')}}"
+                           aria-expanded="false">
+                            <i class="fas fa-paint-brush"></i>
+                            <span class="hide-menu">@lang('Color Settings')</span>
+                        </a>
+                    </li>
                 @endif
 
                 <li class="sidebar-item">
@@ -295,7 +304,7 @@
 
                 <li class="sidebar-item">
                     <a class="sidebar-link sidebar-link" href="{{route('admin.notice')}}" aria-expanded="false">
-                       <i class="fas fa-bullhorn"></i>
+                        <i class="fas fa-bullhorn"></i>
                         <span class="hide-menu">@lang('Notice')</span>
                     </a>
                 </li>
@@ -370,7 +379,6 @@
                 <li class="list-divider"></li>
 
 
-
                 <li class="nav-small-cap"><span class="hide-menu">@lang('Theme Settings')</span></li>
 
                 <li class="sidebar-item">
@@ -399,7 +407,8 @@
                         <i class="fas fa-clipboard-list"></i>
                         <span class="hide-menu">@lang('Manage Content')</span>
                     </a>
-                    <ul aria-expanded="false" class="collapse first-level base-level-line {{menuActive(['admin.template.show*'],1)}}">
+                    <ul aria-expanded="false"
+                        class="collapse first-level base-level-line {{menuActive(['admin.template.show*'],1)}}">
 
                         @foreach(array_diff(array_keys(config('templates')),['message','template_media']) as $name)
                             <li class="sidebar-item {{ menuActive(['admin.template.show'.$name]) }}">
@@ -409,17 +418,16 @@
                                 </a>
                             </li>
                         @endforeach
-
                     </ul>
                 </li>
-
 
                 <li class="sidebar-item {{menuActive(['admin.content.create','admin.content.show*'],3)}}">
                     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <i class="fas fa-clipboard-list"></i>
                         <span class="hide-menu">@lang('Content Settings')</span>
                     </a>
-                    <ul aria-expanded="false" class="collapse first-level base-level-line {{menuActive(['admin.content.create','admin.content.show*'],1)}}">
+                    <ul aria-expanded="false"
+                        class="collapse first-level base-level-line {{menuActive(['admin.content.create','admin.content.show*'],1)}}">
                         @foreach(array_diff(array_keys(config('contents')),['message','content_media']) as $name)
                             <li class="sidebar-item {{ menuActive(['admin.content.show.',$name]) }}">
                                 <a class="sidebar-link {{ menuActive(['admin.content.show.',$name]) }}"
@@ -430,29 +438,13 @@
                         @endforeach
                     </ul>
                 </li>
-
-                <li class="nav-small-cap"><span class="hide-menu">Log info</span></li>
+                <li class="nav-small-cap"><span class="hide-menu">@lang('Log info')</span></li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{route('admin.log_search')}}" aria-expanded="false">
                         <i data-feather="list" class="feather-icon"></i>
-                        <span    class="hide-menu">Provider Logs</span>
+                        <span class="hide-menu">Provider Logs</span>
                     </a>
                 </li>
-
-                <li class="nav-small-cap"><span class="hide-menu">Invoices info</span></li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{route('admin.invoice_show')}}" aria-expanded="false">
-                        <i class="fas fa-clipboard-list"></i>
-                        <span
-                            class="hide-menu">Invoice details</span>
-                    </a>
-                </li>
-
-                <li class="list-divider"></li>
-                
-                
-
-
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

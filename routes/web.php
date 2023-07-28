@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\LogController;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -323,18 +322,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('content-show/{content}', 'Admin\ContentController@show')->name('content.show');
         Route::put('content-update/{content}/{language?}', 'Admin\ContentController@update')->name('content.update');
         Route::delete('contents/{id}', 'Admin\ContentController@contentDelete')->name('content.delete');
-        
+
        /* ===== ADMIN Show Index ===== */
         // Route::get('log',[LogController::class,'index'])->name('log.show');
         Route::get('log_search',[LogController::class,'search'])->name('log_search');
 
-        Route::get('invoices',[InvoiceController::class,'index'])->name('invoice_show');
-        Route::delete('invoices/{invoices}',[InvoiceController::class,'destroy'])->name('invoice_destroy');
-        Route::get('invoices/{invoice}',[InvoiceController::class,'Edit'])->name('invoice_edit');
-        Route::get('invoicesAdd',[InvoiceController::class,'add'])->name('invoice_add');
-        Route::post('invoices',[InvoiceController::class,'create'])->name('invoice_create');
-        Route::put('invoices/{invoice}',[InvoiceController::class,'update'])->name('invoice_Update');
-
+        Route::resource('payment-history','Admin\PaymentHistoryController');
     });
 
 });
