@@ -17,7 +17,6 @@
                                 <img id="image_preview_container" class="preview-image" src="{{ getFile(config('location.default')) }}"
                                      alt="preview image">
                             </div>
-
                             @error('image')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

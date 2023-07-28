@@ -24,12 +24,13 @@ class StoreInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'Name'=>['required','string'],
-            'Date'=>['required'],
-            'Status'=>['required','in:completed,pending,failed'],
-            'Amount'=>['required','numeric'],
-            'Method'=>['nullable','string'],
-            'Description'=>['nullable','string']
+            'name' => ['required', 'string'],
+            'date' => ['required'],
+            'status' => ['required', 'in:completed,pending,failed'],
+            'amount' => ['required', 'numeric'],
+            'method' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+            'is_pay' => ['required']
         ];
     }
 }
