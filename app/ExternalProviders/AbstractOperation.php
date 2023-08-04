@@ -119,4 +119,22 @@ abstract class AbstractOperation
         else
             $this->log = Log::create($logArray);
     }
+
+    public static function getAvialableProviders()
+    {
+        return [
+            "As7ab" => "as7ab",
+            "CashSMM" => "cashsmm",
+            "FasterSMM" => "fastersmm",
+            "Lord" => "lord",
+            "N1Panel" => "n1panel",
+            "Nonvoip" => "nonvoip",
+            "SmsActivate" => "smsactivate",
+            "SpeedCard" => "speedcard",
+            "SwProducts" => "swproducts",
+            "WDM" => "wdm",
+            "XpCard" => "xpcard",
+            "SawaCard" => "sawacard",
+        ];
+    }
 }

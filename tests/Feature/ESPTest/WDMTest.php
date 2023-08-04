@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\ESPTest;
+namespace ESPTest;
 
 use App\Facades\CashSMM;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class CashSMMTest extends TestCase
+class WDMTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -16,17 +16,17 @@ class CashSMMTest extends TestCase
     public function getProvider()
     {
         return [
-            "url" => 'https://cashsmm.com/api/v2',
-            "api_key" => env('CACHSMM_API_KEY')
+            "url" => 'https://wdmcard.com/api/v1',
+            "api_key" => env('WDM_API_KEY')
         ];
     }
 
     public function getOrder()
     {
         $this->order = [
-            "service" => 6046,
+            "service" => 12,
             "link" => "0000",
-            "quantity" => 100,
+            "quantity" => 1,
             "id"=> 190
         ];
         return $this->order;
@@ -34,7 +34,7 @@ class CashSMMTest extends TestCase
 
     public function testGetServices()
     {
-        $servicesResponse = app()->make('cashsmm')
+        $servicesResponse = app()->make('wdm')
             ->setProvider($this->getProvider())
             ->getServices();
         $this->assertIsArray($servicesResponse);
@@ -43,7 +43,7 @@ class CashSMMTest extends TestCase
 
     public function testCreateOrder()
     {
-        $orderResponse = app()->make('cashsmm')
+        $orderResponse = app()->make('wdm')
             ->setProvider($this->getProvider())
             ->setOrder($this->getOrder())
             ->placeOrder();
@@ -54,16 +54,16 @@ class CashSMMTest extends TestCase
 
     public function testGetOrderStatus()
     {
-        $servicesResponse = app()->make('cashsmm')
+        $servicesResponse = app()->make('wdm')
             ->setProvider($this->getProvider())
-            ->getOrderStatus('726','31317');
+            ->getOrderStatus('726','3936');
         $this->assertIsArray($servicesResponse);
         $this->assertArrayHasKey('status', $servicesResponse);
     }
 
     public function testGetBalance()
     {
-        $servicesResponse = app()->make('cashsmm')
+        $servicesResponse = app()->make('wdm')
             ->setProvider($this->getProvider())
             ->getUserBalance();
         $this->assertIsArray($servicesResponse);

@@ -38,6 +38,16 @@
                             @enderror
                         </div>
                         <div class="form-group ">
+                            <label>@lang('Slug')</label>
+                            <input type="text" name="slug" value="{{ old('slug',$provider->slug) }}"
+                                   class="form-control form-control-sm">
+                            <div class="invalid-feedback">@lang('Please fill in the slug')</div>
+
+                            @error('url')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group ">
                             <label class="d-block">@lang('Status')</label>
                             <div class="custom-switch-btn w-md-50">
                                 <input type='hidden' value='1' name='status'>

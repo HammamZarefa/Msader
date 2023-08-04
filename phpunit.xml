@@ -34,5 +34,10 @@
         <env name="NONVOIP_API_KEY" value="dEUfWPqYHlD877"/>
         <env name="NONVOIP_EMAIL" value="msaderstore@gmail.com"/>
         <env name="SWPRODUCTS_API_KEY" value="8|exZOPQiEKXllapPESxXFWuzgy7X1ECqRlR5PQAIj"/>
+        <env name="LORD_API_KEY" value="7ee4138b-e34c-4fdf-9722-8b1dbebfdb2d"/>
+        <env name="XPCARD_API_KEY" value="bd0612e6-d27b-4e0e-a97a-6935cf53ade5"/>
+        <env name="WDM_API_KEY" value="UjleK3sZOZsMHProQCW5"/>
+        <env name="SPEEDCARD_API_KEY" value="UjleK3sZOZsMHProQCW5"/>
+        <env name="SAWACARD_API_KEY" value="ce8727c76a37d7cf9b87c5a03342f1a6ea53aafe744a2b66"/>
     </php>
 </phpunit>

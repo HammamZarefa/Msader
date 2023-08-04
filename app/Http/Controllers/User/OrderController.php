@@ -469,7 +469,8 @@ class OrderController extends Controller
                     'link' => @$order->link,
                     'category' => $service->service_type,
                     'quantity' => $order->quantity,
-                    'additional_param' => @$service->link
+                    'additional_param' => @$service->link,
+                    'playername' => @$req->player_name ?? ''
                 ])
                 ->placeOrder();
             if (isset($apidata['is_success']) && $apidata['is_success']) {
