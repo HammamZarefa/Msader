@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\ESPTest;
+namespace ESPTest;
 
-use App\Facades\CashSMM;
+use App\Facades\XpCard;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class CashSMMTest extends TestCase
+class SawaCardTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -16,25 +16,26 @@ class CashSMMTest extends TestCase
     public function getProvider()
     {
         return [
-            "url" => 'https://cashsmm.com/api/v2',
-            "api_key" => env('CACHSMM_API_KEY')
+            "url" => 'http://api.sawa5card.com/client/api',
+            "api_key" => env('SAWACARD_API_KEY')
         ];
     }
 
     public function getOrder()
     {
         $this->order = [
-            "service" => 6046,
+            "service" => 320,
             "link" => "0000",
-            "quantity" => 100,
-            "id"=> 190
+            "quantity" => 1,
+            "id"=> 190,
+            "playername" => "0"
         ];
         return $this->order;
     }
 
     public function testGetServices()
     {
-        $servicesResponse = app()->make('cashsmm')
+        $servicesResponse = app()->make('sawacard')
             ->setProvider($this->getProvider())
             ->getServices();
         $this->assertIsArray($servicesResponse);
@@ -43,10 +44,11 @@ class CashSMMTest extends TestCase
 
     public function testCreateOrder()
     {
-        $orderResponse = app()->make('cashsmm')
+        $orderResponse = app()->make('sawacard')
             ->setProvider($this->getProvider())
             ->setOrder($this->getOrder())
             ->placeOrder();
+        dd($orderResponse);
         $this->assertIsArray($orderResponse);
         $this->assertArrayHasKey('reference', $orderResponse);
         $this->assertEquals('true' ,$orderResponse['is_success']);
@@ -54,19 +56,20 @@ class CashSMMTest extends TestCase
 
     public function testGetOrderStatus()
     {
-        $servicesResponse = app()->make('cashsmm')
+        $servicesResponse = app()->make('sawacard')
             ->setProvider($this->getProvider())
-            ->getOrderStatus('726','31317');
+            ->getOrderStatus('726','108248');
         $this->assertIsArray($servicesResponse);
         $this->assertArrayHasKey('status', $servicesResponse);
     }
 
     public function testGetBalance()
     {
-        $servicesResponse = app()->make('cashsmm')
+        $servicesResponse = app()->make('sawacard')
             ->setProvider($this->getProvider())
             ->getUserBalance();
         $this->assertIsArray($servicesResponse);
         $this->assertArrayHasKey('balance', $servicesResponse);
     }
+
 }

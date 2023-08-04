@@ -3,7 +3,15 @@
     @lang('API Controls')
 @endsection
 @section('content')
-
+    <div class="center">
+        <select id="api">
+            <option selected> @lang('Select Provider')</option>
+            @foreach($providerData as $key => $provider)
+                <option data-slug="{{$key}}" data-url="{{$provider['url']}}" data-name="{{$provider['api_name']}}">
+                    {{$provider['api_name']}}</option>
+            @endforeach
+        </select>
+    </div>
     <div class="card card-primary m-0 m-md-4 my-4 m-md-0 shadow">
         <div class="card-body">
             <form method="post" action=" {{route('admin.provider.api-provider.store')}} " enctype="multipart/form-data">
@@ -12,14 +20,12 @@
                     <div class="col-md-6">
                         <div class="form-group ">
                             <label>@lang('Api Name')</label>
-                            <input type="text" name="api_name" value="{{ old('api_name') }}" reqrequired"
-                            class="form-control form-control-sm">
+                            <input type="text" id="api_name" name="api_name" value="{{ old('api_name') }}" required
+                                   class="form-control form-control-sm">
                             <div class="invalid-feedback">@lang('Please fill in the api name')</div>
-
                             @error('api_name')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
-
                         </div>
                         <div class="form-group ">
                             <label>@lang('API Key')</label>
@@ -34,12 +40,22 @@
                     <div class="col-md-6">
                         <div class="form-group ">
                             <label>@lang('URL')</label>
-                            <input type="text" name="url" value="{{ old('url') }}" required="required"
+                            <input type="text" id="url" name="url" value="{{ old('url') }}" required="required"
                                    class="form-control form-control-sm">
                             <div class="invalid-feedback">@lang('Please fill in the url')</div>
 
                             @error('url')
-                                <span class="text-danger">{{ $message }}</span>
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group ">
+                            <label>@lang('Slug')</label>
+                            <input type="text" id="slug" name="slug" value="{{ old('slug') }}"
+                                   class="form-control form-control-sm">
+                            <div class="invalid-feedback">@lang('Please fill in the slug')</div>
+
+                            @error('url')
+                            <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group ">
@@ -75,4 +91,20 @@
     </div>
 
 @endsection
-
+@push('js')
+    <script>
+        "use strict";
+        $(document).ready(function (e) {
+            $('#api').change(function () {
+                var option = this.selectedOptions[0];
+                const url = $(option).data('url');
+                const name = $(option).data('name');
+                const slug = $(option).data('slug');
+                $('#slug').val(slug);
+                $('#api_name').val(name);
+                $('#url').val(url);
+                console.log(url);
+            })
+        });
+    </script>
+@endpush

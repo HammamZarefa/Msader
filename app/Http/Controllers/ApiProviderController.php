@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ExternalProviders\AbstractOperation;
 use App\Models\ApiProvider;
 use App\Models\Category;
 use App\Models\Service;
@@ -28,7 +29,13 @@ class ApiProviderController extends Controller
 
     public function create()
     {
-        return view('admin.pages.api_providers.add');
+        $availableProviders = AbstractOperation::getAvialableProviders();
+        foreach ($availableProviders as $key => $provider) {
+            $providerData[$provider] = app()->make($provider)->getProviderSettings();
+            $providerData[$provider]['api_name'] = $key;
+            $providerData[$provider]['url'] = $providerData[$provider][0]['options'][0]['value'];
+        }
+        return view('admin.pages.api_providers.add', compact('providerData'));
     }
 
     /**
@@ -56,6 +63,7 @@ class ApiProviderController extends Controller
         $ApiProvider->api_name = $apiProviderData['api_name'];
         $ApiProvider->api_key = $apiProviderData['api_key'];
         $ApiProvider->url = $apiProviderData['url'];
+        $ApiProvider->slug = $apiProviderData['slug'];
 //        $apiLiveData = Curl::to($apiProviderData['url'])->withData(['key' => $apiProviderData['api_key'], 'action' => 'balance'])->post();
 //        $currencyData = json_decode($apiLiveData);
 //        if (isset($currencyData->balance)):
