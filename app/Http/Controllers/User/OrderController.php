@@ -53,29 +53,39 @@ class OrderController extends Controller
 
     public function search(Request $request)
     {
-        $search = @$request->search;
-        $status = @$request->status;
-        $dateSearch = @$request->date_order;
-
-        $date = preg_match("/^[0-9]{2,4}\-[0-9]{1,2}\-[0-9]{1,2}$/", $dateSearch);
-        $orders = Order::where('user_id', Auth::id())
-            ->when($search, function ($query) use ($search) {
-                return $query->where('id', 'LIKE', "%{$search}%")
-                    ->orWhereHas('service', function ($q) use ($search) {
-                        return $q->where('service_title', 'LIKE', "%{$search}%");
+        $searchTerm = @$request->search;
+        $statusTerm = @$request->status;
+        $dateSearchTerm = @$request->date_order;
+    
+        $isDate = $this->validateDate($dateSearchTerm);
+        $orders = $this->getOrders($searchTerm, $statusTerm, $isDate, $dateSearchTerm);
+    
+        return view('user.pages.order.show', compact('orders'));
+    }
+    
+    private function validateDate($dateSearchTerm)
+    {
+        return preg_match("/^[0-9]{2,4}\-[0-9]{1,2}\-[0-9]{1,2}$/", $dateSearchTerm);
+    }
+    
+    private function getOrders($searchTerm, $statusTerm, $isDate, $dateSearchTerm)
+    {
+        return Order::where('user_id', Auth::id())
+            ->when($searchTerm, function ($query) use ($searchTerm) {
+                return $query->where('id', 'LIKE', "%{$searchTerm}%")
+                    ->orWhereHas('service', function ($q) use ($searchTerm) {
+                        return $q->where('service_title', 'LIKE', "%{$searchTerm}%");
                     });
             })
-            ->when($status != -1, function ($query) use ($status) {
-                return $query->where('status', 'LIKE', "%{$status}%");
+            ->when($statusTerm != -1, function ($query) use ($statusTerm) {
+                return $query->where('status', 'LIKE', "%{$statusTerm}%");
             })
-            ->when($date == 1, function ($query) use ($dateSearch) {
-                return $query->whereDate("created_at", $dateSearch);
+            ->when($isDate == 1, function ($query) use ($dateSearchTerm) {
+                return $query->whereDate("created_at", $dateSearchTerm);
             })
             ->with('service', 'service.category', 'users')
             ->latest()
             ->paginate(config('basic.paginate'));
-
-        return view('user.pages.order.show', compact('orders'));
     }
 
 
