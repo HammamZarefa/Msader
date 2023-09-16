@@ -2,12 +2,10 @@
 
 namespace ESPTest;
 
-use App\Facades\XpCard;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class SawaCardTest extends TestCase
+class TopCardTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -16,8 +14,8 @@ class SawaCardTest extends TestCase
     public function getProvider()
     {
         return [
-            "url" => 'http://api.sawa5card.com/client/api',
-            "api_key" => env('SAWACARD_API_KEY')
+            "url" => 'http://api.top4card.com/client/api',
+            "api_key" => env('TOP4CARD_API_KEY')
         ];
     }
 
@@ -35,7 +33,7 @@ class SawaCardTest extends TestCase
 
     public function testGetServices()
     {
-        $servicesResponse = app()->make('sawacard')
+        $servicesResponse = app()->make('topcard')
             ->setProvider($this->getProvider())
             ->getServices();
         $this->assertIsArray($servicesResponse);
@@ -44,7 +42,7 @@ class SawaCardTest extends TestCase
 
     public function testCreateOrder()
     {
-        $orderResponse = app()->make('sawacard')
+        $orderResponse = app()->make('topcard')
             ->setProvider($this->getProvider())
             ->setOrder($this->getOrder())
             ->placeOrder();
@@ -55,7 +53,7 @@ class SawaCardTest extends TestCase
 
     public function testGetOrderStatus()
     {
-        $servicesResponse = app()->make('sawacard')
+        $servicesResponse = app()->make('topcard')
             ->setProvider($this->getProvider())
             ->getOrderStatus('726','108248');
         $this->assertIsArray($servicesResponse);
@@ -64,7 +62,7 @@ class SawaCardTest extends TestCase
 
     public function testGetBalance()
     {
-        $servicesResponse = app()->make('sawacard')
+        $servicesResponse = app()->make('topcard')
             ->setProvider($this->getProvider())
             ->getUserBalance();
         $this->assertIsArray($servicesResponse);

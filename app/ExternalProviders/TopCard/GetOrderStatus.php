@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ExternalProviders\SawaCard;
+namespace App\ExternalProviders\TopCard;
 
 use App\ExternalProviders\AbstractOperation;
 use App\ExternalProviders\ExternalProviderResponse;
