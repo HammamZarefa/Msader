@@ -1,9 +1,9 @@
 <?php
 
-namespace App\ExternalProviders\SawaCard;
+namespace App\ExternalProviders\TopCard;
 
 
-use App\ExternalProviders\SawaCard\AbstractTopCardOperation;
+use App\ExternalProviders\TopCard\AbstractTopCardOperation;
 
 class GetServices extends AbstractTopCardOperation
 {

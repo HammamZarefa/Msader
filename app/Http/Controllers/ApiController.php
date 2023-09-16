@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\changeOrderStatusService;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Ixudra\Curl\Facades\Curl;
@@ -51,7 +52,6 @@ class ApiController extends Controller
 
 
         $basic = (object)config('basic');
-
         if (strtolower($req['action']) == 'balance') {
             $result['status'] = 'success';
             $result['balance'] = $user->balance;
@@ -85,6 +85,7 @@ class ApiController extends Controller
             if (!$service) {
                 return response()->json(['errors' => ['message' => "Invalid Service"]], 422);
             }
+            Auth::login($user);
             $response = app('App\Http\Controllers\User\OrderController')->store($request, $user);
             return $response;
 //            $quantity = $req['quantity'];

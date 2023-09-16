@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\ExternalProviders\CashSMM\CashSMM;
 use App\ExternalProviders\SawaCard\SawaCard;
 use App\ExternalProviders\SpeedCard\SpeedCard;
+use App\ExternalProviders\TopCard\TopCard;
 use App\ExternalProviders\WDM\WDM;
 use App\ExternalProviders\FasterSMM\FasterSMM;
 use App\ExternalProviders\Lord\Lord;
@@ -60,6 +61,9 @@ class ExternalServiceProvider extends ServiceProvider
         });
         $this->app->bind('sawacard', function () {
             return new SawaCard();
+        });
+        $this->app->bind('topcard', function () {
+            return new TopCard();
         });
     }
 

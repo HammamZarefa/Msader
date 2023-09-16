@@ -35,7 +35,7 @@ class ErrorsNotificationTelegram extends Notification
      */
     public function via($notifiable)
     {
-        return [TelegramChannel::class];    
+        return [TelegramChannel::class];
     }
 
     /**
@@ -48,7 +48,7 @@ class ErrorsNotificationTelegram extends Notification
         // dd($this->data);
         return TelegramMessage::create()
             ->to(Config::get('basic.telegram_chat_id'))
-            ->content("*"."new Exception notification"
+            ->content("*"."Msader Exception"
                       ."*\n\n" . "Error Message:  " . "*".$this->message
                       ."*\n\n" . "Error input:  " . "*".$this->input
                       ."*\n"
