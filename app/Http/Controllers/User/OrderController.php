@@ -131,6 +131,7 @@ class OrderController extends Controller
      */
     public function store(Request $request, User $apiUser = null)
     {
+        $user = $apiUser ? $apiUser : Auth::user();
         $req = Purify::clean($request->all());
         $validate = $this->validateOrder($req);
         $service = Service::userRate()->findOrFail($request->service);
@@ -139,7 +140,6 @@ class OrderController extends Controller
         if ($service->min_amount <= $orderData['quantity'] && $service->max_amount >= $orderData['quantity']) {
             $quantity = $orderData['quantity'];
             $price = $orderData['price'];
-            $user = $apiUser ? $apiUser : Auth::user();
             if ($user->balance < $price) {
                 if ($apiUser)
                     return response()->json(['errors' => ['message' => "Insufficient balance."]], 422);
