@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\ExternalProviders\CashSMM\CashSMM;
+use App\ExternalProviders\OnlySMM\OnlySMM;
 use App\ExternalProviders\SawaCard\SawaCard;
 use App\ExternalProviders\SpeedCard\SpeedCard;
 use App\ExternalProviders\TopCard\TopCard;
@@ -64,6 +65,9 @@ class ExternalServiceProvider extends ServiceProvider
         });
         $this->app->bind('topcard', function () {
             return new TopCard();
+        });
+        $this->app->bind('onlysmm', function () {
+            return new OnlySMM();
         });
     }
 
