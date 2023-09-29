@@ -1,16 +1,16 @@
 <?php
 
-namespace App\ExternalProviders\CashSMM;
+namespace App\ExternalProviders\OnlySMM;
 
 
-use Facades\App\ExternalProviders\CashSMM\Validators\Order;
+use Facades\App\ExternalProviders\OnlySMM\Validators\Order;
 use App\ExternalProviders\ProviderInterface;
-use Facades\App\ExternalProviders\CashSMM\GetBalance;
-use Facades\App\ExternalProviders\CashSMM\CreateOrder;
-use Facades\App\ExternalProviders\CashSMM\GetOrderStatus;
-use Facades\App\ExternalProviders\CashSMM\GetServices;
+use Facades\App\ExternalProviders\OnlySMM\GetBalance;
+use Facades\App\ExternalProviders\OnlySMM\CreateOrder;
+use Facades\App\ExternalProviders\OnlySMM\GetOrderStatus;
+use Facades\App\ExternalProviders\OnlySMM\GetServices;
 
-class CashSMM implements ProviderInterface
+class OnlySMM implements ProviderInterface
 {
     protected array $provider;
     protected array $order;
@@ -70,7 +70,7 @@ class CashSMM implements ProviderInterface
                 'isRequired' => 'true',
                 'type' => 'select',
                 'options' => [
-                    ['label' => 'production', 'value' => 'https://onlysmmpanel.com/api/v2']
+                    ['label' => 'production', 'value' => 'https://OnlySMM.com/api/v2']
                 ]
             ],
             [

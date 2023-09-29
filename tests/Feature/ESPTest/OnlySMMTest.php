@@ -2,10 +2,12 @@
 
 namespace ESPTest;
 
+use App\Facades\onlysmm;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class TopCardTest extends TestCase
+class OnlySMMTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -14,26 +16,25 @@ class TopCardTest extends TestCase
     public function getProvider()
     {
         return [
-            "url" => 'http://api.top4card.com/client/api',
-            "api_key" => env('TOP4CARD_API_KEY')
+            "url" => 'https://onlysmmpanel.com/api/v2',
+            "api_key" => env('ONLYSMM_API_KEY')
         ];
     }
 
     public function getOrder()
     {
         $this->order = [
-            "service" => 320,
+            "service" => 6046,
             "link" => "0000",
-            "quantity" => 1,
-            "id"=> 190,
-            "playername" => "0"
+            "quantity" => 100,
+            "id"=> 190
         ];
         return $this->order;
     }
 
     public function testGetServices()
     {
-        $servicesResponse = app()->make('topcard')
+        $servicesResponse = app()->make('onlysmm')
             ->setProvider($this->getProvider())
             ->getServices();
         $this->assertIsArray($servicesResponse);
@@ -42,7 +43,7 @@ class TopCardTest extends TestCase
 
     public function testCreateOrder()
     {
-        $orderResponse = app()->make('topcard')
+        $orderResponse = app()->make('onlysmm')
             ->setProvider($this->getProvider())
             ->setOrder($this->getOrder())
             ->placeOrder();
@@ -53,21 +54,19 @@ class TopCardTest extends TestCase
 
     public function testGetOrderStatus()
     {
-        $servicesResponse = app()->make('topcard')
+        $servicesResponse = app()->make('onlysmm')
             ->setProvider($this->getProvider())
-            ->getOrderStatus('726','243757');
-        dd($servicesResponse);
+            ->getOrderStatus('726','31317');
         $this->assertIsArray($servicesResponse);
         $this->assertArrayHasKey('status', $servicesResponse);
     }
 
     public function testGetBalance()
     {
-        $servicesResponse = app()->make('topcard')
+        $servicesResponse = app()->make('onlysmm')
             ->setProvider($this->getProvider())
             ->getUserBalance();
         $this->assertIsArray($servicesResponse);
         $this->assertArrayHasKey('balance', $servicesResponse);
     }
-
 }

@@ -1,19 +1,19 @@
 <?php
 
-namespace App\ExternalProviders\TopCard;
+namespace App\ExternalProviders\OnlySMM;
 
 use App\ExternalProviders\AbstractOperation;
 use App\ExternalProviders\ExternalProviderResponse;
 
-class GetOrderStatus extends AbstractTopCardOperation
+class GetOrderStatus extends AbstractOnlySMMOperation
 {
-    protected string $operationUrl = 'check';
-    protected string $method = 'GET';
+    protected string $operationUrl = 'status';
+    protected string $method = 'POST';
 
     public function setBody($reference)
     {
         $this->body = [
-            'orders' => "[{$reference}]"
+            'order' => $reference
         ];
 
         return $this;
@@ -31,7 +31,7 @@ class GetOrderStatus extends AbstractTopCardOperation
         $response->setIsSuccess(true);
         $response->setPayload($jsonResponse);
         $response->setOrderId($this->getOrderId());
-        $response->setStatus($this->mapStatus($jsonResponse['data']['status'] ? $jsonResponse['data']['status'] : $jsonResponse['data'][0]['status']));
+        $response->setStatus($jsonResponse['status']);
         return $response->return();
     }
 }
