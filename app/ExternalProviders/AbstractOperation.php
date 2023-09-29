@@ -135,6 +135,7 @@ abstract class AbstractOperation
             "WDM" => "wdm",
             "XpCard" => "xpcard",
             "SawaCard" => "sawacard",
+            "TopCard" => "topcard",
         ];
     }
 }

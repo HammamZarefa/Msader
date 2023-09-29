@@ -39,5 +39,7 @@
         <env name="WDM_API_KEY" value="UjleK3sZOZsMHProQCW5"/>
         <env name="SPEEDCARD_API_KEY" value="UjleK3sZOZsMHProQCW5"/>
         <env name="SAWACARD_API_KEY" value="ce8727c76a37d7cf9b87c5a03342f1a6ea53aafe744a2b66"/>
+        <env name="TOP4CARD_API_KEY" value="f013221cc66c1d56062535de2839ba57c59ceb8b2205d33d"/>
+        <env name="ONLYSMM_API_KEY" value="c41a3fd8d6a20990f61d8fd37cd5441a"/>
     </php>
 </phpunit>
