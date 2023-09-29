@@ -136,6 +136,7 @@ abstract class AbstractOperation
             "XpCard" => "xpcard",
             "SawaCard" => "sawacard",
             "TopCard" => "topcard",
+            "OnlySMM" => "onlysmm",
         ];
     }
 }
