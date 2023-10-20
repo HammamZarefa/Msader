@@ -36,6 +36,7 @@ class TopCardTest extends TestCase
         $servicesResponse = app()->make('topcard')
             ->setProvider($this->getProvider())
             ->getServices();
+        dd($servicesResponse);
         $this->assertIsArray($servicesResponse);
         $this->assertArrayHasKey('service', $servicesResponse[0]);
     }
