@@ -38,7 +38,7 @@ class AbstractSawaCardOperation extends AbstractOperation
         $status = [
             'wait' => self::STATUS_PENDING,
             'reject' => self::STATUS_REFUNDED,
-            'accept' => self::STATUS_PROCESSING,
+            'accept' => self::STATUS_COMPLETE,
             'complete' => self::STATUS_COMPLETE
         ];
 

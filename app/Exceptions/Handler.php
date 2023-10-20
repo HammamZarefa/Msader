@@ -41,6 +41,4 @@ class Handler extends ExceptionHandler
             auth()->user()->notify($notification);
         });
     }
-
-
 }
