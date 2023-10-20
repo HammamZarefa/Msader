@@ -330,27 +330,23 @@ class ApiProviderController extends Controller
                 endif;
             } else {
                 $cat = Category::firstOrCreate(["category_title" => "new Imported products"]);
-                $apiService->category = $cat->title;
+                $apiService->category = $cat->category_title;
             }
             foreach ($services as $service):
-                if ($service->api_service_id == $apiService->service):
+                if ($service->api_service_id == $apiService->service && $provider->id == $service->api_provider_id):
                     $existService = 1;
                 endif;
             endforeach;
             if ($existService != 1):
                 $service = new Service();
-                $idCat = Category::where('category_title', @$apiService->category)->first()->id ?? null;
+                $idCat = Category::where('category_title', @$apiService->category)->first()->id;
                 $service->service_title = $apiService->name;
                 $service->category_id = $idCat;
                 $service->min_amount = $apiService->min ?? 1;
                 $service->max_amount = $apiService->max ?? 1;
                 $increased_price = ($apiService->rate * 10) / 100;
-
                 $increased_price = ($apiService->rate * $req['price_percentage_increase']) / 100;
-
                 $service->price = $apiService->rate + $increased_price;
-//                $service->price = $apiService->rate;
-
                 $service->service_status = 1;
                 $service->api_provider_id = $req['provider'];
                 $service->api_service_id = $apiService->service;
