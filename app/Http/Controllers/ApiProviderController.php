@@ -299,29 +299,39 @@ class ApiProviderController extends Controller
     public function importMulti(Request $request)
     {
         $req = $request->all();
-
-
         $provider = ApiProvider::find($req['provider']);
-        $apiLiveData = Curl::to($provider['url'])
-            ->withData(['key' => $provider['api_key'], 'action' => 'services'])->post();
-        $apiServicesData = json_decode($apiLiveData);
+        if (isset($provider->slug)) {
+            $apiServiceLists = app()->make($provider->slug)->setProvider(mapProvider($provider))->getServices();
+            $apiServicesData = collect($apiServiceLists)->map(function ($array) {
+                return (object)$array;
+            })->toArray();
+        } else {
+            $apiLiveData = Curl::to($provider['url'])
+                ->withData(['key' => $provider['api_key'], 'action' => 'services'])->post();
+            $apiServicesData = json_decode($apiLiveData);
+        }
         $count = 0;
         foreach ($apiServicesData as $apiService):
             $all_category = Category::all();
             $services = Service::all();
             $insertCat = 1;
             $existService = 0;
-            foreach ($all_category as $categories):
-                if ($categories->category_title == $apiService->category):
-                    $insertCat = 0;
+            if (isset($apiService->category)) {
+                foreach ($all_category as $categories):
+                    if ($categories->category_title == $apiService->category):
+                        $insertCat = 0;
+                    endif;
+                endforeach;
+                if ($insertCat == 1):
+                    $cat = new Category();
+                    $cat->category_title = $apiService->category;
+                    $cat->status = 1;
+                    $cat->save();
                 endif;
-            endforeach;
-            if ($insertCat == 1):
-                $cat = new Category();
-                $cat->category_title = $apiService->category;
-                $cat->status = 1;
-                $cat->save();
-            endif;
+            } else {
+                $cat = Category::firstOrCreate(["category_title" => "new Imported products"]);
+                $apiService->category = $cat->title;
+            }
             foreach ($services as $service):
                 if ($service->api_service_id == $apiService->service):
                     $existService = 1;
@@ -329,11 +339,11 @@ class ApiProviderController extends Controller
             endforeach;
             if ($existService != 1):
                 $service = new Service();
-                $idCat = Category::where('category_title', $apiService->category)->first()->id ?? null;
+                $idCat = Category::where('category_title', @$apiService->category)->first()->id ?? null;
                 $service->service_title = $apiService->name;
                 $service->category_id = $idCat;
-                $service->min_amount = $apiService->min;
-                $service->max_amount = $apiService->max;
+                $service->min_amount = $apiService->min ?? 1;
+                $service->max_amount = $apiService->max ?? 1;
                 $increased_price = ($apiService->rate * 10) / 100;
 
                 $increased_price = ($apiService->rate * $req['price_percentage_increase']) / 100;
@@ -352,7 +362,6 @@ class ApiProviderController extends Controller
                 } else {
                     $service->description = @$apiService->description;
                 }
-
                 $service->save();
             endif;
             $count++;
@@ -366,13 +375,15 @@ class ApiProviderController extends Controller
 
     }
 
-    public function providerShow(Request $request)
+    public
+    function providerShow(Request $request)
     {
         $provider = ApiProvider::where('api_name', 'LIKE', "%{$request->data}%")->get()->pluck('api_name');
         return response()->json($provider);
     }
 
-    public function search(Request $request)
+    public
+    function search(Request $request)
     {
         $search = $request->all();
         $api_providers = ApiProvider::when(isset($search['provider']), function ($query) use ($search) {
@@ -384,7 +395,8 @@ class ApiProviderController extends Controller
         return view('admin.pages.api_providers.show', compact('api_providers'));
     }
 
-    public function smsActivateGetCountries($product)
+    public
+    function smsActivateGetCountries($product)
     {
         $provider = ApiProvider::where('slug', 'smsactivate')->first();
         $countries = Curl::to($provider['url'])->withData(['api_key' => $provider['api_key'], 'action' => 'getTopCountriesByService', 'service' => $product])->get();
