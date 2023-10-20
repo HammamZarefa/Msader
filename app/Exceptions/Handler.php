@@ -38,7 +38,6 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             $notification = new ExceptionNotificationTelegram($e->getMessage(), $e->getLine(), $e->getFile());
-            dd($e->getMessage());
             auth()->user()->notify($notification);
         });
     }
