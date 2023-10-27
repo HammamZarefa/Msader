@@ -201,25 +201,25 @@ class ServiceController extends Controller
         $service->api_service_id = $req['api_service_id'];
         $service->drip_feed = $req['drip_feed'];
         $service->description = $req['description'];
-        $provider = ApiProvider::find($req['api_provider_id']);
-        if ($req['manual_api'] == 1):
-            $apiLiveData = Curl::to($provider['url'])->withData(['key' => $provider['api_key'], 'action' => 'services'])->post();
-            $apiServiceData = json_decode($apiLiveData);
-            foreach ($apiServiceData as $current):
-                if ($current->service == $req['api_service_id']):
-                    $success = "Successfully Update Api service";
-                    $service->api_provider_price = $current->rate;
-                    break;
-                endif;
-            endforeach;
-            if (!isset($success)):
-                return back()->with('error', 'Please Check again Api Service ID')->withInput();
-            endif;
-        else:
-            $success = "Successfully Updated";
-        endif;
+//        $provider = ApiProvider::find($req['api_provider_id']);
+//        if ($req['manual_api'] == 1):
+//            $apiLiveData = Curl::to($provider['url'])->withData(['key' => $provider['api_key'], 'action' => 'services'])->post();
+//            $apiServiceData = json_decode($apiLiveData);
+//            foreach ($apiServiceData as $current):
+//                if ($current->service == $req['api_service_id']):
+//                    $success = "Successfully Update Api service";
+//                    $service->api_provider_price = $current->rate;
+//                    break;
+//                endif;
+//            endforeach;
+//            if (!isset($success)):
+//                return back()->with('error', 'Please Check again Api Service ID')->withInput();
+//            endif;
+//        else:
+//            $success = "Successfully Updated";
+//        endif;
         $service->save();
-        return back()->with('success', $success);
+        return back()->with('success', "Successfully Updated");
     }
 
 

@@ -31,7 +31,7 @@ class GetOrderStatus extends AbstractTopCardOperation
         $response->setIsSuccess(true);
         $response->setPayload($jsonResponse);
         $response->setOrderId($this->getOrderId());
-        $response->setStatus($this->mapStatus($jsonResponse['data']['status'] ? $jsonResponse['data']['status'] : $jsonResponse['data'][0]['status']));
+        $response->setStatus($this->mapStatus( $jsonResponse['data'][0]['status']));
         return $response->return();
     }
 }
