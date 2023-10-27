@@ -3,6 +3,7 @@
 namespace Tests\Feature\ESPTest;
 
 use App\Facades\CashSMM;
+use App\ExternalProviders\CashSMM\CreateOrder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -50,6 +51,11 @@ class CashSMMTest extends TestCase
         $this->assertIsArray($orderResponse);
         $this->assertArrayHasKey('reference', $orderResponse);
         $this->assertEquals('true' ,$orderResponse['is_success']);
+        $this->assertArrayHasKey('order', $orderResponse);
+        $this->assertEquals($this->getOrder()['id'], $orderResponse['order']['id']);
+        $this->assertEquals($this->getOrder()['service'], $orderResponse['order']['service']);
+        $this->assertEquals($this->getOrder()['link'], $orderResponse['order']['link']);
+        $this->assertEquals($this->getOrder()['quantity'], $orderResponse['order']['quantity']);
     }
 
     public function testGetOrderStatus()
@@ -68,5 +74,33 @@ class CashSMMTest extends TestCase
             ->getUserBalance();
         $this->assertIsArray($servicesResponse);
         $this->assertArrayHasKey('balance', $servicesResponse);
+    }        $this->assertIsArray($servicesResponse);
+        $this->assertArrayHasKey('status', $servicesResponse);
     }
+
+    public function testGetBalance()
+    {
+        $servicesResponse = app()->make('cashsmm')
+            ->setProvider($this->getProvider())
+            ->getUserBalance();
+        $this->assertIsArray($servicesResponse);
+        $this->assertArrayHasKey('balance', $servicesResponse);
+    }
+    {
+        $servicesResponse = app()->make('cashsmm')
+            ->setProvider($this->getProvider())
+            ->getUserBalance();
+        $this->assertIsArray($servicesResponse);
+        $this->assertArrayHasKey('balance', $servicesResponse);
+    }
+=======
+    public function testGetBalance()
+    {
+        $servicesResponse = app()->make('cashsmm')
+            ->setProvider($this->getProvider())
+            ->getUserBalance();
+        $this->assertIsArray($servicesResponse);
+        $this->assertArrayHasKey('balance', $servicesResponse);
+    }
+
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace ESPTest;
+namespace Tests\Feature\ESPTest;
 
-use App\Facades\CashSMM;
+use App\Facades\FasterSMM;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -50,6 +50,11 @@ class FasterSMMTest extends TestCase
         $this->assertIsArray($orderResponse);
         $this->assertArrayHasKey('reference', $orderResponse);
         $this->assertEquals('true' ,$orderResponse['is_success']);
+        $this->assertArrayHasKey('order', $orderResponse);
+        $this->assertEquals($this->getOrder()['id'], $orderResponse['order']['id']);
+        $this->assertEquals($this->getOrder()['service'], $orderResponse['order']['service']);
+        $this->assertEquals($this->getOrder()['link'], $orderResponse['order']['link']);
+        $this->assertEquals($this->getOrder()['quantity'], $orderResponse['order']['quantity']);
     }
 
     public function testGetOrderStatus()
@@ -62,6 +67,13 @@ class FasterSMMTest extends TestCase
     }
 
     public function testGetBalance()
+    {
+        $servicesResponse = app()->make('fastersmm')
+            ->setProvider($this->getProvider())
+            ->getUserBalance();
+        $this->assertIsArray($servicesResponse);
+        $this->assertArrayHasKey('balance', $servicesResponse);
+    }
     {
         $servicesResponse = app()->make('fastersmm')
             ->setProvider($this->getProvider())
