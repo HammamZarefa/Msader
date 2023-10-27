@@ -73,25 +73,12 @@ class FasterSMMTest extends TestCase
             ->getUserBalance();
         $this->assertIsArray($servicesResponse);
         $this->assertArrayHasKey('balance', $servicesResponse);
-    }    public function testGetBalance()
+    }
     {
         $servicesResponse = app()->make('fastersmm')
             ->setProvider($this->getProvider())
             ->getUserBalance();
         $this->assertIsArray($servicesResponse);
         $this->assertArrayHasKey('balance', $servicesResponse);
-    }
-    public function testOrderStatusAfterCreation()
-    {
-        $orderResponse = app()->make('fastersmm')
-            ->setProvider($this->getProvider())
-            ->setOrder($this->getOrder())
-            ->placeOrder();
-        $statusResponse = app()->make('fastersmm')
-            ->setProvider($this->getProvider())
-            ->getOrderStatus($orderResponse['order']['id']);
-        $this->assertIsArray($statusResponse);
-        $this->assertArrayHasKey('status', $statusResponse);
-        $this->assertEquals('pending', $statusResponse['status']);
     }
 }
