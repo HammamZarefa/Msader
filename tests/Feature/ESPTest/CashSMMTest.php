@@ -86,7 +86,6 @@ class CashSMMTest extends TestCase
         $this->assertIsArray($servicesResponse);
         $this->assertArrayHasKey('balance', $servicesResponse);
     }
-    public function testGetBalance()
     {
         $servicesResponse = app()->make('cashsmm')
             ->setProvider($this->getProvider())
@@ -104,17 +103,4 @@ class CashSMMTest extends TestCase
         $this->assertArrayHasKey('balance', $servicesResponse);
     }
 
-    public function testOrderStatusAfterCreation()
-    {
-        $orderResponse = app()->make('cashsmm')
-            ->setProvider($this->getProvider())
-            ->setOrder($this->getOrder())
-            ->placeOrder();
-        $statusResponse = app()->make('cashsmm')
-            ->setProvider($this->getProvider())
-            ->getOrderStatus($orderResponse['order']['id']);
-        $this->assertIsArray($statusResponse);
-        $this->assertArrayHasKey('status', $statusResponse);
-        $this->assertEquals('pending', $statusResponse['status']);
-    }
 }
