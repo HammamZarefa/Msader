@@ -420,18 +420,18 @@ class OrderController extends Controller
             $orderData['quantity'] = 1;
         else
             $orderData['quantity'] = $request->quantity;
-        $orderData['quantity'] = $request->quantity;
-        if ($service->drip_feed == 1) {
-            if (!isset($request->drip_feed)) {
-                $rules['runs'] = 'required|integer|not_in:0';
-                $rules['interval'] = 'required|integer|not_in:0';
-                $validator = Validator::make($req, $rules);
-                if ($validator->fails()) {
-                    return back()->withErrors($validator)->withInput();
-                }
-                $orderData['quantity'] = $request->quantity * $request->runs;
-            }
-        }
+        // $orderData['quantity'] = $request->quantity;
+        // if ($service->drip_feed == 1) {
+        //     if (!isset($request->drip_feed)) {
+        //         $rules['runs'] = 'required|integer|not_in:0';
+        //         $rules['interval'] = 'required|integer|not_in:0';
+        //         $validator = Validator::make($req, $rules);
+        //         if ($validator->fails()) {
+        //             return back()->withErrors($validator)->withInput();
+        //         }
+        //         $orderData['quantity'] = $request->quantity * $request->runs;
+        //     }
+        // }
         $userRate = ($service->user_rate) ?? $service->price;
         if ($service->category->type == "SMM")
             $orderData['price'] = round(($orderData['quantity'] * $userRate) / 1000, $basic->fraction_number);
