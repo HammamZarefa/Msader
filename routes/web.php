@@ -392,6 +392,7 @@ Route::middleware('Maintenance')->group(function () {
 
             //order search
             Route::get('/services', 'User\ServiceController@index')->name('service.show');
+            Route::get('/services/{id}', 'User\ServiceController@services')->name('services.show');
             Route::get('/service-search', 'User\ServiceController@search')->name('service.search');
 
 

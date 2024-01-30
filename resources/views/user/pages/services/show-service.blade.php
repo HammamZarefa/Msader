@@ -3,6 +3,120 @@
     @lang('Service')
 @endsection
 @section('content')
+    {{--    @include('partials.banner')--}}
+    <div id="show-products" class="show">
+        <section class="inner-explore-products content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    @foreach($categories as $category)
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                            <div class="card-game btn-order"  data-category-id="{{ $category->id }}">
+                                <div class="wrapper">
+                                    <img src="{{asset('assets/themes/user/img/bg/dark_rider-cover.jpg')}}" class="cover-image"/>
+                                </div>
+                                <!-- <img src="assets/img/bg/dark_rider-title.png" class="title" /> -->
+                                <h4 class="text-center title">{{$category->category_title}}</h4>
+                                <!-- <img src="assets/img/bg/dark_rider-character.webp" class="character" /> -->
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="show-orders">
+        <section class="inner-explore-products content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-3 col-lg-4 col-sm-6 orders-item">
+                        <div class="swiper1">
+                            <!-- Additional required wrapper -->
+                            <div class="swiper-wrapper">
+                                <!-- Slides -->
+                                <div class="swiper-slide">
+                                    <div class="top-collection-item">
+                                        <div class="collection-item-top">
+                                            <ul>
+                                                <li class="avatar">
+                                                    <strong
+                                                        style="font-size: 20px;margin-inline-start: 10px;"
+                                                        class="text-white">اختر باقة</strong>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="collection-item-thumb">
+                                            <img src="assets/img/others/top_collection06.jpg" alt="">
+                                        </div>
+                                        <div class="collection-item-content">
+                                            <h5 class="title">
+                                                <a> 1000 مشاهدة تلغرام ضمان 60 يوم </a>
+                                                <span class="price" data-value="vlaue">$0.1</span>
+                                            </h5>
+                                            <hr>
+                                            <h5 class="title">
+                                                <a>Max : <span class="Max m-0">100000</span></a>
+                                                <a>Min : <span class="Min m-0">1000</span></a>
+                                            </h5>
+                                        </div>
+                                        <div class="collection-item-bottom">
+                                            <ul>
+                                                <li onclick="swiper1.slideNext()" class="bid m-auto btn">
+                                                    أطلب الان
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide order-form">
+                                    <div class="top-collection-item ">
+                                        <div class="water"></div>
+                                        <div class="collection-item-top">
+                                            <ul>
+                                                <li class="avatar">
+                                                    <strong
+                                                        style="font-size: 20px;margin-inline-start: 10px;"
+                                                        class="text-white">عملية الطلب</strong>
+                                                </li>
+                                                <li class="Prev p-3" onclick="swiper1.slidePrev()">
+                                                    <i style="color:#fff;" class="fas fa-arrow-right"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div
+                                            class="mt-5 collection-item-thumb d-flex align-items-center justify-content-between">
+                                            <h5>السعر</h5>
+                                            <h5 style="color: #fff">$<span class="main-price"
+                                                                           data-price="0.1">0.1</span></h5>
+                                        </div>
+                                        <form action="" class="create-item-form">
+                                            <div class="form-grp">
+                                                <input id="number" type="text" placeholder="رقم اللاعب">
+                                            </div>
+                                            <div class="form-grp">
+                                                <input class="qty" type="number" onkeypress="return isNumberKey(event)"
+                                                       placeholder="الكمية">
+                                            </div>
+                                            <div class="collection-item-bottom">
+                                                <ul>
+                                                    <li class="m-auto">
+                                                        <button type="submit" class="btn-form-order">
+                                                            <span>أطلب الآن</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
     <div class="container-fluid px-3 user-service-list">
 
         <div class="row   justify-content-between mx-lg-5">
@@ -162,6 +276,46 @@
             var description = $(this).data('description');
             $('#title').text(title);
             $('#servicedescription').html(description);
+        });
+
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+
+        const swiper0 = new Swiper('.swiper0', {
+            loop: true,
+            spaceBetween: 100,
+            autoplay: {delay: 5000},
+
+        });
+        const swiper1 = new Swiper('.swiper1', {
+            loop: false,
+            speed: 1000,
+            effect: "cube",
+            simulateTouch: false
+
+        });
+        const swiper2 = new Swiper('.swiper2', {
+            loop: false,
+            speed: 1000,
+            effect: "cube",
+            simulateTouch: false
+
+        });
+        const swiper3 = new Swiper('.swiper3', {
+            loop: false,
+            speed: 1000,
+            effect: "cube",
+            simulateTouch: false
+        });
+        const swiper4 = new Swiper('.swiper4', {
+            loop: false,
+            speed: 1000,
+            effect: "cube",
+            simulateTouch: false
         });
     </script>
 @endpush

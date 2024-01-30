@@ -1,0 +1,60 @@
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes vaporize {
+    0% {
+      opacity: 1;
+      transform: translateY(50px);
+    }
+  
+    100% {
+      opacity: 0;
+      transform: translateY(0px);
+    }
+  }
+  
+  .alchemist-ph .clipped {
+    clip-path: url(#clipper);
+  }
+  .alchemist-ph #sun {
+    animation: vaporize 1100ms infinite linear;
+  }
+
+  .alchemist-ph #star1 {
+    animation: vaporize 900ms infinite linear;
+  }
+
+  .alchemist-ph #star2 {
+    animation: vaporize 850ms infinite linear;
+  }
+
+  .alchemist-ph #star3 {
+    animation: vaporize 750ms infinite linear;
+  }
+
+  .alchemist-ph .clipped > .chem1 {
+    fill: #6E41B5;
+  }
+
+  .alchemist-ph .clipped > .chem2  {
+    fill: #A486E2;
+  }
+
+  .alchemist-ph .clipped > .chem1 {
+    animation: spin 3500ms infinite linear;
+    -webkit-animation: spin 3500ms infinite linear;
+    transform-origin: 30% 82%;
+  }
+
+  .alchemist-ph .clipped >.chem2 {
+    animation: spin 5000ms infinite linear;
+    -webkit-animation: spin 5000ms infinite linear;
+    transform-origin: 25% 82%;
+  }
+  

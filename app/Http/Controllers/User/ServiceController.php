@@ -19,6 +19,12 @@ class ServiceController extends Controller
         return view('user.pages.services.show-service', compact('categories'));
     }
 
+    public function services($id)
+    {
+        $services = Service::userRate()->where('category_id', $id)->where('service_status', 1)->get();
+        return $services;
+    }
+
 
     public function search(Request $request)
     {

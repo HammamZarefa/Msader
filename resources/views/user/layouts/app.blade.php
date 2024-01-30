@@ -1,12 +1,47 @@
 <!DOCTYPE html>
-<html  lang="en" @if(session()->get('rtl') == 1) dir="rtl" @endif >
+<html class="no-js" lang="en">
 <head>
     @include('user.layouts.head')
 </head>
-<body  @if(session()->get('dark-mode') == 'true') class="dark-mode" @endif>
-<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-     data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full" class="mini-sidebar ">
-
+<body class="rtl">
+<!-- whatsapp -->
+<a href="https://wa.me/" target="_blank" class="whatsapp">
+    <div class="whatsapp-bg">
+            <span>
+                <i class="fab fa-whatsapp"></i>
+            </span>
+    </div>
+    <div class="drops">
+        <div class="drop1"></div>
+        <div class="drop2"></div>
+    </div>
+</a>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="position: absolute;z-index: -1;">
+    <defs>
+        <filter id="liquid">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/>
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+                           result="liquid"/>
+        </filter>
+    </defs>
+</svg>
+<!-- whatsapp-end -->
+<!-- preloader -->
+<div id="preloader">
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<!-- preloader-end -->
+<div class="overlay"></div>
+@include('user.layouts.sidebar')
+<div class="main-content">
     @include('user.layouts.header')
 
     @include('user.layouts.side-notify')
@@ -14,47 +49,55 @@
     <div class="page-wrapper d-block">
         @yield('content')
     </div>
-    <footer class="footer text-center text-muted">
-        <p>{{trans('Copyright')}} © {{date('Y')}} {{trans(config('basic.site_title'))}}. {{trans('All Rights Reserved')}}</p>
-    </footer>
+    @include('user.layouts.footer')
 
 </div>
+<script src="{{asset('assets/themes/user/js/vendor/jquery-3.6.0.min.js')}}"></script>
+<script src="{{asset('assets/themes/user/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('assets/themes/user/js/isotope.pkgd.min.js')}}"></script>
+<script src="{{asset('assets/themes/user/js/imagesloaded.pkgd.min.js')}}"></script>
+<script src="{{asset('assets/themes/user/js/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('assets/themes/user/js/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+<script src="{{asset('assets/themes/user/js/slick.min.js')}}"></script>
+<script src="{{asset('assets/themes/user/js/wow.min.js')}}"></script>
+<script src="{{asset('assets/themes/user/js/plugins.js')}}"></script>
+<script src="{{asset('assets/themes/user/js/main.js')}}"></script>
+<script src="{{asset('assets/themes/user/package/swiper-bundle.min.js')}}"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js')}}"></script>
+<script>
+    AOS.init();
+</script>
+{{--<script src="{{asset('assets/global/js/jquery.min.js') }}"></script>--}}
+{{--<script src="{{asset('assets/global/js/popper.min.js') }}"></script>--}}
+{{--<script src="{{ asset('assets/global/js/bootstrap.min.js') }}"></script>--}}
+{{--@stack('js-lib')--}}
+{{--<script src="{{ asset('assets/admin/js/app-style-switcher.js') }}"></script>--}}
+{{--<script src="{{ asset('assets/admin/js/feather.min.js') }}"></script>--}}
+{{--<script src="{{ asset('assets/global/js/notiflix-aio-2.7.0.min.js')}}"></script>--}}
+{{--<script src="{{ asset('assets/admin/js/perfect-scrollbar.jquery.min.js')}}"></script>--}}
+{{--<script src="{{ asset('assets/admin/js/sidebarmenu.js')}}"></script>--}}
+{{--<script src="{{ asset('assets/global/js/select2.min.js')}}"></script>--}}
+{{--<script src="{{ asset('assets/admin/js/admin-mart.js')}}"></script>--}}
+{{--<script src="{{ asset('assets/admin/js/custom.js')}}"></script>--}}
 
 
 
-
-<script src="{{asset('assets/global/js/jquery.min.js') }}"></script>
-<script src="{{asset('assets/global/js/popper.min.js') }}"></script>
-<script src="{{ asset('assets/global/js/bootstrap.min.js') }}"></script>
-@stack('js-lib')
-<script src="{{ asset('assets/admin/js/app-style-switcher.js') }}"></script>
-<script src="{{ asset('assets/admin/js/feather.min.js') }}"></script>
-<script src="{{ asset('assets/global/js/notiflix-aio-2.7.0.min.js')}}"></script>
-<script src="{{ asset('assets/admin/js/perfect-scrollbar.jquery.min.js')}}"></script>
-<script src="{{ asset('assets/admin/js/sidebarmenu.js')}}"></script>
-<script src="{{ asset('assets/global/js/select2.min.js')}}"></script>
-<script src="{{ asset('assets/admin/js/admin-mart.js')}}"></script>
-<script src="{{ asset('assets/admin/js/custom.js')}}"></script>
-
-
-
-<script src="{{ asset('assets/global/js/axios.min.js') }}"></script>
-<script src="{{ asset('assets/global/js/vue.min.js') }}"></script>
-<script src="{{ asset('assets/global/js/pusher.min.js') }}"></script>
+{{--<script src="{{ asset('assets/global/js/axios.min.js') }}"></script>--}}
+{{--<script src="{{ asset('assets/global/js/vue.min.js') }}"></script>--}}
+{{--<script src="{{ asset('assets/global/js/pusher.min.js') }}"></script>--}}
 
 @include('user.layouts.notification')
 @stack('js')
 
 
-
 <script>
     "use strict";
-    if(!localStorage.sidenote || localStorage.sidenote == 'true'){
+    if (!localStorage.sidenote || localStorage.sidenote == 'true') {
         $('.fixed-icon').removeClass('rfixedicon');
         $('.fixedsidebar').removeClass('rfixed');
     }
 
-    $(document).on('click', '.close-sidebar',function () {
+    $(document).on('click', '.close-sidebar', function () {
         $('.fixed-icon').addClass('rfixedicon');
         $('.fixedsidebar').addClass('rfixed');
         localStorage.setItem("sidenote", false);
@@ -65,24 +108,23 @@
         $('.fixed-icon').toggleClass('rfixedicon');
         $('.fixedsidebar').toggleClass('rfixed');
 
-        if (typeof(Storage) !== "undefined") {
-            if(localStorage.sidenote == 'true'){
+        if (typeof (Storage) !== "undefined") {
+            if (localStorage.sidenote == 'true') {
                 localStorage.setItem("sidenote", false);
-            }else{
+            } else {
                 localStorage.setItem("sidenote", true);
             }
         }
     });
 
 
-
     const darkMode = () => {
-        var $theme =document.body.classList.toggle("dark-mode");
+        var $theme = document.body.classList.toggle("dark-mode");
 
         $.ajax({
-            url: "{{ route('themeMode') }}/"+$theme,
+            url: "{{ route('themeMode') }}/" + $theme,
             type: 'get',
-            success: function(response){
+            success: function (response) {
             }
         });
     };
@@ -114,7 +156,7 @@
                 url = url.replace(/.$/, id);
                 axios.get(url)
                     .then(function (res) {
-                        if (res.status){
+                        if (res.status) {
                             app.getNotifications();
                             if (link != '#') {
                                 window.location.href = link
@@ -127,12 +169,13 @@
                 let url = "{{ route('user.push.notification.readAll') }}";
                 axios.get(url)
                     .then(function (res) {
-                        if (res.status){
+                        if (res.status) {
                             app.items = [];
                         }
                     })
             },
-            pushNewItem(){let app = this;
+            pushNewItem() {
+                let app = this;
                 // Pusher.logToConsole = true;
                 let pusher = new Pusher("{{ env('PUSHER_APP_KEY') }}", {
                     encrypted: true,
@@ -150,5 +193,5 @@
     });
 </script>
 
-</>
+</body>
 </html>
